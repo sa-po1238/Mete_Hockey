@@ -4,54 +4,24 @@ using UnityEngine;
 
 public class BallMove : MonoBehaviour
 {
-    public float speed = 6;
-    private Vector3 pos;
-    bool One;
-    // Use this for initialization
-    void Start()
+    private Rigidbody rb;     // Rigidbodyの参照
+    [SerializeField] float slowRate; //減速する倍率
+    private void Start()
     {
-        One = true;
+        rb = GetComponent<Rigidbody>(); // Rigidbodyを取得
     }
-    // Update is called once per frame
+
     void Update()
     {
-        if (One)
-        {
-            if (Input.GetKey("w"))
-            {
-                transform.position += transform.forward * speed * Time.deltaTime;
-            }
-            if (Input.GetKey("s"))
-            {
-                transform.position -= transform.forward * speed * Time.deltaTime;
-            }
-            if (Input.GetKey(KeyCode.Space))
-            {
-                var force = (transform.forward + transform.right) * 3.5f;
-                GetComponent<Rigidbody>().AddForce(force, ForceMode.VelocityChange);
-                One = false;
-            }
-            Clamp();
-        }
-
-        // ★追加
-        // プレーヤーの移動できる範囲を制限する命令ブロック
-        void Clamp()
-        {
-            // プレーヤーの位置情報を「pos」という箱の中に入れる。
-            pos = transform.position;
-
-            pos.z = Mathf.Clamp(pos.z, -4, 4);
-
-            transform.position = pos;
-        }
+        // 減速
+        rb.velocity *= slowRate;
     }
+
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.CompareTag("Player"))
         {
-            Rigidbody rigidbody = GetComponent<Rigidbody>();
-            rigidbody.velocity = rigidbody.velocity * 1.13f;
+            rb.velocity *= 1.13f; // 衝突時に速度を1.13倍に
         }
     }
 }
