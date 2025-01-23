@@ -6,10 +6,10 @@ public class ChargeShot : MonoBehaviour
 {
     [SerializeField] private float destroyRightLimit = 12f; // 右側の限界値
     [SerializeField] private float destroyLeftLimit = -12f; // 左側の限界値
-    private Rigidbody2D rb;
+    private Rigidbody rb;
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody>();
     }
     void Start()
     {
