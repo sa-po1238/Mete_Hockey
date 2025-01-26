@@ -21,7 +21,6 @@ public class TurretShoot : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             pushTime += Time.deltaTime;
-            Debug.Log(pushTime);
         }
 
         // スペースキーが離されたら発射
@@ -44,10 +43,12 @@ public class TurretShoot : MonoBehaviour
     {
         // 弾のインスタンスを作成
         GameObject shot = Instantiate(singleShotPrefab, firePoint.position, firePoint.rotation);
-        // Rigidbodyを取得してタレットの「右方向」に力を加える
+        // Rigidbodyを取得してタレットの右方向に力を加える
         Rigidbody rb = shot.GetComponent<Rigidbody>();
         if (rb != null)
         {
+            // rd.AddForce(ベクトル(位置.方向 * 力の大きさ),動作モード)
+            // ForceMode.Impulseは瞬間的な力を加える
             rb.AddForce(firePoint.right * singleShootForce, ForceMode.Impulse);
         }
     }
@@ -56,7 +57,7 @@ public class TurretShoot : MonoBehaviour
     {
         // 弾のインスタンスを作成
         GameObject shot = Instantiate(chargeShotPrefab, firePoint.position, firePoint.rotation);
-        // Rigidbodyを取得してタレットの「右方向」に力を加える
+        // Rigidbodyを取得してタレットの右方向に力を加える
         Rigidbody rb = shot.GetComponent<Rigidbody>();
         if (rb != null)
         {
