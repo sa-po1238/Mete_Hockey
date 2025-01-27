@@ -120,6 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemySpeed: 20
+  enemyHP: 20
   destroyLeftLimit: -12
 --- !u!54 &-4024287974905565242
 Rigidbody:

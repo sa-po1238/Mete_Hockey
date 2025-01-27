@@ -7,21 +7,15 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] float enemySpeed = 10f; //敵のスピード
     [SerializeField] float enemyHP = 20f; //敵のHP
     private float currentHP; // 敵の現在のHP
-
     [SerializeField] private float destroyLeftLimit = -12f; // 左側の限界値
-
+    [SerializeField] float singleDamage = 10f; //シングルショットのダメージ
+    [SerializeField] float chargeDamage = 20f; //チャージショットのダメージ
     private Rigidbody rb;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         currentHP = enemyHP;
     }
-
-    void Start()
-    {
-
-    }
-
 
     void Update()
     {
@@ -39,10 +33,24 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision other)
     {
-        // 衝突したらダメージ
-        currentHP -= 10;
+        // 衝突した対象の種類に応じてダメージが変化
+        if (other.gameObject.tag == "SingleShot")
+        {
+            currentHP -= singleDamage;
+        }
+        else if (other.gameObject.tag == "ChargeShot")
+        {
+            currentHP -= chargeDamage;
+        }
+        /*
+        else if (other.gameObject.tag == "EnemyShot")
+        {
+            currentHP -= enemyDamage;
+        }
+        */
+
         Debug.Log(currentHP);
         // 衝突しても速度を0に保つ
         rb.velocity = Vector3.zero;

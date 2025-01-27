@@ -47,11 +47,11 @@ public class TurretMove : MonoBehaviour
                 rb.angularVelocity = rb.angularVelocity.normalized * maxAngularSpeed;
             }
 
-            // 最大回転角度の制限
             ClampRotation();
         }
     }
 
+    // 最大回転角度の制限
     private void ClampRotation()
     {
         // 現在の回転角度を取得

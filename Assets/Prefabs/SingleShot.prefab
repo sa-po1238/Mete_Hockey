@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -4211985687002901508}
   m_Layer: 0
   m_Name: SingleShot
-  m_TagString: Untagged
+  m_TagString: SingleShot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -146,6 +146,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94740e499d596ce42bc6f92c18ef5fe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _force: 10
   destroyRightLimit: 12
   destroyLeftLimit: -12

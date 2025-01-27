@@ -39,6 +39,7 @@ public class TurretShoot : MonoBehaviour
         }
     }
 
+    // 弱ショ
     private void SingleShoot()
     {
         // 弾のインスタンスを作成
@@ -53,11 +54,10 @@ public class TurretShoot : MonoBehaviour
         }
     }
 
+    // チャージショット
     private void ChargeShoot()
     {
-        // 弾のインスタンスを作成
         GameObject shot = Instantiate(chargeShotPrefab, firePoint.position, firePoint.rotation);
-        // Rigidbodyを取得してタレットの右方向に力を加える
         Rigidbody rb = shot.GetComponent<Rigidbody>();
         if (rb != null)
         {

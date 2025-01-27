@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ball
   - enemy
+  - ChargeShot
+  - SingleShot
   layers:
   - Default
   - TransparentFX
