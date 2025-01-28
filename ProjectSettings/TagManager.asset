@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ball
+  - enemy
+  - ChargeShot
+  - SingleShot
   layers:
   - Default
   - TransparentFX
