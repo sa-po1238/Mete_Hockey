@@ -14,6 +14,9 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] float enemyShotRate = 1.2f; // エネミーショットで加速する倍率
     [SerializeField] private float speedThreshold = 0.01f; // 速度の閾値
 
+    [SerializeField] private int hitThreshold = 10; //　衝突回数の閾値
+    private int currentHit = 0; // 現在の衝突回数
+
     private Rigidbody rb;
     private void Awake()
     {
@@ -46,6 +49,16 @@ public class EnemyManager : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
+        // 衝突しすぎたエネミーショットを破壊
+        if (this.gameObject.tag == "EnemyShot")
+        {
+            currentHit += 1;
+            if (currentHit >= hitThreshold)
+            {
+                Destroy(gameObject);
+            }
+        }
+
         // 衝突した対象の種類に応じてダメージが変化
         if (other.gameObject.tag == "SingleShot")
         {
@@ -77,9 +90,6 @@ public class EnemyManager : MonoBehaviour
             Destroy(gameObject);
 
         }
-
-
-
         Debug.Log(currentHP);
     }
 }

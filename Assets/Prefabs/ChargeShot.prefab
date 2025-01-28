@@ -149,3 +149,4 @@ MonoBehaviour:
   destroyRightLimit: 12
   destroyLeftLimit: -12
   speedThreshold: 5
+  hitThreshold: 3

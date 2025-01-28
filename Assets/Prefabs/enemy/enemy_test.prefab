@@ -171,10 +171,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemySpeed: 20
-  enemyHP: 40
+  enemyHP: 20
   destroyLeftLimit: -12
   singleDamage: 10
   chargeDamage: 20
   enemyDamage: 30
   enemyShotRate: 1.2
   speedThreshold: 5
+  hitThreshold: 10
