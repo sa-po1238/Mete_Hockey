@@ -148,4 +148,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destroyRightLimit: 12
   destroyLeftLimit: -12
-  speedThreshold: 0.01
+  speedThreshold: 5

@@ -10,6 +10,10 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private float destroyLeftLimit = -12f; // 左側の限界値
     [SerializeField] float singleDamage = 10f; //シングルショットのダメージ
     [SerializeField] float chargeDamage = 20f; //チャージショットのダメージ
+    [SerializeField] float enemyDamage = 20f; //敵の攻撃力、エネミーショットのダメージ
+    [SerializeField] float enemyShotRate = 1.2f; // エネミーショットで加速する倍率
+    [SerializeField] private float speedThreshold = 0.01f; // 速度の閾値
+
     private Rigidbody rb;
     private void Awake()
     {
@@ -31,6 +35,13 @@ public class EnemyManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        // 速度が落ちすぎたエネミーショットを破壊
+        if ((rb.velocity.magnitude <= speedThreshold) && (this.gameObject.tag == "EnemyShot"))
+        {
+            Destroy(gameObject);
+        }
+
     }
 
     private void OnCollisionEnter(Collision other)
@@ -39,20 +50,36 @@ public class EnemyManager : MonoBehaviour
         if (other.gameObject.tag == "SingleShot")
         {
             currentHP -= singleDamage;
+            // 衝突しても速度を0に保つ
+            rb.velocity = Vector3.zero;
         }
         else if (other.gameObject.tag == "ChargeShot")
         {
             currentHP -= chargeDamage;
+            // チャージショットで倒れたらエネミーショットに
+            if (currentHP <= 0)
+            {
+                currentHP = 9999;
+                rb.velocity *= enemyShotRate; // 衝突時に速度を上げる
+                this.gameObject.tag = "EnemyShot";
+            }
+            else
+            {
+                rb.velocity = Vector3.zero;
+            }
         }
-        /*
         else if (other.gameObject.tag == "EnemyShot")
         {
             currentHP -= enemyDamage;
         }
-        */
+        else if (other.gameObject.tag == "Turret")
+        {
+            Destroy(gameObject);
+
+        }
+
+
 
         Debug.Log(currentHP);
-        // 衝突しても速度を0に保つ
-        rb.velocity = Vector3.zero;
     }
 }
