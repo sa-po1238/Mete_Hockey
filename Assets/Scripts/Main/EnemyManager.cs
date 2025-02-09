@@ -90,6 +90,5 @@ public class EnemyManager : MonoBehaviour
             Destroy(gameObject);
 
         }
-        Debug.Log(currentHP);
     }
 }
