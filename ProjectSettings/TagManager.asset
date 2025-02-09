@@ -8,6 +8,8 @@ TagManager:
   - enemy
   - ChargeShot
   - SingleShot
+  - EnemyShot
+  - Turret
   layers:
   - Default
   - TransparentFX

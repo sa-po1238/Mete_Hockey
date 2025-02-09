@@ -9,6 +9,8 @@ public class ChargeShot : MonoBehaviour
     private Rigidbody rb;
     [SerializeField] private float speedThreshold = 0.01f; // 速度の閾値
     private float currentTime = 0f;
+    [SerializeField] private int hitThreshold = 3; //　衝突回数の閾値
+    private int currentHit = 0; // 現在の衝突回数
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -33,4 +35,16 @@ public class ChargeShot : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        // 衝突しすぎたチャージショットを破壊
+        currentHit += 1;
+        if (currentHit >= hitThreshold)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+
 }
