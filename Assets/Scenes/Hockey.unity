@@ -741,7 +741,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f83ce311d48572429e953c928a884cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 5927058717002837715, guid: f62eb4bbce2543c448d2f9ad00201a9d, type: 3}
+  enemyPrefab: {fileID: 5927058717002837715, guid: 621641aded5bacd4ebca56345ed05338, type: 3}
   enemyStarttime: 0.5
   enemyCooltime: 1
 --- !u!4 &1170627670

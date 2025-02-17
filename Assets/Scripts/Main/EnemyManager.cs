@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    [SerializeField] float enemySpeed = 10f; //敵のスピード
-    [SerializeField] float enemyHP = 20f; //敵のHP
+    [SerializeField] EnemyDatabase enemyDatabase; // 敵データベース
+    [SerializeField] int enemyNumber = 0; //敵の番号
+    private EnemyData currentEnemy; // 現在の敵データ
+    private float enemySpeed; //敵のスピード
+    private float enemyHP; //敵のHP
+    private float enemyDamage; //敵の攻撃力、エネミーショットのダメージ
     private float currentHP; // 敵の現在のHP
     [SerializeField] private float destroyLeftLimit = -12f; // 左側の限界値
     [SerializeField] float singleDamage = 10f; //シングルショットのダメージ
     [SerializeField] float chargeDamage = 20f; //チャージショットのダメージ
-    [SerializeField] float enemyDamage = 20f; //敵の攻撃力、エネミーショットのダメージ
     [SerializeField] float enemyShotRate = 1.2f; // エネミーショットで加速する倍率
     [SerializeField] private float speedThreshold = 0.01f; // 速度の閾値
 
@@ -20,6 +23,13 @@ public class EnemyManager : MonoBehaviour
     private Rigidbody rb;
     private void Awake()
     {
+        // 取得するEnemyを選択
+        currentEnemy = enemyDatabase.enemies[enemyNumber];
+        // EnemyData から値を取得
+        enemySpeed = currentEnemy.enemySpeed;
+        enemyHP = currentEnemy.enemyHP;
+        enemyDamage = currentEnemy.enemyDamage;
+
         rb = GetComponent<Rigidbody>();
         currentHP = enemyHP;
     }
