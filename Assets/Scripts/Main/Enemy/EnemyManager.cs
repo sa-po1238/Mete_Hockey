@@ -13,6 +13,7 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] float singleDamage = 10f; //シングルショットのダメージ
     [SerializeField] float chargeDamage = 20f; //チャージショットのダメージ
     [SerializeField] float enemyShotRate = 1.2f; // エネミーショットで加速する倍率
+    [SerializeField] float enemyHPRate = 10.0f; // エネミーショットで回復する倍率
     [SerializeField] private float speedThreshold = 0.01f; // 速度の閾値
 
     [SerializeField] private int hitThreshold = 10; //　衝突回数の閾値
@@ -64,38 +65,41 @@ public class EnemyManager : MonoBehaviour
             {
                 Destroy(gameObject);
             }
+            Debug.Log(currentEnemyHP);
         }
-
-        // 衝突した対象の種類に応じてダメージが変化
-        if (other.gameObject.tag == "SingleShot")
+        else
         {
-            currentEnemyHP -= singleDamage;
-            // 衝突しても速度を0に保つ
-            rb.velocity = Vector3.zero;
-        }
-        else if (other.gameObject.tag == "ChargeShot")
-        {
-            currentEnemyHP -= chargeDamage;
-            // チャージショットで倒れたらエネミーショットに
-            if (currentEnemyHP <= 0)
+            // 衝突した対象の種類に応じてダメージが変化
+            if (other.gameObject.tag == "SingleShot")
             {
-                currentEnemyHP = 9999;
-                rb.velocity *= enemyShotRate; // 衝突時に速度を上げる
-                this.gameObject.tag = "EnemyShot";
-            }
-            else
-            {
+                currentEnemyHP -= singleDamage;
+                // 衝突しても速度を0に保つ
                 rb.velocity = Vector3.zero;
             }
-        }
-        else if (other.gameObject.tag == "EnemyShot")
-        {
-            currentEnemyHP -= enemyDamage;
-        }
-        else if (other.gameObject.tag == "Turret")
-        {
-            Destroy(gameObject);
+            else if (other.gameObject.tag == "ChargeShot")
+            {
+                currentEnemyHP -= chargeDamage;
+                // チャージショットで倒れたらエネミーショットに
+                if (currentEnemyHP <= 0)
+                {
+                    currentEnemyHP = enemyHP * enemyHPRate; // 元のHPの倍数に回復
+                    rb.velocity *= enemyShotRate; // 衝突時に速度を上げる
+                    this.gameObject.tag = "EnemyShot";
+                }
+                else
+                {
+                    rb.velocity = Vector3.zero;
+                }
+            }
+            else if (other.gameObject.tag == "EnemyShot")
+            {
+                currentEnemyHP -= enemyDamage;
+            }
+            else if (other.gameObject.tag == "Turret")
+            {
+                Destroy(gameObject);
 
+            }
         }
     }
 
