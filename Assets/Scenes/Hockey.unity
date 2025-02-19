@@ -244,10 +244,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc4d32638ed7adb418727a032552d041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  torqueForce: 0.5
-  maxAngularSpeed: 1.2
-  dampingFactor: 0.99
+  torqueForce: 1.5
+  maxAngularSpeed: 1
   maxRotationAngle: 80
+  moveForce: 3
+  maxMoveSpeed: 5
+  stopThreshold: 2.9
+  topLimit: 4
+  bottomLimit: -4
+  dampingFactor: 0.99
+  moveDamping: 0.1
 --- !u!54 &191878651
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -273,7 +279,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 94
+  m_Constraints: 86
   m_CollisionDetection: 0
 --- !u!114 &191878652
 MonoBehaviour:
@@ -292,7 +298,7 @@ MonoBehaviour:
   singleShootForce: 20
   chargeShootForce: 25
   firePoint: {fileID: 315896908}
-  coolTime: 0.1
+  coolTime: 0.2
   thresholdTime: 1
 --- !u!1 &315896907
 GameObject:
