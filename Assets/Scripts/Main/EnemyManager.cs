@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    [SerializeField] EnemyDatabase enemyDatabase; // 敵データベース
-    [SerializeField] int enemyNumber = 0; //敵の番号
-    private EnemyData currentEnemy; // 現在の敵データ
+    [SerializeField] EnemyData enemyData; // 敵データ
     private float enemySpeed; //敵のスピード
     private float enemyHP; //敵のHP
     private float enemyDamage; //敵の攻撃力、エネミーショットのダメージ
-    private float currentHP; // 敵の現在のHP
+    private float currentEnemyHP; // 敵の現在のHP
     [SerializeField] private float destroyLeftLimit = -12f; // 左側の限界値
     [SerializeField] float singleDamage = 10f; //シングルショットのダメージ
     [SerializeField] float chargeDamage = 20f; //チャージショットのダメージ
@@ -20,18 +18,17 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private int hitThreshold = 10; //　衝突回数の閾値
     private int currentHit = 0; // 現在の衝突回数
 
+
     private Rigidbody rb;
     private void Awake()
     {
-        // 取得するEnemyを選択
-        currentEnemy = enemyDatabase.enemies[enemyNumber];
         // EnemyData から値を取得
-        enemySpeed = currentEnemy.enemySpeed;
-        enemyHP = currentEnemy.enemyHP;
-        enemyDamage = currentEnemy.enemyDamage;
+        enemySpeed = enemyData.enemySpeed;
+        enemyHP = enemyData.enemyHP;
+        enemyDamage = enemyData.enemyDamage;
 
         rb = GetComponent<Rigidbody>();
-        currentHP = enemyHP;
+        currentEnemyHP = enemyHP;
     }
 
     void Update()
@@ -44,7 +41,7 @@ public class EnemyManager : MonoBehaviour
             Destroy(gameObject); // 範囲外に出たら敵を破壊
         }
         // HPチェック
-        if (currentHP <= 0)
+        if (currentEnemyHP <= 0)
         {
             Destroy(gameObject);
         }
@@ -72,17 +69,17 @@ public class EnemyManager : MonoBehaviour
         // 衝突した対象の種類に応じてダメージが変化
         if (other.gameObject.tag == "SingleShot")
         {
-            currentHP -= singleDamage;
+            currentEnemyHP -= singleDamage;
             // 衝突しても速度を0に保つ
             rb.velocity = Vector3.zero;
         }
         else if (other.gameObject.tag == "ChargeShot")
         {
-            currentHP -= chargeDamage;
+            currentEnemyHP -= chargeDamage;
             // チャージショットで倒れたらエネミーショットに
-            if (currentHP <= 0)
+            if (currentEnemyHP <= 0)
             {
-                currentHP = 9999;
+                currentEnemyHP = 9999;
                 rb.velocity *= enemyShotRate; // 衝突時に速度を上げる
                 this.gameObject.tag = "EnemyShot";
             }
@@ -93,7 +90,7 @@ public class EnemyManager : MonoBehaviour
         }
         else if (other.gameObject.tag == "EnemyShot")
         {
-            currentHP -= enemyDamage;
+            currentEnemyHP -= enemyDamage;
         }
         else if (other.gameObject.tag == "Turret")
         {
@@ -101,4 +98,16 @@ public class EnemyManager : MonoBehaviour
 
         }
     }
+
+    // 外から最大HPや現在HPを取るための関数
+    public float GetMaxHP()
+    {
+        return enemyHP;
+    }
+
+    public float GetCurrentHP()
+    {
+        return currentEnemyHP;
+    }
+
 }
