@@ -100,12 +100,12 @@ public class EnemyManager : MonoBehaviour
     }
 
     // 外から最大HPや現在HPを取るための関数
-    public float GetMaxHP()
+    public float GetMaxEnemyHP()
     {
         return enemyHP;
     }
 
-    public float GetCurrentHP()
+    public float GetCurrentEnemyHP()
     {
         return currentEnemyHP;
     }

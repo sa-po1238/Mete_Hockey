@@ -13,7 +13,7 @@ public class EnemyHPGauge : MonoBehaviour
         enemyManager = GetComponentInParent<EnemyManager>();
 
         // Sliderの最大値をHPに合わせる
-        maxHP = enemyManager.GetMaxHP();
+        maxHP = enemyManager.GetMaxEnemyHP();
         enemyHPSlider.maxValue = maxHP;
         enemyHPSlider.value = maxHP;
     }
@@ -21,7 +21,7 @@ public class EnemyHPGauge : MonoBehaviour
     void Update()
     {
         // Sliderの値を現在HPに合わせる
-        enemyHPSlider.value = enemyManager.GetCurrentHP();
+        enemyHPSlider.value = enemyManager.GetCurrentEnemyHP();
 
         // HPが0になったらSliderも破壊(これ上手くいってないけどなんかしらいる)
         if (enemyHPSlider.value <= 0)
