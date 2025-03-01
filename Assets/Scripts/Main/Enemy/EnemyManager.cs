@@ -9,9 +9,10 @@ public class EnemyManager : MonoBehaviour
     private float enemyHP; //敵のHP
     private float enemyDamage; //敵の攻撃力、エネミーショットのダメージ
     private float enemyHPRate; // エネミーショットで回復する倍率
-    private float enemyScore; // 敵のスコア
+    private int enemyScore; // 敵のスコア
     private float currentEnemyHP; // 敵の現在のHP
-    [SerializeField] private float destroyLeftLimit = -12f; // 左側の限界値
+    [SerializeField] private float destroyLeftLimit = -10f; // 左側の限界値
+    [SerializeField] private float destroyRightLimit = 12f; // 右側の限界値
     [SerializeField] float singleDamage = 10f; //シングルショットのダメージ
     [SerializeField] float chargeDamage = 20f; //チャージショットのダメージ
     [SerializeField] float enemyShotRate = 1.2f; // エネミーショットで加速する倍率
@@ -19,8 +20,6 @@ public class EnemyManager : MonoBehaviour
 
     [SerializeField] private int hitThreshold = 10; //　衝突回数の閾値
     private int currentHit = 0; // 現在の衝突回数
-
-
     private Rigidbody rb;
     private void Awake()
     {
@@ -40,7 +39,7 @@ public class EnemyManager : MonoBehaviour
         Vector3 movement = new Vector3(-enemySpeed, 0, 0) * Time.deltaTime;
         rb.MovePosition(transform.position + movement);
         // x方向での範囲チェック
-        if (transform.position.x <= destroyLeftLimit)
+        if (transform.position.x >= destroyRightLimit)
         {
             Destroy(gameObject); // 範囲外に出たら敵を破壊
         }
@@ -116,8 +115,13 @@ public class EnemyManager : MonoBehaviour
     {
         return currentEnemyHP;
     }
-    public float GetEnemyScore()
+
+    // スコア参照のために使うやつ
+    private void OnDestroy()
     {
-        return enemyScore;
+        if ((transform.position.x <= destroyRightLimit) && (transform.position.x >= destroyLeftLimit))
+        {
+            ScoreManager.instance.AddScore(enemyScore);
+        }
     }
 }

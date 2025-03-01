@@ -542,7 +542,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 214212f5aa297e848ac3e7c5c4ffc3dc, type: 2}
-  destroyLeftLimit: -12
+  destroyLeftLimit: -10
+  destroyRightLimit: 14
   singleDamage: 10
   chargeDamage: 50
   enemyShotRate: 2
