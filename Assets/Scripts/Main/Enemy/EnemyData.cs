@@ -8,4 +8,6 @@ public class EnemyData : ScriptableObject
     public float enemySpeed = 10f; //敵のスピード
     public float enemyHP = 20f; //敵のHP
     public float enemyDamage = 20f; //敵の攻撃力、エネミーショットのダメージ
+    public float enemyHPRate = 10.0f; // エネミーショットで回復する倍率
+    public float enemyScore = 100.0f; // 敵のスコア
 }

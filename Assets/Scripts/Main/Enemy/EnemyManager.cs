@@ -8,12 +8,13 @@ public class EnemyManager : MonoBehaviour
     private float enemySpeed; //敵のスピード
     private float enemyHP; //敵のHP
     private float enemyDamage; //敵の攻撃力、エネミーショットのダメージ
+    private float enemyHPRate; // エネミーショットで回復する倍率
+    private float enemyScore; // 敵のスコア
     private float currentEnemyHP; // 敵の現在のHP
     [SerializeField] private float destroyLeftLimit = -12f; // 左側の限界値
     [SerializeField] float singleDamage = 10f; //シングルショットのダメージ
     [SerializeField] float chargeDamage = 20f; //チャージショットのダメージ
     [SerializeField] float enemyShotRate = 1.2f; // エネミーショットで加速する倍率
-    [SerializeField] float enemyHPRate = 10.0f; // エネミーショットで回復する倍率
     [SerializeField] private float speedThreshold = 0.01f; // 速度の閾値
 
     [SerializeField] private int hitThreshold = 10; //　衝突回数の閾値
@@ -27,6 +28,8 @@ public class EnemyManager : MonoBehaviour
         enemySpeed = enemyData.enemySpeed;
         enemyHP = enemyData.enemyHP;
         enemyDamage = enemyData.enemyDamage;
+        enemyHPRate = enemyData.enemyHPRate;
+        enemyScore = enemyData.enemyScore;
 
         rb = GetComponent<Rigidbody>();
         currentEnemyHP = enemyHP;
@@ -113,5 +116,8 @@ public class EnemyManager : MonoBehaviour
     {
         return currentEnemyHP;
     }
-
+    public float GetEnemyScore()
+    {
+        return enemyScore;
+    }
 }
