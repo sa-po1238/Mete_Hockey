@@ -33,4 +33,15 @@ public class playerHPManager : MonoBehaviour
         Debug.Log(currentHP);
 
     }
+
+    // 外から最大HPや現在HPを取るための関数
+    public float GetMaxPlayerHP()
+    {
+        return playerHP;
+    }
+
+    public float GetCurrentPlayerHP()
+    {
+        return currentHP;
+    }
 }

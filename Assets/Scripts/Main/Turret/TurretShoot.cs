@@ -18,24 +18,30 @@ public class TurretShoot : MonoBehaviour
     void Update()
     {
         currentTime += Time.deltaTime;
+        //スペースキーが押されているときはチャージ
         if (Input.GetKey(KeyCode.Space))
         {
             pushTime += Time.deltaTime;
         }
-
-        // スペースキーが離されたら発射
-        if ((Input.GetKeyUp(KeyCode.Space)) && (currentTime > coolTime))
+        else
         {
-            if (pushTime < thresholdTime)
+            // スペースキーが離されたらChargeShoot
+            if ((Input.GetKeyUp(KeyCode.Space)) && (currentTime > coolTime))
+            {
+                if (pushTime > thresholdTime)
+                {
+                    ChargeShoot();
+                }
+                currentTime = 0f;
+                pushTime = 0f;
+            }
+            // 一定の間隔で勝手にSingleShootする
+            if (currentTime > coolTime)
             {
                 SingleShoot();
+                currentTime = 0f;
             }
-            else
-            {
-                ChargeShoot();
-            }
-            currentTime = 0f;
-            pushTime = 0f;
+
         }
     }
 

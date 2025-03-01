@@ -6,16 +6,13 @@ public class SingleShot : MonoBehaviour
 {
     [SerializeField] private float destroyRightLimit = 12f; // 右側の限界値
     [SerializeField] private float destroyLeftLimit = -12f; // 左側の限界値
+    [SerializeField] private int hitThreshold = 2; //　衝突回数の閾値
+    private int currentHit = 0; // 現在の衝突回数
     private Rigidbody rb;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
-    void Start()
-    {
-
-    }
-
     void Update()
     {
         // x方向での範囲チェック
@@ -24,9 +21,19 @@ public class SingleShot : MonoBehaviour
             Destroy(gameObject); // 範囲外に出たら弾丸を破壊
         }
     }
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision other)
     {
-        // 衝突したら弾丸を削除
-        Destroy(gameObject);
+        // 敵に当たったときだけすぐ破壊
+        if (other.gameObject.tag == "enemy")
+        {
+            Destroy(gameObject);
+        }
+
+        // 衝突しすぎたチャージショットを破壊
+        currentHit += 1;
+        if (currentHit >= hitThreshold)
+        {
+            Destroy(gameObject);
+        }
     }
 }

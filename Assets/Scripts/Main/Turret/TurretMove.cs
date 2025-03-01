@@ -6,8 +6,15 @@ public class TurretMove : MonoBehaviour
 {
     [SerializeField] float torqueForce = 0.5f; // トルク（回転力）の強さ
     [SerializeField] float maxAngularSpeed = 1.0f; // 最大回転速度
-    [SerializeField] float dampingFactor = 0.99f;  // 減速の割合
     [SerializeField] float maxRotationAngle = 80.0f; // 最大回転角度
+    [SerializeField] float moveForce = 0.5f; // 移動の力の強さ
+    [SerializeField] float maxMoveSpeed = 3.0f; // 最大移動速度
+    [SerializeField] float stopThreshold = 0.05f; // 速度がこの値以下なら完全停止
+    [SerializeField] float topLimit = 4f; // 上側の限界値
+    [SerializeField] float bottomLimit = -4f; // 下側の限界値
+    [SerializeField] float dampingFactor = 0.99f;  // 減速の割合(回転)
+    [SerializeField] float moveDamping = 0.85f;  // 減速の割合(移動)
+
     private Rigidbody rb;
 
     private void Start()
@@ -19,21 +26,29 @@ public class TurretMove : MonoBehaviour
     {
         // トルクの初期化
         float torque = 0.0f;
+        // 移動の初期化
+        float move = 0.0f;
 
-
-        if (Input.GetKey("w") || Input.GetKey("a"))
+        if (Input.GetKey("a"))
         {
             torque = -torqueForce; // 左回転
         }
-        else if (Input.GetKey("s") || Input.GetKey("d"))
+        else if (Input.GetKey("d"))
         {
             torque = torqueForce; // 右回転
         }
+        else if (Input.GetKey("w"))
+        {
+            move = moveForce; // 上
+        }
+        else if (Input.GetKey("s"))
+        {
+            move = -moveForce; // 下
+        }
 
-        // 入力がない場合、回転速度をゼロに設定
+        // 減速処理: 入力がない場合、徐々に回転を止める
         if (torque == 0.0f)
         {
-            // 減速処理: 入力がない場合、徐々に回転を止める
             rb.angularVelocity *= dampingFactor;
         }
         else
@@ -49,6 +64,31 @@ public class TurretMove : MonoBehaviour
 
             ClampRotation();
         }
+
+        // 移動処理
+        Vector3 newPosition = transform.position;
+
+        // 上下移動を適用
+        if (move != 0.0f)
+        {
+            newPosition.z += move * Time.deltaTime; // Z軸の移動を適用
+        }
+
+        // 新しい位置に移動
+        transform.position = newPosition;
+
+        // 減速処理: 入力がない場合、上下移動を止める
+        if (move == 0.0f)
+        {
+            newPosition.z *= moveDamping; // 減速
+            if (Mathf.Abs(newPosition.z) < stopThreshold)
+            {
+                newPosition.z = 0f; // 完全停止
+            }
+        }
+
+        // 上下の移動範囲制限
+        ClampPosition();
     }
 
     // 最大回転角度の制限
@@ -67,5 +107,13 @@ public class TurretMove : MonoBehaviour
 
         // 回転を適用
         transform.rotation = Quaternion.Euler(currentRotation.x, currentRotation.y, currentRotation.z);
+    }
+
+    // 上下の移動範囲制限
+    private void ClampPosition()
+    {
+        Vector3 position = transform.position;
+        position.z = Mathf.Clamp(position.z, bottomLimit, topLimit);
+        transform.position = position;
     }
 }
