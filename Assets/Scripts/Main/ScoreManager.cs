@@ -14,7 +14,7 @@ public class ScoreManager : MonoBehaviour
     private TextMeshProUGUI scoreText;
     [SerializeField] GameObject comboObject;
     private TextMeshProUGUI comboText;
-    private void Awake()
+    private void Start()
     {
         // シングルトンの設定
         if (instance == null)

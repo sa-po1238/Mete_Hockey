@@ -115,6 +115,10 @@ public class EnemyManager : MonoBehaviour
     {
         return currentEnemyHP;
     }
+    public float GetEnemyDamage()
+    {
+        return enemyDamage;
+    }
 
     // スコア参照のために使うやつ
     private void OnDestroy()

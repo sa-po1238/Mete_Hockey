@@ -2,36 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class playerHPManager : MonoBehaviour
+public class PlayerHPManager : MonoBehaviour
 {
     [SerializeField] float playerHP = 100f; //プレイヤーのHP
-    private float currentHP; //プレイヤーの現在のHP
-    [SerializeField] float enemyDamage = 20f; //敵の攻撃力、エネミーショットのダメージ
-
-
-    private Rigidbody rb;
+    public float currentPlayerHP; //プレイヤーの現在のHP
+    [SerializeField] private PlayerHPManager playerHPManager;
+    [SerializeField] private PlayerHPGauge playerHPGauge;
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
-        currentHP = playerHP;
+        currentPlayerHP = playerHP;
     }
-    private void Update()
+    public void TakeDamage(float damage)
     {
-        if (currentHP <= 0)
+        currentPlayerHP -= damage;
+        Debug.Log($"HP：{currentPlayerHP}");
+
+        if (currentPlayerHP <= 0)
         {
             Debug.Log("GameOver");
         }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        // 敵に衝突したときのみダメージ
-        if (other.gameObject.tag == "enemy")
-        {
-            currentHP -= enemyDamage;
-        }
-        Debug.Log(currentHP);
-
     }
 
     // 外から最大HPや現在HPを取るための関数
@@ -42,6 +31,6 @@ public class playerHPManager : MonoBehaviour
 
     public float GetCurrentPlayerHP()
     {
-        return currentHP;
+        return currentPlayerHP;
     }
 }
