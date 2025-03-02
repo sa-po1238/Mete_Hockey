@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerHPManager : MonoBehaviour
 {
     [SerializeField] float playerHP = 100f; //プレイヤーのHP
-    public float currentPlayerHP; //プレイヤーの現在のHP
+    private float currentPlayerHP; //プレイヤーの現在のHP
     [SerializeField] private PlayerHPManager playerHPManager;
     [SerializeField] private PlayerHPGauge playerHPGauge;
     private void Awake()
@@ -15,7 +15,7 @@ public class PlayerHPManager : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentPlayerHP -= damage;
-        Debug.Log($"HP：{currentPlayerHP}");
+        Debug.Log($"HP:{currentPlayerHP}");
 
         if (currentPlayerHP <= 0)
         {

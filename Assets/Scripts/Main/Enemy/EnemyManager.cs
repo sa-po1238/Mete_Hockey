@@ -16,11 +16,13 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] float singleDamage = 10f; //シングルショットのダメージ
     [SerializeField] float chargeDamage = 20f; //チャージショットのダメージ
     [SerializeField] float enemyShotRate = 1.2f; // エネミーショットで加速する倍率
+    [SerializeField] float enemyBounceRate = 1.05f; // 敵と当たったときにちょっと加速する
     [SerializeField] private float speedThreshold = 0.01f; // 速度の閾値
-
     [SerializeField] private int hitThreshold = 10; //　衝突回数の閾値
     private int currentHit = 0; // 現在の衝突回数
     private Rigidbody rb;
+    private Collider col;
+
     private void Awake()
     {
         // EnemyData から値を取得
@@ -31,13 +33,14 @@ public class EnemyManager : MonoBehaviour
         enemyScore = enemyData.enemyScore;
 
         rb = GetComponent<Rigidbody>();
+        col = GetComponent<Collider>();
         currentEnemyHP = enemyHP;
+
     }
 
     void Update()
     {
-        Vector3 movement = new Vector3(-enemySpeed, 0, 0) * Time.deltaTime;
-        rb.MovePosition(transform.position + movement);
+        transform.position += new Vector3(-enemySpeed * Time.deltaTime, 0, 0);
         // x方向での範囲チェック
         if (transform.position.x >= destroyRightLimit)
         {
@@ -59,6 +62,8 @@ public class EnemyManager : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
+        Rigidbody otherRb = other.gameObject.GetComponent<Rigidbody>();
+
         // 衝突しすぎたエネミーショットを破壊
         if (this.gameObject.tag == "EnemyShot")
         {
@@ -67,7 +72,10 @@ public class EnemyManager : MonoBehaviour
             {
                 Destroy(gameObject);
             }
-            Debug.Log(currentEnemyHP);
+            else if (other.gameObject.tag == "Enemy")
+            {
+                rb.velocity *= enemyBounceRate; // 衝突時に少し速度を上げる
+            }
         }
         else
         {
@@ -84,9 +92,16 @@ public class EnemyManager : MonoBehaviour
                 // チャージショットで倒れたらエネミーショットに
                 if (currentEnemyHP <= 0)
                 {
+                    rb.isKinematic = false; // 物理演算を受けるようにする
+
+                    // 衝突したチャージショットから5フレーム前の速度をもらう
+                    ChargeShot chargeShot = other.gameObject.GetComponent<ChargeShot>();
+                    rb.velocity = chargeShot.GetChargeShotVelocity();
+
                     currentEnemyHP = enemyHP * enemyHPRate; // 元のHPの倍数に回復
                     rb.velocity *= enemyShotRate; // 衝突時に速度を上げる
                     this.gameObject.tag = "EnemyShot";
+                    Debug.Log("uketota");
                 }
                 else
                 {
@@ -96,12 +111,43 @@ public class EnemyManager : MonoBehaviour
             else if (other.gameObject.tag == "EnemyShot")
             {
                 currentEnemyHP -= enemyDamage;
+                rb.velocity = Vector3.zero;
             }
             else if (other.gameObject.tag == "Turret")
             {
                 Destroy(gameObject);
-
             }
+        }
+
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        // エネミーショットと豆がぶつかるときもこっちが呼び出される
+        if (this.gameObject.tag == "EnemyShot")
+        {
+            currentHit += 1;
+            if (currentHit >= hitThreshold)
+            {
+                Destroy(gameObject);
+            }
+            else if (other.gameObject.tag == "Enemy")
+            {
+                rb.velocity *= enemyBounceRate; // 衝突時に少し速度を上げる
+            }
+        }
+        else if (other.gameObject.tag == "ChargeShot")
+        {
+            col.isTrigger = false; // IsTriggerのチェックを外す
+            currentEnemyHP = enemyHP * enemyHPRate; // 元のHPの倍数に回復
+            rb.velocity *= enemyShotRate; // 衝突時に速度を上げる
+
+            this.gameObject.tag = "EnemyShot";
+        }
+        else
+        {
+            currentEnemyHP = 0;
+            // 衝突しても速度を0に保つ
+            rb.velocity = Vector3.zero;
         }
     }
 
@@ -127,5 +173,7 @@ public class EnemyManager : MonoBehaviour
         {
             ScoreManager.instance.AddScore(enemyScore);
         }
+
     }
+
 }

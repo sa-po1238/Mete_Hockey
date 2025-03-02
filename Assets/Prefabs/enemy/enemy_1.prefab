@@ -423,8 +423,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.8, y: 0.080000006, z: 0.8}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6088648857513653406}
   m_Father: {fileID: 0}
@@ -486,7 +486,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5927058717002837715}
-  m_Material: {fileID: 13400000, guid: c096941836d608f479ce1e7fca24d516, type: 2}
+  m_Material: {fileID: 13400000, guid: 2277c288404a34d458d7716e31f5265d, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -494,7 +494,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -543,8 +543,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: f52c9ec0fb2322e498ebc819b37da97b, type: 2}
   destroyLeftLimit: -12
+  destroyRightLimit: 12
   singleDamage: 10
   chargeDamage: 20
   enemyShotRate: 1.2
+  enemyBounceRate: 1.05
   speedThreshold: 5
   hitThreshold: 10
+  turretShoot: {fileID: 8579044393077535290, guid: 11563d0733ef7a64ba96f590143b3ee1, type: 3}

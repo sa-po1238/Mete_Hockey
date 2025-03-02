@@ -16,6 +16,7 @@ public class ScoreManager : MonoBehaviour
     private TextMeshProUGUI comboText;
     private void Start()
     {
+
         // シングルトンの設定
         if (instance == null)
         {
@@ -23,8 +24,10 @@ public class ScoreManager : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            // Destroy(gameObject);
         }
+
+
         // オブジェクトからTextコンポーネントを取得
         scoreText = scoreObject.GetComponent<TextMeshProUGUI>();
         comboText = comboObject.GetComponent<TextMeshProUGUI>();
@@ -39,6 +42,7 @@ public class ScoreManager : MonoBehaviour
 
     public void AddScore(int enemyScore)
     {
+        Debug.Log("AddScore");
         // コンボとスコアの増加
         currentCombo++;
         int addScore = enemyScore * currentCombo;
