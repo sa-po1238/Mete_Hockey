@@ -486,7 +486,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5927058717002837715}
-  m_Material: {fileID: 13400000, guid: c096941836d608f479ce1e7fca24d516, type: 2}
+  m_Material: {fileID: 13400000, guid: 2277c288404a34d458d7716e31f5265d, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -525,7 +525,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
@@ -542,9 +542,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 214212f5aa297e848ac3e7c5c4ffc3dc, type: 2}
-  destroyLeftLimit: -12
+  destroyLeftLimit: -10
+  destroyRightLimit: 14
   singleDamage: 10
-  chargeDamage: 50
-  enemyShotRate: 2
-  speedThreshold: 5
+  chargeDamage: 100
+  enemyShotRate: 1.2
+  enemyBounceRate: 1.05
+  speedThreshold: 0
   hitThreshold: 10
+  turretShoot: {fileID: 8579044393077535290, guid: 11563d0733ef7a64ba96f590143b3ee1, type: 3}

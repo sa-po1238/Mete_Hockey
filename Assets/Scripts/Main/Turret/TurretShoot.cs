@@ -69,5 +69,6 @@ public class TurretShoot : MonoBehaviour
         {
             rb.AddForce(firePoint.right * chargeShootForce, ForceMode.Impulse);
         }
+
     }
 }
