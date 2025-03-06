@@ -408,7 +408,7 @@ GameObject:
   - component: {fileID: -8454518645540337368}
   m_Layer: 0
   m_Name: enemy_1
-  m_TagString: enemy
+  m_TagString: Zako
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -525,7 +525,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
@@ -544,7 +544,7 @@ MonoBehaviour:
   enemyData: {fileID: 11400000, guid: f52c9ec0fb2322e498ebc819b37da97b, type: 2}
   destroyLeftLimit: -12
   destroyRightLimit: 24
-  singleDamage: 10
+  singleDamage: 5
   chargeDamage: 30
   enemyShotRate: 1.2
   enemyBounceRate: 1.05

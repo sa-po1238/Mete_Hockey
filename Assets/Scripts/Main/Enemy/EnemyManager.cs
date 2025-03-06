@@ -22,6 +22,7 @@ public class EnemyManager : MonoBehaviour
     private int currentHit = 0; // 現在の衝突回数
     private Rigidbody rb;
     private Collider col;
+    private Vector3 pastVelocity; // ５秒前の速度
 
     private void Awake()
     {
@@ -35,7 +36,22 @@ public class EnemyManager : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         col = GetComponent<Collider>();
         currentEnemyHP = enemyHP;
+        StartCoroutine(SavePastVelocity()); // 5フレーム前の速度を保存するコルーチン開始
 
+        if (this.gameObject.tag == "Zako")
+        {
+            col.isTrigger = true; // IsTriggerのチェックを入れる        
+        }
+    }
+
+    // 5フレームごとにpastVelocityを更新
+    private IEnumerator SavePastVelocity()
+    {
+        while (true)
+        {
+            pastVelocity = rb.velocity;
+            yield return new WaitForSeconds(0.083f);
+        }
     }
 
     void Update()
@@ -62,8 +78,6 @@ public class EnemyManager : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        Rigidbody otherRb = other.gameObject.GetComponent<Rigidbody>();
-
         // 衝突しすぎたエネミーショットを破壊
         if (this.gameObject.tag == "EnemyShot")
         {
@@ -72,9 +86,13 @@ public class EnemyManager : MonoBehaviour
             {
                 Destroy(gameObject);
             }
-            else if (other.gameObject.tag == "Enemy")
+            else if (other.gameObject.tag == "enemy")
             {
                 rb.velocity *= enemyBounceRate; // 衝突時に少し速度を上げる
+            }
+            else if (other.gameObject.tag == "SingleShot")
+            {
+                rb.velocity = pastVelocity; // 5フレーム前の速度を適用
             }
         }
         else
@@ -122,7 +140,7 @@ public class EnemyManager : MonoBehaviour
             {
                 Destroy(gameObject);
             }
-            else if (other.gameObject.tag == "Enemy")
+            else if (other.gameObject.tag == "enemy")
             {
                 rb.velocity *= enemyBounceRate; // 衝突時に少し速度を上げる
             }

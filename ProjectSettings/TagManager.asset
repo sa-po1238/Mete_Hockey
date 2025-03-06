@@ -11,6 +11,8 @@ TagManager:
   - EnemyShot
   - Turret
   - DamageArea
+  - Bunker
+  - Zako
   layers:
   - Default
   - TransparentFX
