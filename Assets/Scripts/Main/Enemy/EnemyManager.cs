@@ -123,10 +123,6 @@ public class EnemyManager : MonoBehaviour
             {
                 currentEnemyHP -= enemyDamage;
             }
-            else if (other.gameObject.tag == "Turret")
-            {
-                Destroy(gameObject);
-            }
         }
 
     }
