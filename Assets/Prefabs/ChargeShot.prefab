@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0239b3601f0214488f360f51a42ea05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyRightLimit: 12
+  destroyRightLimit: 11
   destroyLeftLimit: -12
   speedThreshold: 5
   hitThreshold: 2

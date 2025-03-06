@@ -49,6 +49,25 @@ public class ChargeShot : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
+        // バンカーと敵に当たったときだけ耐える
+        if ((other.gameObject.tag == "Bunker") || (other.gameObject.tag == "enemy"))
+        {
+            // 衝突しすぎたチャージショットを破壊
+            currentHit += 1;
+            if (currentHit >= hitThreshold)
+            {
+                Destroy(gameObject);
+            }
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    // 豆だけこっち
+    private void OnTriggerEnter(Collider other)
+    {
         // 衝突しすぎたチャージショットを破壊
         currentHit += 1;
         if (currentHit >= hitThreshold)

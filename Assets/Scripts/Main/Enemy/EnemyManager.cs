@@ -42,7 +42,7 @@ public class EnemyManager : MonoBehaviour
     {
         transform.position += new Vector3(-enemySpeed * Time.deltaTime, 0, 0);
         // x方向での範囲チェック
-        if (transform.position.x >= destroyRightLimit)
+        if ((transform.position.x >= destroyRightLimit) || (transform.position.x <= destroyLeftLimit))
         {
             Destroy(gameObject); // 範囲外に出たら敵を破壊
         }
@@ -83,8 +83,6 @@ public class EnemyManager : MonoBehaviour
             if (other.gameObject.tag == "SingleShot")
             {
                 currentEnemyHP -= singleDamage;
-                // 衝突しても速度を0に保つ
-                rb.velocity = Vector3.zero;
             }
             else if (other.gameObject.tag == "ChargeShot")
             {
@@ -101,17 +99,11 @@ public class EnemyManager : MonoBehaviour
                     currentEnemyHP = enemyHP * enemyHPRate; // 元のHPの倍数に回復
                     rb.velocity *= enemyShotRate; // 衝突時に速度を上げる
                     this.gameObject.tag = "EnemyShot";
-                    Debug.Log("uketota");
-                }
-                else
-                {
-                    rb.velocity = Vector3.zero;
                 }
             }
             else if (other.gameObject.tag == "EnemyShot")
             {
                 currentEnemyHP -= enemyDamage;
-                rb.velocity = Vector3.zero;
             }
             else if (other.gameObject.tag == "Turret")
             {
@@ -135,19 +127,40 @@ public class EnemyManager : MonoBehaviour
                 rb.velocity *= enemyBounceRate; // 衝突時に少し速度を上げる
             }
         }
-        else if (other.gameObject.tag == "ChargeShot")
-        {
-            col.isTrigger = false; // IsTriggerのチェックを外す
-            currentEnemyHP = enemyHP * enemyHPRate; // 元のHPの倍数に回復
-            rb.velocity *= enemyShotRate; // 衝突時に速度を上げる
-
-            this.gameObject.tag = "EnemyShot";
-        }
         else
         {
-            currentEnemyHP = 0;
-            // 衝突しても速度を0に保つ
-            rb.velocity = Vector3.zero;
+            // 衝突した対象の種類に応じてダメージが変化
+            if (other.gameObject.tag == "SingleShot")
+            {
+                currentEnemyHP -= singleDamage;
+            }
+            else if (other.gameObject.tag == "ChargeShot")
+            {
+                currentEnemyHP -= chargeDamage;
+                // チャージショットで倒れたらエネミーショットに
+                if (currentEnemyHP <= 0)
+                {
+                    rb.isKinematic = false; // 物理演算を受けるようにする
+
+                    // 衝突したチャージショットから5フレーム前の速度をもらう
+                    ChargeShot chargeShot = other.gameObject.GetComponent<ChargeShot>();
+                    rb.velocity = chargeShot.GetChargeShotVelocity();
+
+                    col.isTrigger = false; // IsTriggerのチェックを外す
+                    currentEnemyHP = enemyHP * enemyHPRate; // 元のHPの倍数に回復
+                    rb.velocity *= enemyShotRate; // 衝突時に速度を上げる
+
+                    this.gameObject.tag = "EnemyShot";
+                }
+            }
+            else if (other.gameObject.tag == "EnemyShot")
+            {
+                currentEnemyHP -= enemyDamage;
+            }
+            else if (other.gameObject.tag == "Turret")
+            {
+                Destroy(gameObject);
+            }
         }
     }
 

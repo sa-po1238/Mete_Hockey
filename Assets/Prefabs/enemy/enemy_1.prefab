@@ -543,11 +543,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: f52c9ec0fb2322e498ebc819b37da97b, type: 2}
   destroyLeftLimit: -12
-  destroyRightLimit: 12
+  destroyRightLimit: 24
   singleDamage: 10
-  chargeDamage: 20
+  chargeDamage: 30
   enemyShotRate: 1.2
   enemyBounceRate: 1.05
-  speedThreshold: 5
+  speedThreshold: 0.1
   hitThreshold: 10
-  turretShoot: {fileID: 8579044393077535290, guid: 11563d0733ef7a64ba96f590143b3ee1, type: 3}

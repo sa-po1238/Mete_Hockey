@@ -33,17 +33,25 @@ public class SingleShot : MonoBehaviour
     }
     private void OnCollisionEnter(Collision other)
     {
-        // 敵に当たったときだけすぐ破壊
-        if (other.gameObject.tag == "enemy")
+        if (other.gameObject.tag == "Bunker")
         {
-            Destroy(gameObject);
+            // 衝突しすぎたショットを破壊
+            currentHit += 1;
+            if (currentHit >= hitThreshold)
+            {
+                Destroy(gameObject);
+            }
         }
-
-        // 衝突しすぎたチャージショットを破壊
-        currentHit += 1;
-        if (currentHit >= hitThreshold)
+        else
         {
             Destroy(gameObject);
         }
     }
+
+    // 豆だけこっち
+    private void OnTriggerEnter(Collider other)
+    {
+        Destroy(gameObject);
+    }
+
 }
