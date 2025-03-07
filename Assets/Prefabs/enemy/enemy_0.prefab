@@ -545,8 +545,10 @@ MonoBehaviour:
   destroyLeftLimit: -12
   destroyRightLimit: 24
   singleDamage: 5
-  chargeDamage: 200
+  chargeDamage: 30
   enemyShotRate: 1.2
   enemyBounceRate: 1.05
   speedThreshold: 0.1
   hitThreshold: 20
+  explosionPrefab: {fileID: 8468915807261927749, guid: 71109715f5f0d1145b14f57a04e20683, type: 3}
+  explosionDamage: 50

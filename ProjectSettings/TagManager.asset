@@ -12,6 +12,8 @@ TagManager:
   - Turret
   - DamageArea
   - Bunker
+  - Bean
+  - BeanShot
   - Zako
   layers:
   - Default

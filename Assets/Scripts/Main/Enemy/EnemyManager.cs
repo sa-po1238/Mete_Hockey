@@ -23,6 +23,8 @@ public class EnemyManager : MonoBehaviour
     private Rigidbody rb;
     private Collider col;
     private Vector3 pastVelocity; // ５秒前の速度
+    [SerializeField] GameObject explosionPrefab; // 爆発のPrefab
+    [SerializeField] float explosionDamage = 30f; // 爆発のダメージ
 
     private void Awake()
     {
@@ -56,7 +58,7 @@ public class EnemyManager : MonoBehaviour
 
     void Update()
     {
-        if ((this.gameObject.tag == "Bean") || (this.gameObject.tag == "enemy"))
+        if ((this.gameObject.tag == "Bean") || (this.gameObject.tag == "enemy") || (this.gameObject.tag == "Bomb"))
         {
             transform.position += new Vector3(-enemySpeed * Time.deltaTime, 0, 0);
         }
@@ -80,8 +82,6 @@ public class EnemyManager : MonoBehaviour
         if (this.gameObject.tag == "BeanShot")
         {
             rb.velocity *= 0.99f;
-            Debug.Log(rb.velocity.magnitude);
-
         }
 
     }
@@ -115,7 +115,7 @@ public class EnemyManager : MonoBehaviour
             {
                 currentEnemyHP -= chargeDamage;
                 // チャージショットで倒れたらエネミーショットに
-                if (currentEnemyHP <= 0)
+                if ((currentEnemyHP <= 0))
                 {
                     rb.isKinematic = false; // 物理演算を受けるようにする
 
@@ -123,14 +123,31 @@ public class EnemyManager : MonoBehaviour
                     ChargeShot chargeShot = other.gameObject.GetComponent<ChargeShot>();
                     rb.velocity = chargeShot.GetChargeShotVelocity();
 
-                    currentEnemyHP = enemyHP * enemyHPRate; // 元のHPの倍数に回復
-                    rb.velocity *= enemyShotRate; // 衝突時に速度を上げる
-                    this.gameObject.tag = "EnemyShot";
+                    // 爆発の処理をここに
+                    if (this.gameObject.tag == "Bomb")
+                    {
+                        currentEnemyHP = enemyHP * enemyHPRate; // 元のHPの倍数に回復
+                        rb.velocity *= 0.1f;
+                        this.gameObject.tag = "EnemyShot";
+
+                        // 数秒後に処理を実行
+                        StartCoroutine(ExplosionEffect());
+                    }
+                    else
+                    {
+                        currentEnemyHP = enemyHP * enemyHPRate; // 元のHPの倍数に回復
+                        rb.velocity *= enemyShotRate; // 衝突時に速度を上げる
+                        this.gameObject.tag = "EnemyShot";
+                    }
                 }
             }
             else if (other.gameObject.tag == "EnemyShot")
             {
                 currentEnemyHP -= enemyDamage;
+            }
+            else if (other.gameObject.tag == "Explosion")
+            {
+                currentEnemyHP -= explosionDamage;
             }
         }
 
@@ -161,12 +178,17 @@ public class EnemyManager : MonoBehaviour
                 rb.velocity = randomDirection * 10; //大きさはenemyShotRateにする
                 currentEnemyHP = enemyHP * enemyHPRate; // 元のHPの倍数に回復
                 this.gameObject.tag = "BeanShot";
-
-                Debug.Log(randomDirection);
             }
             else if (other.gameObject.tag == "BeanShot")
             {
-                Destroy(gameObject);
+                if (this.gameObject.tag == "bean")
+                {
+                    Destroy(gameObject);
+                }
+                else
+                {
+                    currentEnemyHP -= enemyDamage; // 豆のエネミーショットと同じダメージ
+                }
             }
             else if (other.gameObject.tag == "SingleShot")
             {
@@ -194,6 +216,10 @@ public class EnemyManager : MonoBehaviour
             else if (other.gameObject.tag == "EnemyShot")
             {
                 currentEnemyHP -= enemyDamage;
+            }
+            else if (other.gameObject.tag == "Explosion")
+            {
+                currentEnemyHP -= explosionDamage;
             }
             else if ((other.gameObject.tag == "Turret") || (other.gameObject.tag == "Bunker"))
             {
@@ -225,6 +251,16 @@ public class EnemyManager : MonoBehaviour
             ScoreManager.instance.AddScore(enemyScore);
         }
 
+    }
+
+    // 爆発処理
+    private IEnumerator ExplosionEffect()
+    {
+        yield return new WaitForSeconds(1f); // 1秒待つ
+        Debug.Log("1秒後の処理");
+        // 爆発のインスタンスを作成
+        Instantiate(explosionPrefab, transform.position, transform.rotation);
+        Destroy(gameObject);
     }
 
 }
