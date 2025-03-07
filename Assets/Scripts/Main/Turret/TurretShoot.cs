@@ -13,15 +13,33 @@ public class TurretShoot : MonoBehaviour
     private float currentTime = 0f; //直前の発射からの時間 
     [SerializeField] private float thresholdTime = 2.0f; // 長押しの閾値
     private float pushTime = 0f; //スペースキーを押してからの時間 
-
+    [SerializeField] ParticleSystem chargeParticle1; // チャージのパーティクル
+    [SerializeField] ParticleSystem chargeParticle2; // チャージのパーティクル2
+    private ParticleSystem newParticle1;
+    private ParticleSystem newParticle2;
 
     void Update()
     {
         currentTime += Time.deltaTime;
         //スペースキーが押されているときはチャージ
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("cha-zityu");
+            newParticle1 = Instantiate(chargeParticle1);
+            newParticle1.transform.position = this.transform.position;
+            newParticle1.Play();
+            newParticle2 = Instantiate(chargeParticle2);
+            newParticle2.transform.position = this.transform.position;
+            newParticle2.Play();
+        }
+        else if (Input.GetKey(KeyCode.Space))
         {
             pushTime += Time.deltaTime;
+            if (pushTime > thresholdTime)
+            {
+                Destroy(newParticle1);
+                Destroy(newParticle2);
+            }
         }
         else
         {
