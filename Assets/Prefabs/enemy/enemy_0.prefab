@@ -545,8 +545,8 @@ MonoBehaviour:
   destroyLeftLimit: -12
   destroyRightLimit: 24
   singleDamage: 5
-  chargeDamage: 30
+  chargeDamage: 200
   enemyShotRate: 1.2
   enemyBounceRate: 1.05
   speedThreshold: 0.1
-  hitThreshold: 10
+  hitThreshold: 20

@@ -38,7 +38,7 @@ public class EnemyManager : MonoBehaviour
         currentEnemyHP = enemyHP;
         StartCoroutine(SavePastVelocity()); // 5フレーム前の速度を保存するコルーチン開始
 
-        if (this.gameObject.tag == "Zako")
+        if (this.gameObject.tag == "Bean")
         {
             col.isTrigger = true; // IsTriggerのチェックを入れる        
         }
@@ -56,7 +56,10 @@ public class EnemyManager : MonoBehaviour
 
     void Update()
     {
-        transform.position += new Vector3(-enemySpeed * Time.deltaTime, 0, 0);
+        if ((this.gameObject.tag == "Bean") || (this.gameObject.tag == "enemy"))
+        {
+            transform.position += new Vector3(-enemySpeed * Time.deltaTime, 0, 0);
+        }
         // x方向での範囲チェック
         if ((transform.position.x >= destroyRightLimit) || (transform.position.x <= destroyLeftLimit))
         {
@@ -69,22 +72,28 @@ public class EnemyManager : MonoBehaviour
         }
 
         // 速度が落ちすぎたエネミーショットを破壊
-        if ((rb.velocity.magnitude <= speedThreshold) && (this.gameObject.tag == "EnemyShot"))
+        if (((rb.velocity.magnitude <= speedThreshold) && (this.gameObject.tag == "EnemyShot")) || ((rb.velocity.magnitude <= speedThreshold) && (this.gameObject.tag == "BeanShot")))
         {
             Destroy(gameObject);
+        }
+
+        if (this.gameObject.tag == "BeanShot")
+        {
+            rb.velocity *= 0.99f;
+            Debug.Log(rb.velocity.magnitude);
+
         }
 
     }
 
     private void OnCollisionEnter(Collision other)
     {
-        // 衝突しすぎたエネミーショットを破壊
         if (this.gameObject.tag == "EnemyShot")
         {
             currentHit += 1;
             if (currentHit >= hitThreshold)
             {
-                Destroy(gameObject);
+                Destroy(gameObject); // 衝突しすぎたエネミーショットを破壊
             }
             else if (other.gameObject.tag == "enemy")
             {
@@ -144,7 +153,22 @@ public class EnemyManager : MonoBehaviour
         else
         {
             // 衝突した対象の種類に応じてダメージが変化
-            if (other.gameObject.tag == "SingleShot")
+            if (other.gameObject.tag == "EnemyShot")
+            {
+                // ランダムな方向に飛び出す
+                rb.isKinematic = false; // 物理演算を受けるようにする
+                Vector3 randomDirection = Random.insideUnitSphere.normalized; // ランダムな方向を取得
+                rb.velocity = randomDirection * 10; //大きさはenemyShotRateにする
+                currentEnemyHP = enemyHP * enemyHPRate; // 元のHPの倍数に回復
+                this.gameObject.tag = "BeanShot";
+
+                Debug.Log(randomDirection);
+            }
+            else if (other.gameObject.tag == "BeanShot")
+            {
+                Destroy(gameObject);
+            }
+            else if (other.gameObject.tag == "SingleShot")
             {
                 currentEnemyHP -= singleDamage;
             }
@@ -171,7 +195,7 @@ public class EnemyManager : MonoBehaviour
             {
                 currentEnemyHP -= enemyDamage;
             }
-            else if (other.gameObject.tag == "Turret")
+            else if ((other.gameObject.tag == "Turret") || (other.gameObject.tag == "Bunker"))
             {
                 Destroy(gameObject);
             }

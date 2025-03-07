@@ -408,7 +408,7 @@ GameObject:
   - component: {fileID: -8454518645540337368}
   m_Layer: 0
   m_Name: enemy_1
-  m_TagString: Zako
+  m_TagString: Bean
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -548,5 +548,5 @@ MonoBehaviour:
   chargeDamage: 30
   enemyShotRate: 1.2
   enemyBounceRate: 1.05
-  speedThreshold: 0.1
+  speedThreshold: 0.5
   hitThreshold: 10
