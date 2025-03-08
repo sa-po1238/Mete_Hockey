@@ -102,6 +102,8 @@ public class EnemyManager : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, angle, 0); // Z軸のみ回転
             */
         }
+        Debug.Log(rb.velocity);
+
 
     }
 

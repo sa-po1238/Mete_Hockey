@@ -31,11 +31,11 @@ public class TurretMove : MonoBehaviour
 
         if (Input.GetKey("a"))
         {
-            torque = -torqueForce; // 左回転
+            torque = torqueForce; // 右回転
         }
         else if (Input.GetKey("d"))
         {
-            torque = torqueForce; // 右回転
+            torque = -torqueForce; // 左回転
         }
         else if (Input.GetKey("w"))
         {
@@ -53,8 +53,9 @@ public class TurretMove : MonoBehaviour
         }
         else
         {
-            // トルクを加える
-            rb.AddTorque(Vector3.up * torque, ForceMode.Force);
+            // トルクを加える (Z軸方向にトルクを加える)
+            rb.AddTorque(Vector3.forward * torque, ForceMode.Force);
+
 
             // 最大回転速度の制限
             if (rb.angularVelocity.magnitude > maxAngularSpeed)
@@ -71,7 +72,7 @@ public class TurretMove : MonoBehaviour
         // 上下移動を適用
         if (move != 0.0f)
         {
-            newPosition.z += move * Time.deltaTime; // Z軸の移動を適用
+            newPosition.y += move * Time.deltaTime; // Z軸の移動を適用
         }
 
         // 新しい位置に移動
@@ -80,10 +81,10 @@ public class TurretMove : MonoBehaviour
         // 減速処理: 入力がない場合、上下移動を止める
         if (move == 0.0f)
         {
-            newPosition.z *= moveDamping; // 減速
-            if (Mathf.Abs(newPosition.z) < stopThreshold)
+            newPosition.y *= moveDamping; // 減速
+            if (Mathf.Abs(newPosition.y) < stopThreshold)
             {
-                newPosition.z = 0f; // 完全停止
+                newPosition.y = 0f; // 完全停止
             }
         }
 
@@ -98,12 +99,12 @@ public class TurretMove : MonoBehaviour
         Vector3 currentRotation = transform.eulerAngles;
 
         // -180～180に変換
-        if (currentRotation.y > 180.0f)
+        if (currentRotation.z > 180.0f)
         {
-            currentRotation.y -= 360.0f; // -180～180に変換
+            currentRotation.z -= 360.0f; // -180～180に変換
         }
 
-        currentRotation.y = Mathf.Clamp(currentRotation.y, -maxRotationAngle, maxRotationAngle);
+        currentRotation.z = Mathf.Clamp(currentRotation.z, -maxRotationAngle, maxRotationAngle);
 
         // 回転を適用
         transform.rotation = Quaternion.Euler(currentRotation.x, currentRotation.y, currentRotation.z);
@@ -113,7 +114,7 @@ public class TurretMove : MonoBehaviour
     private void ClampPosition()
     {
         Vector3 position = transform.position;
-        position.z = Mathf.Clamp(position.z, bottomLimit, topLimit);
+        position.y = Mathf.Clamp(position.y, bottomLimit, topLimit);
         transform.position = position;
     }
 }

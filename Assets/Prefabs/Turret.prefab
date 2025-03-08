@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1118396072806831141
+--- !u!1 &612384252470285026
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,7 +8,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 9014169700866953049}
+  - component: {fileID: 9222734359750546304}
   m_Layer: 0
   m_Name: FirePoint
   m_TagString: Untagged
@@ -16,17 +16,17 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &9014169700866953049
+--- !u!4 &9222734359750546304
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1118396072806831141}
+  m_GameObject: {fileID: 612384252470285026}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.7, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 422647747388197862}
@@ -62,14 +62,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6862697272307539381}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 9014169700866953049}
+  - {fileID: 9222734359750546304}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2750758627588819552
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -166,7 +166,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 86
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!114 &7575963265380698469
 MonoBehaviour:
@@ -206,7 +206,7 @@ MonoBehaviour:
   chargeShotPrefab: {fileID: 7543409156636201730, guid: 052f35c32a490004ab5f804a6c30643f, type: 3}
   singleShootForce: 20
   chargeShootForce: 25
-  firePoint: {fileID: 9014169700866953049}
+  firePoint: {fileID: 9222734359750546304}
   coolTime: 1
   thresholdTime: 0.5
   chargeParticle1: {fileID: 5866267132216215177, guid: 46283e1e896bdc1448d31954e32e2aad, type: 3}
