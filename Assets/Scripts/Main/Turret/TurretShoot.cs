@@ -24,7 +24,6 @@ public class TurretShoot : MonoBehaviour
         //スペースキーが押されているときはチャージ
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("cha-zityu");
             newParticle1 = Instantiate(chargeParticle1);
             newParticle1.transform.position = this.transform.position;
             newParticle1.Play();
