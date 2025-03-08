@@ -19,10 +19,25 @@ public class AnimationTest : MonoBehaviour
         
     }
 
-    public void TakeDamage()
+    // ダメージを受けたとき
+    public void TakeWeakDamage()
     {
         animator.SetTrigger("isDamaged");
     }
 
+    // 弱ショットで死んだとき
     
+    public void DieForWeak()
+    {
+        animator.SetTrigger("isDamaged");
+        // 死亡アニメーションが終わったらDestroyする
+        // なんかいい感じにデストロイしてな
+        Destroy(gameObject, 0.40f);
+    }
+
+    // チャージショットで死んだとき(弾化する時)
+    public void DieForStrong()
+    {
+        animator.SetTrigger("isBullet");
+    }
 }
