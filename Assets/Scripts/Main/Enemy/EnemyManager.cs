@@ -11,20 +11,20 @@ public class EnemyManager : MonoBehaviour
     private float enemyHPRate; // エネミーショットで回復する倍率
     private int enemyScore; // 敵のスコア
     private float currentEnemyHP; // 敵の現在のHP
-    [SerializeField] private float destroyLeftLimit = -10f; // 左側の限界値
-    [SerializeField] private float destroyRightLimit = 12f; // 右側の限界値
-    [SerializeField] float singleDamage = 10f; //シングルショットのダメージ
-    [SerializeField] float chargeDamage = 20f; //チャージショットのダメージ
+    [SerializeField] private float destroyLeftLimit = -12f; // 左側の限界値
+    [SerializeField] private float destroyRightLimit = 24f; // 右側の限界値
+    [SerializeField] float singleDamage = 5f; //シングルショットのダメージ
+    [SerializeField] float chargeDamage = 30f; //チャージショットのダメージ
     [SerializeField] float enemyShotRate = 1.2f; // エネミーショットで加速する倍率
     [SerializeField] float enemyBounceRate = 1.05f; // 敵と当たったときにちょっと加速する
-    [SerializeField] private float speedThreshold = 0.01f; // 速度の閾値
-    [SerializeField] private int hitThreshold = 10; //　衝突回数の閾値
+    [SerializeField] private float speedThreshold = 0.1f; // 速度の閾値
+    [SerializeField] private int hitThreshold = 20; //　衝突回数の閾値
     private int currentHit = 0; // 現在の衝突回数
     private Rigidbody rb;
     private Collider col;
     private Vector3 pastVelocity; // ５秒前の速度
     [SerializeField] GameObject explosionPrefab; // 爆発のPrefab
-    [SerializeField] float explosionDamage = 30f; // 爆発のダメージ
+    [SerializeField] float explosionDamage = 50f; // 爆発のダメージ
 
     private void Awake()
     {
@@ -117,11 +117,14 @@ public class EnemyManager : MonoBehaviour
                 // チャージショットで倒れたらエネミーショットに
                 if ((currentEnemyHP <= 0))
                 {
+                    Debug.Log("チャージショットで倒れた");
                     rb.isKinematic = false; // 物理演算を受けるようにする
 
                     // 衝突したチャージショットから5フレーム前の速度をもらう
                     ChargeShot chargeShot = other.gameObject.GetComponent<ChargeShot>();
                     rb.velocity = chargeShot.GetChargeShotVelocity();
+                    Debug.Log(chargeShot.GetChargeShotVelocity());
+                    Debug.Log(rb.velocity);
 
                     // 爆発の処理をここに
                     if (this.gameObject.tag == "Bomb")
@@ -136,6 +139,7 @@ public class EnemyManager : MonoBehaviour
                     else
                     {
                         currentEnemyHP = enemyHP * enemyHPRate; // 元のHPの倍数に回復
+                        Debug.Log("回復後のHP" + currentEnemyHP);
                         rb.velocity *= enemyShotRate; // 衝突時に速度を上げる
                         this.gameObject.tag = "EnemyShot";
                     }

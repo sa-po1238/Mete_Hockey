@@ -58,7 +58,12 @@ public class TurretShoot : MonoBehaviour
                 SingleShoot();
                 currentTime = 0f;
             }
+        }
 
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            Destroy(newParticle1);
+            Destroy(newParticle2);
         }
     }
 

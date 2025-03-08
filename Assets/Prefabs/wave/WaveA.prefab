@@ -183,7 +183,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5927058717002837715, guid: ebadd70fb549c52488d7c6be5abea2ec, type: 3}
       propertyPath: m_TagString
-      value: Zako
+      value: Bean
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -347,7 +347,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5927058717002837715, guid: ebadd70fb549c52488d7c6be5abea2ec, type: 3}
       propertyPath: m_TagString
-      value: Zako
+      value: Bean
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
