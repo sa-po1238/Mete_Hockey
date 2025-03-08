@@ -68,9 +68,17 @@ public class EnemyManager : MonoBehaviour
             Destroy(gameObject); // 範囲外に出たら敵を破壊
         }
         // HPチェック
-        if (currentEnemyHP <= 0)
+        if ((currentEnemyHP <= 0))
         {
-            Destroy(gameObject);
+            if (this.gameObject.tag == "EnemyShot" || this.gameObject.tag == "BeanShot" || this.gameObject.tag == "Explosion")
+            {
+                //なにもしない
+            }
+            else
+            {
+                GetComponent<AnimationTest>().DieForWeak();
+            }
+            //Destroy(gameObject);
         }
 
         // 速度が落ちすぎたエネミーショットを破壊
@@ -84,6 +92,17 @@ public class EnemyManager : MonoBehaviour
             rb.velocity *= 0.99f;
         }
 
+        if (this.gameObject.tag == "EnemyShot" || this.gameObject.tag == "BeanShot" || this.gameObject.tag == "Explosion")
+        {
+            GetComponent<AnimationTest>().DieForStrong();
+            // 向きも速度に合わせて変更する
+            /*
+            float angle = Mathf.Atan2(rb.velocity.x, rb.velocity.z) * Mathf.Rad2Deg; // XY平面の角度を計算
+            Debug.Log(angle);
+            transform.rotation = Quaternion.Euler(0, angle, 0); // Z軸のみ回転
+            */
+        }
+
     }
 
     private void OnCollisionEnter(Collision other)
@@ -91,6 +110,7 @@ public class EnemyManager : MonoBehaviour
         if (this.gameObject.tag == "EnemyShot")
         {
             currentHit += 1;
+
             if (currentHit >= hitThreshold)
             {
                 Destroy(gameObject); // 衝突しすぎたエネミーショットを破壊
@@ -110,6 +130,7 @@ public class EnemyManager : MonoBehaviour
             if (other.gameObject.tag == "SingleShot")
             {
                 currentEnemyHP -= singleDamage;
+                GetComponent<AnimationTest>().TakeWeakDamage();
             }
             else if (other.gameObject.tag == "ChargeShot")
             {
@@ -123,6 +144,8 @@ public class EnemyManager : MonoBehaviour
                     // 衝突したチャージショットから5フレーム前の速度をもらう
                     ChargeShot chargeShot = other.gameObject.GetComponent<ChargeShot>();
                     rb.velocity = chargeShot.GetChargeShotVelocity();
+
+
                     Debug.Log(chargeShot.GetChargeShotVelocity());
                     Debug.Log(rb.velocity);
 
@@ -148,10 +171,12 @@ public class EnemyManager : MonoBehaviour
             else if (other.gameObject.tag == "EnemyShot")
             {
                 currentEnemyHP -= enemyDamage;
+                GetComponent<AnimationTest>().TakeWeakDamage();
             }
             else if (other.gameObject.tag == "Explosion")
             {
                 currentEnemyHP -= explosionDamage;
+                GetComponent<AnimationTest>().TakeWeakDamage();
             }
         }
 
@@ -192,11 +217,13 @@ public class EnemyManager : MonoBehaviour
                 else
                 {
                     currentEnemyHP -= enemyDamage; // 豆のエネミーショットと同じダメージ
+                    GetComponent<AnimationTest>().TakeWeakDamage();
                 }
             }
             else if (other.gameObject.tag == "SingleShot")
             {
                 currentEnemyHP -= singleDamage;
+                GetComponent<AnimationTest>().TakeWeakDamage();
             }
             else if (other.gameObject.tag == "ChargeShot")
             {
@@ -220,10 +247,12 @@ public class EnemyManager : MonoBehaviour
             else if (other.gameObject.tag == "EnemyShot")
             {
                 currentEnemyHP -= enemyDamage;
+                GetComponent<AnimationTest>().TakeWeakDamage();
             }
             else if (other.gameObject.tag == "Explosion")
             {
                 currentEnemyHP -= explosionDamage;
+                GetComponent<AnimationTest>().TakeWeakDamage();
             }
             else if ((other.gameObject.tag == "Turret") || (other.gameObject.tag == "Bunker"))
             {

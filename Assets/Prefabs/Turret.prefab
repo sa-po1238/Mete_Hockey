@@ -62,14 +62,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6862697272307539381}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -8, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9014169700866953049}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!33 &2750758627588819552
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -209,7 +209,8 @@ MonoBehaviour:
   firePoint: {fileID: 9014169700866953049}
   coolTime: 1
   thresholdTime: 0.5
-  enemyManager: {fileID: -8454518645540337368, guid: f62eb4bbce2543c448d2f9ad00201a9d, type: 3}
+  chargeParticle1: {fileID: 5866267132216215177, guid: 46283e1e896bdc1448d31954e32e2aad, type: 3}
+  chargeParticle2: {fileID: 5197996458468462211, guid: 45dfa8a8d32ec234b9e45831f1b9b152, type: 3}
 --- !u!114 &662380841020745855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,5 +223,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca70822e0b6e41f4fa99d6508c3b98a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHPManager: {fileID: 0}
+  playerHPManager: {fileID: 5959049370852081088, guid: b7cc55a34e67dea46b7ebf34576cd7a3, type: 3}
   damageRate: 2
