@@ -63,7 +63,7 @@ public class ChargeShot : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         // バンカーに当たったときだけ耐える
-        if (other.gameObject.tag == "Bunker")
+        if ((other.gameObject.tag == "Bunker_a") || (other.gameObject.tag == "Bunker_b"))
         {
             // 衝突しすぎたチャージショットを破壊
             currentHit += 1;
