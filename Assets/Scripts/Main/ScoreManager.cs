@@ -13,6 +13,7 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] GameObject scoreObject;
     private TextMeshProUGUI scoreText;
     [SerializeField] GameObject comboObject;
+    [SerializeField] GameObject comboTextObject;
     private TextMeshProUGUI comboText;
     private void Start()
     {
@@ -27,17 +28,13 @@ public class ScoreManager : MonoBehaviour
             // Destroy(gameObject);
         }
 
-
         // オブジェクトからTextコンポーネントを取得
         scoreText = scoreObject.GetComponent<TextMeshProUGUI>();
         comboText = comboObject.GetComponent<TextMeshProUGUI>();
-    }
 
-    void Update()
-    {
-        // UIの表示を変える
-        scoreText.text = $"SCORE:{currentScore}";
-        comboText.text = $"COMBO:{currentCombo}";
+        // スコア数, コンボ数を表示
+        SetSpriteNumberScore(currentScore);
+        SetSpriteNumberCombo(currentCombo);
     }
 
     public void AddScore(int enemyScore)
@@ -45,9 +42,11 @@ public class ScoreManager : MonoBehaviour
         Debug.Log("AddScore");
         // コンボとスコアの増加
         currentCombo++;
+        SetSpriteNumberCombo(currentCombo);
         int addScore = enemyScore * currentCombo;
 
         currentScore += addScore;
+        SetSpriteNumberScore(currentScore);
         Debug.Log("スコア: " + currentScore);
 
         // 以前のコンボリセット処理をキャンセル
@@ -68,10 +67,42 @@ public class ScoreManager : MonoBehaviour
         // comboCoolTime分だけここで待つ
         // この間にStopCoroutineが起きたらこの処理がここで止まる
         currentCombo = 0;
+
+        SetSpriteNumberCombo(currentCombo);
     }
 
     public int GetCurrentScore()
     {
         return currentScore;
+    }
+
+    private void SetSpriteNumberScore(int spriteNumber)
+    {
+        string spriteText = spriteNumber.ToString("D6");    // 6桁の数字に変換
+        scoreText.text = "";
+        for (int i = 0; i < spriteText.Length; i++)
+        {
+            int spriteIndex = int.Parse(spriteText[i].ToString());
+            scoreText.text += "<sprite=" + spriteIndex + ">";
+        }
+    }
+
+    private void SetSpriteNumberCombo(int spriteNumber)
+    {
+        if (spriteNumber == 0)
+        {
+            comboText.text = ""; // 0のときは何も表示しない
+            comboTextObject.SetActive(false);
+            return;
+        }
+
+        string spriteText = spriteNumber.ToString();
+        comboText.text = "";
+        for (int i = 0; i < spriteText.Length; i++)
+        {
+            int spriteIndex = int.Parse(spriteText[i].ToString());
+            comboText.text += "<sprite=" + spriteIndex + ">";
+        }
+        comboTextObject.SetActive(true);
     }
 }
