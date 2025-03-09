@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimationTest : MonoBehaviour
+public class EnemyAnimation : MonoBehaviour
 {
     private Animator animator;
 
@@ -11,12 +11,6 @@ public class AnimationTest : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         animator.SetBool("isWalking", true);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     // ダメージを受けたとき
