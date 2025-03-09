@@ -25,7 +25,7 @@ public class EnemyAnimation : MonoBehaviour
     {
         AudioManager.instance_AudioManager.PlaySE(4);
         animator.SetTrigger("isDead");
-        Destroy(gameObject, 1.0f);
+        Destroy(gameObject);
     }
 
     // チャージショットで死んだとき(弾化する時)
