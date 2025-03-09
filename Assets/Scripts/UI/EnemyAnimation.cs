@@ -16,12 +16,14 @@ public class EnemyAnimation : MonoBehaviour
     // ダメージを受けたとき
     public void TakeWeakDamage()
     {
+        AudioManager.instance_AudioManager.PlaySE(3);
         animator.SetTrigger("isDamaged");
     }
 
     // 弱ショットで死んだとき
     public void DieForWeak()
     {
+        AudioManager.instance_AudioManager.PlaySE(4);
         animator.SetTrigger("isDamaged");
         // 死亡アニメーションが終わったらDestroyする
         // なんかいい感じにデストロイしてな
@@ -31,6 +33,13 @@ public class EnemyAnimation : MonoBehaviour
     // チャージショットで死んだとき(弾化する時)
     public void DieForStrong()
     {
+        AudioManager.instance_AudioManager.PlaySE(5);
         animator.SetTrigger("isBullet");
+    }
+
+    // 爆発アニメーション
+    public void Explosion()
+    {
+        AudioManager.instance_AudioManager.PlaySE(6);
     }
 }

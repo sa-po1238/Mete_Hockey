@@ -5,6 +5,7 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance_AudioManager;
+
     private void Awake()
     {
         if (instance_AudioManager == null)
@@ -20,21 +21,26 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField] private AudioData audioData;
 
-    [SerializeField] private AudioSource SESource;
+    private List<AudioSource> SE_Sources = new List<AudioSource>(); // SE用のAudioSourceリスト
     [SerializeField] private AudioSource BGMSource;
+    [SerializeField] private int maxSE = 10; // 最大同時再生数
 
-    // Start is called before the first frame update
     void Start()
     {
         AudioSource[] tmp = this.GetComponents<AudioSource>();
-        this.SESource = tmp[0];
-        this.BGMSource = tmp[1];
+        this.BGMSource = tmp[0];
+
+        // SE用のAudioSourceを作成
+        for (int i = 0; i < maxSE; i++)
+        {
+            AudioSource newSource = gameObject.AddComponent<AudioSource>();
+            SE_Sources.Add(newSource);
+        }
 
         CheckOverlap(this.audioData.SE_Data, "SE_Data");
         CheckOverlap(this.audioData.BGM_Data, "BGM_Data");
     }
 
-    //オーディオIDが重複していないかを確認する
     private void CheckOverlap(List<Datum> data, string variable_name)
     {
         List<int> vs = new List<int>();
@@ -51,7 +57,6 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    //オーディオIDをindexに変換する
     public int ConvertIdIntoIndex(List<Datum> data, int id)
     {
         for (int index = 0; index < data.Count; index++)
@@ -63,54 +68,53 @@ public class AudioManager : MonoBehaviour
         }
 
         Debug.LogError(string.Format("指定されたid {0} のデータは存在しません。", id));
-
         return -1;
     }
 
     public void PlaySE(int id)
     {
-        int index = this.ConvertIdIntoIndex(this.audioData.SE_Data, id);
-        this.SESource.clip = this.audioData.SE_Data[index].clip;
-        this.SESource.volume = this.audioData.SE_Data[index].volume;
-        this.SESource.Play();
+        int index = ConvertIdIntoIndex(audioData.SE_Data, id);
+        if (index == -1) return;
+
+        // 空いているAudioSourceを探す
+        AudioSource source = GetAvailableSESource();
+        source.clip = audioData.SE_Data[index].clip;
+        source.volume = audioData.SE_Data[index].volume;
+        source.Play();
         Debug.Log("SE再生");
     }
 
-    public void StopSE()
+    private AudioSource GetAvailableSESource()
     {
-        this.SESource.Stop();
+        foreach (AudioSource source in SE_Sources)
+        {
+            if (!source.isPlaying) return source;
+        }
+
+        // すべてのAudioSourceが使用中なら、一番古いものを使う
+        return SE_Sources[0];
     }
 
-    public void PauseSE()
+    public void StopAllSE()
     {
-        this.SESource.Pause();
-    }
-
-    public void UnPauseSE()
-    {
-        this.SESource.UnPause();
+        foreach (AudioSource source in SE_Sources)
+        {
+            source.Stop();
+        }
     }
 
     public void PlayBGM(int id)
     {
-        int index = this.ConvertIdIntoIndex(this.audioData.BGM_Data, id);
-        this.BGMSource.clip = this.audioData.BGM_Data[index].clip;
-        this.BGMSource.volume = this.audioData.BGM_Data[index].volume;
-        this.BGMSource.Play();
+        int index = ConvertIdIntoIndex(audioData.BGM_Data, id);
+        if (index == -1) return;
+
+        BGMSource.clip = audioData.BGM_Data[index].clip;
+        BGMSource.volume = audioData.BGM_Data[index].volume;
+        BGMSource.Play();
     }
 
     public void StopBGM()
     {
-        this.BGMSource.Stop();
-    }
-
-    public void PauseBGM()
-    {
-        this.BGMSource.Pause();
-    }
-
-    public void UnPauseBGM()
-    {
-        this.BGMSource.UnPause();
+        BGMSource.Stop();
     }
 }

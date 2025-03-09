@@ -28,6 +28,7 @@ public class TurretShoot : MonoBehaviour
         //スペースキーが押されているときはチャージ
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            AudioManager.instance_AudioManager.PlaySE(1);
             newParticle1 = Instantiate(chargeParticle1);
             newParticle1.transform.position = this.transform.position;
             newParticle1.Play();
@@ -56,6 +57,7 @@ public class TurretShoot : MonoBehaviour
             {
                 if (pushTime > thresholdTime)
                 {
+                    AudioManager.instance_AudioManager.PlaySE(2);
                     ChargeShoot();
                 }
                 currentTime = 0f;
@@ -64,6 +66,7 @@ public class TurretShoot : MonoBehaviour
             // 一定の間隔で勝手にSingleShootする
             if (currentTime > coolTime)
             {
+                AudioManager.instance_AudioManager.PlaySE(0);
                 SingleShoot();
                 currentTime = 0f;
             }
