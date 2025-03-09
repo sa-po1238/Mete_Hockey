@@ -9,6 +9,7 @@ public class PlayerHPGauge : MonoBehaviour
     [SerializeField] Slider playerHPSlider;
     [SerializeField] PlayerHPManager playerHPManager;
     private float maxHP; // 最大HP
+
     void Start()
     {
         //playerHPManager = GetComponentInParent<PlayerHPManager>();

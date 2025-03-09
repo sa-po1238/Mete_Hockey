@@ -11,6 +11,12 @@ TagManager:
   - EnemyShot
   - Turret
   - DamageArea
+  - Bunker
+  - Bean
+  - BeanShot
+  - Zako
+  - Explosion
+  - Bomb
   layers:
   - Default
   - TransparentFX
@@ -50,4 +56,7 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Turret
+    uniqueID: 1490129685
     locked: 0

@@ -13,15 +13,41 @@ public class TurretShoot : MonoBehaviour
     private float currentTime = 0f; //直前の発射からの時間 
     [SerializeField] private float thresholdTime = 2.0f; // 長押しの閾値
     private float pushTime = 0f; //スペースキーを押してからの時間 
+    [SerializeField] ParticleSystem chargeParticle1; // チャージのパーティクル
+    [SerializeField] ParticleSystem chargeParticle2; // チャージのパーティクル2
+    [SerializeField] ParticleSystem chargeParticle3; // チャージのパーティクル3（チャージ完了時にまとうエフェクト）
+
+    private ParticleSystem newParticle1;
+    private ParticleSystem newParticle2;
+    private ParticleSystem newParticle3;
 
 
     void Update()
     {
         currentTime += Time.deltaTime;
         //スペースキーが押されているときはチャージ
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            newParticle1 = Instantiate(chargeParticle1);
+            newParticle1.transform.position = this.transform.position;
+            newParticle1.Play();
+            newParticle2 = Instantiate(chargeParticle2);
+            newParticle2.transform.position = this.transform.position;
+            newParticle2.Play();
+        }
+        else if (Input.GetKey(KeyCode.Space))
         {
             pushTime += Time.deltaTime;
+            if (pushTime > thresholdTime)
+            {
+                Destroy(newParticle1);
+                Destroy(newParticle2);
+                /*
+                newParticle3 = Instantiate(chargeParticle3);
+                newParticle3.transform.position = this.transform.position;
+                newParticle3.Play();
+                */
+            }
         }
         else
         {
@@ -41,21 +67,26 @@ public class TurretShoot : MonoBehaviour
                 SingleShoot();
                 currentTime = 0f;
             }
+        }
 
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            Destroy(newParticle1);
+            Destroy(newParticle2);
+            //Destroy(newParticle3);
         }
     }
 
-    // 弱ショ
+    // 弱ショット
     private void SingleShoot()
     {
         // 弾のインスタンスを作成
         GameObject shot = Instantiate(singleShotPrefab, firePoint.position, firePoint.rotation);
-        // Rigidbodyを取得してタレットの右方向に力を加える
+        // Rigidbodyを取得してタレットのローカルX軸方向に力を加える
         Rigidbody rb = shot.GetComponent<Rigidbody>();
         if (rb != null)
         {
-            // rd.AddForce(ベクトル(位置.方向 * 力の大きさ),動作モード)
-            // ForceMode.Impulseは瞬間的な力を加える
+            // firePoint.rightをそのまま使ってローカルX軸方向に力を加える
             rb.AddForce(firePoint.right * singleShootForce, ForceMode.Impulse);
         }
     }
@@ -69,6 +100,6 @@ public class TurretShoot : MonoBehaviour
         {
             rb.AddForce(firePoint.right * chargeShootForce, ForceMode.Impulse);
         }
-
     }
+
 }
