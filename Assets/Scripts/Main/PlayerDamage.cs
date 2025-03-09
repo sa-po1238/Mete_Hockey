@@ -25,7 +25,6 @@ public class PlayerDamage : MonoBehaviour
                 float damage = enemy.GetEnemyDamage(); // 敵ごとのダメージを取得
                 playerHPManager.TakeDamage(damage);
             }
-
         }
     }
     private void OnCollisionEnter(Collision other)
@@ -40,7 +39,6 @@ public class PlayerDamage : MonoBehaviour
                 damage *= damageRate;
                 playerHPManager.TakeDamage(damage);
             }
-
         }
     }
 

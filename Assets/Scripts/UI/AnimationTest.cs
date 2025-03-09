@@ -26,7 +26,6 @@ public class AnimationTest : MonoBehaviour
     }
 
     // 弱ショットで死んだとき
-    
     public void DieForWeak()
     {
         animator.SetTrigger("isDamaged");
