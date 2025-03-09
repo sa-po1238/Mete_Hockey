@@ -2184,6 +2184,10 @@ PrefabInstance:
       propertyPath: playerHPManager
       value: 
       objectReference: {fileID: 1413185978}
+    - target: {fileID: 5588882918716773463, guid: 11563d0733ef7a64ba96f590143b3ee1, type: 3}
+      propertyPath: chargeParticle3
+      value: 
+      objectReference: {fileID: 3484074869933891942, guid: 0b91a6e8c9b473040933eb8ba8290ce3, type: 3}
     - target: {fileID: 6547818632747840368, guid: 11563d0733ef7a64ba96f590143b3ee1, type: 3}
       propertyPath: m_Name
       value: Turret
