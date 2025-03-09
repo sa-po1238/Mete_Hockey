@@ -13,6 +13,7 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] GameObject scoreObject;
     private TextMeshProUGUI scoreText;
     [SerializeField] GameObject comboObject;
+    [SerializeField] GameObject comboTextObject;
     private TextMeshProUGUI comboText;
     private void Start()
     {
@@ -88,6 +89,13 @@ public class ScoreManager : MonoBehaviour
 
     private void SetSpriteNumberCombo(int spriteNumber)
     {
+        if (spriteNumber == 0)
+        {
+            comboText.text = ""; // 0のときは何も表示しない
+            comboTextObject.SetActive(false);
+            return;
+        }
+
         string spriteText = spriteNumber.ToString();
         comboText.text = "";
         for (int i = 0; i < spriteText.Length; i++)
@@ -95,5 +103,6 @@ public class ScoreManager : MonoBehaviour
             int spriteIndex = int.Parse(spriteText[i].ToString());
             comboText.text += "<sprite=" + spriteIndex + ">";
         }
+        comboTextObject.SetActive(true);
     }
 }

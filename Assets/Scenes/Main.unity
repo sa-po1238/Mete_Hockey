@@ -1113,6 +1113,10 @@ PrefabInstance:
       propertyPath: scoreObject
       value: 
       objectReference: {fileID: 3368034131471119176}
+    - target: {fileID: 116826431105189583, guid: 428c256349b83214ca428ea530d6fac5, type: 3}
+      propertyPath: comboTextObject
+      value: 
+      objectReference: {fileID: 5520185561636975395}
     - target: {fileID: 130331704549874986, guid: 428c256349b83214ca428ea530d6fac5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
