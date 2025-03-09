@@ -8,16 +8,22 @@ public class PlayerHPManager : MonoBehaviour
     private float currentPlayerHP; //プレイヤーの現在のHP
     [SerializeField] private PlayerHPManager playerHPManager;
     [SerializeField] private PlayerHPGauge playerHPGauge;
+    [SerializeField] private GameObject playerFace; //プレイヤーの顔
+    private Animator playerFaceAnimator; //プレイヤーの顔のアニメーター
 
     private void Awake()
     {
         currentPlayerHP = playerHP;
 
+        playerFaceAnimator = playerFace.GetComponent<Animator>();
     }
     public void TakeDamage(float damage)
     {
         currentPlayerHP -= damage;
         Debug.Log($"HP:{currentPlayerHP}");
+
+        // ダメージを受けたときのアニメーション
+        playerFaceAnimator.SetTrigger("isPlayerDamaged");
 
         if (currentPlayerHP <= 0)
         {
