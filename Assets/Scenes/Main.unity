@@ -1182,11 +1182,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4430355709506962978}
+  - {fileID: 6359987746854589395}
   - {fileID: 7628210673204696941}
   - {fileID: 4714319130460602420}
   - {fileID: 522611544448564085}
   - {fileID: 2610318467734263064}
-  - {fileID: 6359987746854589395}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2203,8 +2203,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -361, y: 467}
-  m_SizeDelta: {x: 160, y: 20}
+  m_AnchoredPosition: {x: -403.60156, y: 472.33575}
+  m_SizeDelta: {x: 148.4469, y: 18.5559}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &4457439812404651326
 SpriteRenderer:
@@ -2804,8 +2804,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -512, y: 423}
-  m_SizeDelta: {x: 877.9854, y: 235.79}
+  m_AnchoredPosition: {x: -543.69836, y: 431.51282}
+  m_SizeDelta: {x: 814.5888, y: 218.7643}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6374201646782877687
 MonoBehaviour:

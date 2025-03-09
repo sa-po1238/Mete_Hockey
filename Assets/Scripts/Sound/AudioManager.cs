@@ -78,17 +78,19 @@ public class AudioManager : MonoBehaviour
 
         // 空いているAudioSourceを探す
         AudioSource source = GetAvailableSESource();
-        source.clip = audioData.SE_Data[index].clip;
-        source.volume = audioData.SE_Data[index].volume;
-        source.Play();
-        Debug.Log("SE再生");
+        if (source != null)
+        {
+            source.clip = audioData.SE_Data[index].clip;
+            source.volume = audioData.SE_Data[index].volume;
+            source.Play();
+        }
     }
 
     private AudioSource GetAvailableSESource()
     {
         foreach (AudioSource source in SE_Sources)
         {
-            if (!source.isPlaying) return source;
+            if (source != null && !source.isPlaying) return source;
         }
 
         // すべてのAudioSourceが使用中なら、一番古いものを使う
