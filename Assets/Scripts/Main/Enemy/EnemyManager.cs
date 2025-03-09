@@ -67,19 +67,6 @@ public class EnemyManager : MonoBehaviour
         {
             Destroy(gameObject); // 範囲外に出たら敵を破壊
         }
-        // HPチェック
-        if ((currentEnemyHP <= 0))
-        {
-            if (this.gameObject.tag == "EnemyShot" || this.gameObject.tag == "BeanShot" || this.gameObject.tag == "Explosion")
-            {
-                //なにもしない
-            }
-            else
-            {
-                GetComponent<AnimationTest>().DieForWeak();
-            }
-            //Destroy(gameObject);
-        }
 
         // 速度が落ちすぎたエネミーショットを破壊
         if (((rb.velocity.magnitude <= speedThreshold) && (this.gameObject.tag == "EnemyShot")) || ((rb.velocity.magnitude <= speedThreshold) && (this.gameObject.tag == "BeanShot")))
@@ -92,16 +79,16 @@ public class EnemyManager : MonoBehaviour
             rb.velocity *= 0.99f;
         }
 
+        /*
         if (this.gameObject.tag == "EnemyShot" || this.gameObject.tag == "BeanShot" || this.gameObject.tag == "Explosion")
         {
-            GetComponent<AnimationTest>().DieForStrong();
             // 向きも速度に合わせて変更する
-            /*
+            
             float angle = Mathf.Atan2(rb.velocity.x, rb.velocity.z) * Mathf.Rad2Deg; // XY平面の角度を計算
             Debug.Log(angle);
             transform.rotation = Quaternion.Euler(0, angle, 0); // Z軸のみ回転
-            */
         }
+        */
         Debug.Log(rb.velocity);
 
 
@@ -132,11 +119,12 @@ public class EnemyManager : MonoBehaviour
             if (other.gameObject.tag == "SingleShot")
             {
                 currentEnemyHP -= singleDamage;
-                GetComponent<AnimationTest>().TakeWeakDamage();
+                CheckWhichAnimation(currentEnemyHP);
             }
             else if (other.gameObject.tag == "ChargeShot")
             {
                 currentEnemyHP -= chargeDamage;
+
                 // チャージショットで倒れたらエネミーショットに
                 if ((currentEnemyHP <= 0))
                 {
@@ -145,11 +133,12 @@ public class EnemyManager : MonoBehaviour
 
                     // 衝突したチャージショットから5フレーム前の速度をもらう
                     ChargeShot chargeShot = other.gameObject.GetComponent<ChargeShot>();
+                    Debug.Log("ChargeShotのVelocity 前" + chargeShot.GetChargeShotVelocity());
                     rb.velocity = chargeShot.GetChargeShotVelocity();
 
 
-                    Debug.Log(chargeShot.GetChargeShotVelocity());
-                    Debug.Log(rb.velocity);
+                    Debug.Log("ChargeShotのVelocity 後" + chargeShot.GetChargeShotVelocity());
+                    Debug.Log("EnemyShotのVelocity" + rb.velocity);
 
                     // 爆発の処理をここに
                     if (this.gameObject.tag == "Bomb")
@@ -167,22 +156,43 @@ public class EnemyManager : MonoBehaviour
                         Debug.Log("回復後のHP" + currentEnemyHP);
                         rb.velocity *= enemyShotRate; // 衝突時に速度を上げる
                         this.gameObject.tag = "EnemyShot";
+
+                        // 弾化のアニメーション
+                        GetComponent<AnimationTest>().DieForStrong();
                     }
+                }
+                else
+                {
+                    GetComponent<AnimationTest>().TakeWeakDamage();
                 }
             }
             else if (other.gameObject.tag == "EnemyShot")
             {
                 currentEnemyHP -= enemyDamage;
-                GetComponent<AnimationTest>().TakeWeakDamage();
+                CheckWhichAnimation(currentEnemyHP);
             }
             else if (other.gameObject.tag == "Explosion")
             {
                 currentEnemyHP -= explosionDamage;
-                GetComponent<AnimationTest>().TakeWeakDamage();
+                CheckWhichAnimation(currentEnemyHP);
             }
         }
 
     }
+
+    // どのアニメーションを再生するかを決める関数
+    private void CheckWhichAnimation(float currentEnemyHP)
+    {
+        // 死んでたら死亡アニメーション
+        if (currentEnemyHP <= 0)
+        {
+            GetComponent<AnimationTest>().DieForWeak();
+        }
+
+        // 死んでなかったらダメージを受けるアニメーション
+        GetComponent<AnimationTest>().TakeWeakDamage();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         // エネミーショットと豆がぶつかるときもこっちが呼び出される

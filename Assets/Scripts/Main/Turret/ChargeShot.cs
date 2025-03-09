@@ -78,6 +78,7 @@ public class ChargeShot : MonoBehaviour
 
     public Vector3 GetChargeShotVelocity()
     {
+        Debug.Log("velocity" + velocityHistory[0]);
         return velocityHistory[0];
     }
 
