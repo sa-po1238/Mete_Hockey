@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55234508002d9a9458f8a4de1b471910, type: 3}
   m_Name: EnemyData_2
   m_EditorClassIdentifier: 
-  enemySpeed: 0.4
-  enemyHP: 200
+  enemySpeed: 0.3
+  enemyHP: 300
   enemyDamage: 60
   enemyHPRate: 10
-  enemyScore: 100
+  enemyScore: 500

@@ -150,7 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destroyRightLimit: 11
   destroyLeftLimit: -12
-  speedThreshold: 5
+  speedThreshold: 1
   hitThreshold: 2
 --- !u!1 &7081589602877708715
 GameObject:

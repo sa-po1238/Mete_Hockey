@@ -393,7 +393,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -426,7 +426,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 56
   m_CollisionDetection: 0
 --- !u!95 &7593776743239827903
 Animator:
@@ -441,7 +441,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: b46ee736940c1134f975fcf217081d98, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -481,7 +481,7 @@ MonoBehaviour:
   enemyShotRate: 1.2
   enemyBounceRate: 1.05
   speedThreshold: 0.1
-  hitThreshold: 20
+  hitThreshold: 3
   explosionPrefab: {fileID: 8468915807261927749, guid: 71109715f5f0d1145b14f57a04e20683, type: 3}
   explosionDamage: 50
 --- !u!1 &8981462182874348207
