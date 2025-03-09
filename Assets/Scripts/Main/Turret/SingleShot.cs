@@ -66,7 +66,7 @@ public class SingleShot : MonoBehaviour
     }
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == "Bunker")
+        if ((other.gameObject.tag == "Bunker_a") || (other.gameObject.tag == "Bunker_b"))
         {
             // 衝突しすぎたショットを破壊
             currentHit += 1;

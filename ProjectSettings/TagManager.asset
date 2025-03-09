@@ -17,6 +17,8 @@ TagManager:
   - Zako
   - Explosion
   - Bomb
+  - Bunker_a
+  - Bunker_b
   layers:
   - Default
   - TransparentFX

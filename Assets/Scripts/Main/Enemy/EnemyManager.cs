@@ -25,6 +25,7 @@ public class EnemyManager : MonoBehaviour
     private Vector3 pastVelocity; // ５秒前の速度
     [SerializeField] GameObject explosionPrefab; // 爆発のPrefab
     [SerializeField] float explosionDamage = 50f; // 爆発のダメージ
+    [SerializeField] GameObject BankerEffectPrefab; // バンカーのエフェクト
 
     private void Awake()
     {
@@ -114,6 +115,26 @@ public class EnemyManager : MonoBehaviour
             else if (other.gameObject.tag == "SingleShot")
             {
                 rb.velocity = pastVelocity; // 5フレーム前の速度を適用
+            }
+            else if (other.gameObject.tag == "Bunker_a")
+            {
+                // バンカーのエフェクトを生成
+                Vector3 hitPos = Vector3.zero;
+                foreach (ContactPoint point in other.contacts)
+                {
+                    hitPos = point.point;
+                }
+                Destroy(Instantiate(BankerEffectPrefab, hitPos, transform.rotation), 0.28f);
+            }
+            else if (other.gameObject.tag == "Bunker_b")
+            {
+                // バンカーのエフェクトを生成
+                Vector3 hitPos = Vector3.zero;
+                foreach (ContactPoint point in other.contacts)
+                {
+                    hitPos = point.point;
+                }
+                Destroy(Instantiate(BankerEffectPrefab, hitPos, Quaternion.Euler(0, 0, 180)), 0.28f);
             }
         }
         else
@@ -278,7 +299,7 @@ public class EnemyManager : MonoBehaviour
                 currentEnemyHP -= explosionDamage;
                 CheckWhichAnimation(currentEnemyHP);
             }
-            else if ((other.gameObject.tag == "Turret") || (other.gameObject.tag == "Bunker"))
+            else if ((other.gameObject.tag == "Turret") || (other.gameObject.tag == "Bunker_a") || (other.gameObject.tag == "Bunker_b"))
             {
                 Destroy(gameObject);
             }
