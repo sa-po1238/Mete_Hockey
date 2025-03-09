@@ -10,15 +10,36 @@ public class SingleShot : MonoBehaviour
     private int currentHit = 0; // 現在の衝突回数
     [SerializeField] private float speedThreshold = 0.1f; // 速度の閾値
     private float currentTime = 0f; //発射されてからの時間
-
     private Rigidbody rb;
+
+    private int frameCount = 0; // 生成後のフレームカウント
+    private Renderer rend;
+    private Color originalColor;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+
+        // 最初なんか向きおかしくなっちゃうのの突貫工事
+        rend = GetComponent<Renderer>();
+        if (rend != null)
+        {
+            originalColor = rend.material.color;
+            Color transparentColor = originalColor;
+            transparentColor.a = 0f; // 透明にする
+            rend.material.color = transparentColor;
+        }
     }
     void Update()
     {
         currentTime += Time.deltaTime;
+
+        // これも突貫工事
+        frameCount++;
+        // 4フレーム目から元の色に戻す
+        if (frameCount == 5 && rend != null)
+        {
+            rend.material.color = originalColor;
+        }
 
         // x方向での範囲チェック
         if ((Mathf.Abs(transform.position.x) > destroyRightLimit) || (Mathf.Abs(transform.position.x) < destroyLeftLimit))
@@ -30,6 +51,18 @@ public class SingleShot : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        // 向きも速度に合わせて変更する
+        float angle = Mathf.Atan2(rb.velocity.x, rb.velocity.y) * Mathf.Rad2Deg; // XY平面の角度を計算
+        float lastAngle = angle - 90;
+        if ((-90 <= lastAngle) && (lastAngle <= 90))
+        {
+            lastAngle = -(angle - 90);
+        }
+        else
+        {
+            lastAngle = angle - 90;
+        }
+        transform.rotation = Quaternion.Euler(0, 0, lastAngle); // Z軸のみ回転
     }
     private void OnCollisionEnter(Collision other)
     {

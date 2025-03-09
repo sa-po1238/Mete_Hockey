@@ -45,6 +45,19 @@ public class ChargeShot : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        // 向きも速度に合わせて変更する
+        float angle = Mathf.Atan2(rb.velocity.x, rb.velocity.y) * Mathf.Rad2Deg; // XY平面の角度を計算
+        float lastAngle = angle - 90;
+        if ((-90 <= lastAngle) && (lastAngle <= 90))
+        {
+            lastAngle = -(angle - 90);
+        }
+        else
+        {
+            lastAngle = angle - 90;
+        }
+        transform.rotation = Quaternion.Euler(0, 0, lastAngle); // Z軸のみ回転
     }
 
     private void OnCollisionEnter(Collision other)
