@@ -504,6 +504,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3368034131471119176}
     - target: {fileID: 116826431105189583, guid: 428c256349b83214ca428ea530d6fac5, type: 3}
+      propertyPath: comboCoolTime
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 116826431105189583, guid: 428c256349b83214ca428ea530d6fac5, type: 3}
       propertyPath: comboTextObject
       value: 
       objectReference: {fileID: 5520185561636975395}

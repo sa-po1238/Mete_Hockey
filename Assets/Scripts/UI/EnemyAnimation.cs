@@ -24,10 +24,7 @@ public class EnemyAnimation : MonoBehaviour
     public void DieForWeak()
     {
         AudioManager.instance_AudioManager.PlaySE(4);
-        animator.SetTrigger("isDamaged");
-        // 死亡アニメーションが終わったらDestroyする
-        // なんかいい感じにデストロイしてな
-        Destroy(gameObject, 0.40f);
+        Destroy(gameObject);
     }
 
     // チャージショットで死んだとき(弾化する時)
