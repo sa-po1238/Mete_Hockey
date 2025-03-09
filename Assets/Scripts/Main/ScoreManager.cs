@@ -103,6 +103,10 @@ public class ScoreManager : MonoBehaviour
             int spriteIndex = int.Parse(spriteText[i].ToString());
             comboText.text += "<sprite=" + spriteIndex + ">";
         }
-        comboTextObject.SetActive(true);
+        // comboTextObjectがfalseのときtrueにする
+        if (!comboTextObject.activeSelf)
+        {
+            comboTextObject.SetActive(true);
+        }
     }
 }
