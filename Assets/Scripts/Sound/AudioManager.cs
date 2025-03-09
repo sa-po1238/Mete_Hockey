@@ -95,6 +95,17 @@ public class AudioManager : MonoBehaviour
         return SE_Sources[0];
     }
 
+    public void StopSE(int id)
+    {
+        foreach (AudioSource source in SE_Sources)
+        {
+            if (source.isPlaying && source.clip == audioData.SE_Data[ConvertIdIntoIndex(audioData.SE_Data, id)].clip)
+            {
+                source.Stop();
+            }
+        }
+    }
+
     public void StopAllSE()
     {
         foreach (AudioSource source in SE_Sources)

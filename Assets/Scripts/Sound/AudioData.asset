@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SE_Data:
   - id: 0
-    clip: {fileID: 8300000, guid: b1c2d327c3c0ddc40824fffaf9ea71a3, type: 3}
+    clip: {fileID: 8300000, guid: f4d7f1b2706c0014eaa9c0682fe0ea50, type: 3}
     volume: 1
     memo: "\u5F31\u30B7\u30E7\u30C3\u30C8"
   - id: 1
     clip: {fileID: 8300000, guid: 7fc59309e525e0e4d8aa378261942e3e, type: 3}
-    volume: 1
+    volume: 0.6
     memo: "\u30C1\u30E3\u30FC\u30B8\u4E2D"
   - id: 2
     clip: {fileID: 8300000, guid: 6e6ca299e863ee94f8103dc738108a27, type: 3}

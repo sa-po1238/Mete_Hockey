@@ -29,6 +29,7 @@ public class TurretShoot : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             AudioManager.instance_AudioManager.PlaySE(1);
+
             newParticle1 = Instantiate(chargeParticle1);
             newParticle1.transform.position = this.transform.position;
             newParticle1.Play();
@@ -74,6 +75,7 @@ public class TurretShoot : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.Space))
         {
+            AudioManager.instance_AudioManager.StopSE(1);
             Destroy(newParticle1);
             Destroy(newParticle2);
             //Destroy(newParticle3);

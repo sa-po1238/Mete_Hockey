@@ -419,6 +419,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1271621567775763610, guid: 48df21c07abdcad43b5fe3714a552e77, type: 3}
+      propertyPath: damageArea
+      value: 
+      objectReference: {fileID: 6984456360586409605}
+    - target: {fileID: 1271621567775763610, guid: 48df21c07abdcad43b5fe3714a552e77, type: 3}
       propertyPath: playerHPManager
       value: 
       objectReference: {fileID: 5959049371634887163}
@@ -2743,7 +2747,6 @@ MonoBehaviour:
   playerHP: 500
   playerHPManager: {fileID: 5959049371634887163}
   playerHPGauge: {fileID: 5451958396704442713}
-  damageArea: {fileID: 6984456360586409605}
 --- !u!114 &6086484888346607294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2932,6 +2935,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 205529271218006830, guid: 11563d0733ef7a64ba96f590143b3ee1, type: 3}
+      propertyPath: damageArea
+      value: 
+      objectReference: {fileID: 6984456360586409605}
     - target: {fileID: 205529271218006830, guid: 11563d0733ef7a64ba96f590143b3ee1, type: 3}
       propertyPath: playerHPManager
       value: 
