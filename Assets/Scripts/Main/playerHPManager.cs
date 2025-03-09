@@ -8,14 +8,28 @@ public class PlayerHPManager : MonoBehaviour
     private float currentPlayerHP; //プレイヤーの現在のHP
     [SerializeField] private PlayerHPManager playerHPManager;
     [SerializeField] private PlayerHPGauge playerHPGauge;
+    [SerializeField] private  GameObject damageArea;
+    private Animator damageAreaAnimator;
     private void Awake()
     {
         currentPlayerHP = playerHP;
+
+        if (damageArea != null)
+        {
+            damageAreaAnimator = damageArea.GetComponent<Animator>();
+        }
+        else
+        {
+            Debug.LogError("DamageAreaがアタッチされてない");
+        }
     }
     public void TakeDamage(float damage)
     {
         currentPlayerHP -= damage;
         Debug.Log($"HP:{currentPlayerHP}");
+
+        // DamageAreaのアニメーションを再生
+        damageAreaAnimator.SetTrigger("isDamageAreaDamaged");
 
         if (currentPlayerHP <= 0)
         {
