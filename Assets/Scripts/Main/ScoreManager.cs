@@ -42,6 +42,15 @@ public class ScoreManager : MonoBehaviour
         Debug.Log("AddScore");
         // コンボとスコアの増加
         currentCombo++;
+        
+        if (currentCombo >= 4)
+        {
+            AudioManager.instance_AudioManager.PlaySE(12);
+        }
+        else{
+            AudioManager.instance_AudioManager.PlaySE(currentCombo + 8);
+        }
+
         SetSpriteNumberCombo(currentCombo);
         int addScore = enemyScore * currentCombo;
 
@@ -103,6 +112,10 @@ public class ScoreManager : MonoBehaviour
             int spriteIndex = int.Parse(spriteText[i].ToString());
             comboText.text += "<sprite=" + spriteIndex + ">";
         }
-        comboTextObject.SetActive(true);
+        // comboTextObjectがfalseのときtrueにする
+        if (!comboTextObject.activeSelf)
+        {
+            comboTextObject.SetActive(true);
+        }
     }
 }

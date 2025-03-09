@@ -177,12 +177,12 @@ public class EnemyManager : MonoBehaviour
                         this.gameObject.tag = "EnemyShot";
 
                         // 弾化のアニメーション
-                        GetComponent<AnimationTest>().DieForStrong();
+                        GetComponent<EnemyAnimation>().DieForStrong();
                     }
                 }
                 else
                 {
-                    GetComponent<AnimationTest>().TakeWeakDamage();
+                    GetComponent<EnemyAnimation>().TakeWeakDamage();
                 }
             }
             else if (other.gameObject.tag == "EnemyShot")
@@ -206,11 +206,11 @@ public class EnemyManager : MonoBehaviour
         // 死んでたら死亡アニメーション
         if (currentEnemyHP <= 0)
         {
-            GetComponent<AnimationTest>().DieForWeak();
+            GetComponent<EnemyAnimation>().DieForWeak();
         }
 
         // 死んでなかったらダメージを受けるアニメーション
-        GetComponent<AnimationTest>().TakeWeakDamage();
+        GetComponent<EnemyAnimation>().TakeWeakDamage();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -282,11 +282,11 @@ public class EnemyManager : MonoBehaviour
 
                     this.gameObject.tag = "EnemyShot";
                     // 弾化のアニメーション
-                    GetComponent<AnimationTest>().DieForStrong();
+                    GetComponent<EnemyAnimation>().DieForStrong();
                 }
                 else
                 {
-                    GetComponent<AnimationTest>().TakeWeakDamage();
+                    GetComponent<EnemyAnimation>().TakeWeakDamage();
                 }
             }
             else if (other.gameObject.tag == "EnemyShot")
