@@ -15,8 +15,12 @@ public class TurretShoot : MonoBehaviour
     private float pushTime = 0f; //スペースキーを押してからの時間 
     [SerializeField] ParticleSystem chargeParticle1; // チャージのパーティクル
     [SerializeField] ParticleSystem chargeParticle2; // チャージのパーティクル2
+    [SerializeField] ParticleSystem chargeParticle3; // チャージのパーティクル3（チャージ完了時にまとうエフェクト）
+
     private ParticleSystem newParticle1;
     private ParticleSystem newParticle2;
+    private ParticleSystem newParticle3;
+
 
     void Update()
     {
@@ -38,6 +42,11 @@ public class TurretShoot : MonoBehaviour
             {
                 Destroy(newParticle1);
                 Destroy(newParticle2);
+                /*
+                newParticle3 = Instantiate(chargeParticle3);
+                newParticle3.transform.position = this.transform.position;
+                newParticle3.Play();
+                */
             }
         }
         else
@@ -64,6 +73,7 @@ public class TurretShoot : MonoBehaviour
         {
             Destroy(newParticle1);
             Destroy(newParticle2);
+            //Destroy(newParticle3);
         }
     }
 
