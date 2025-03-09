@@ -17,12 +17,16 @@ public class PlayerDamage : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // 敵に衝突したときのみダメージ
-        if (other.gameObject.tag == "enemy")
+        if ((other.gameObject.tag == "enemy") || (other.gameObject.tag == "Bean") || (other.gameObject.tag == "Bomb"))
         {
             EnemyManager enemy = other.GetComponent<EnemyManager>();
             if (enemy != null)
             {
                 float damage = enemy.GetEnemyDamage(); // 敵ごとのダメージを取得
+                if (this.gameObject.tag == "Turret")
+                {
+                    damage *= damageRate;
+                }
                 playerHPManager.TakeDamage(damage);
             }
         }
@@ -30,16 +34,18 @@ public class PlayerDamage : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         // 敵に衝突したときのみダメージ
-        if (other.gameObject.tag == "enemy")
+        if ((other.gameObject.tag == "enemy") || (other.gameObject.tag == "Bean") || (other.gameObject.tag == "Bomb"))
         {
             EnemyManager enemy = other.gameObject.GetComponent<EnemyManager>(); // 修正後
             if (enemy != null)
             {
                 float damage = enemy.GetEnemyDamage(); // 敵ごとのダメージを取得
-                damage *= damageRate;
+                if (this.gameObject.tag == "Turret")
+                {
+                    damage *= damageRate;
+                }
                 playerHPManager.TakeDamage(damage);
             }
         }
     }
-
 }

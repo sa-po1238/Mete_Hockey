@@ -8,7 +8,7 @@ public class PlayerHPManager : MonoBehaviour
     private float currentPlayerHP; //プレイヤーの現在のHP
     [SerializeField] private PlayerHPManager playerHPManager;
     [SerializeField] private PlayerHPGauge playerHPGauge;
-    [SerializeField] private  GameObject damageArea;
+    [SerializeField] private GameObject damageArea;
     private Animator damageAreaAnimator;
     private void Awake()
     {

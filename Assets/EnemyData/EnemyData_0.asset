@@ -16,4 +16,4 @@ MonoBehaviour:
   enemyHP: 100
   enemyDamage: 60
   enemyHPRate: 10
-  enemyScore: 100
+  enemyScore: 200

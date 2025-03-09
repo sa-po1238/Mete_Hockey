@@ -80,7 +80,7 @@ public class EnemyManager : MonoBehaviour
         }
 
 
-        if (this.gameObject.tag == "EnemyShot" || this.gameObject.tag == "BeanShot" || this.gameObject.tag == "Explosion")
+        if (this.gameObject.tag == "EnemyShot") // BeanもBombも上手くいかなかったのでないない
         {
             // 向きも速度に合わせて変更する
             float angle = Mathf.Atan2(rb.velocity.x, rb.velocity.y) * Mathf.Rad2Deg; // XY平面の角度を計算
@@ -142,10 +142,12 @@ public class EnemyManager : MonoBehaviour
                     {
                         currentEnemyHP = enemyHP * enemyHPRate; // 元のHPの倍数に回復
                         rb.velocity *= 0.1f;
-                        this.gameObject.tag = "EnemyShot";
+                        this.gameObject.tag = "Explosion";
 
+                        Debug.Log("爆発処理");
                         // 数秒後に処理を実行
                         StartCoroutine(ExplosionEffect());
+                        rb.isKinematic = true;
                     }
                     else
                     {
@@ -172,6 +174,7 @@ public class EnemyManager : MonoBehaviour
                 currentEnemyHP -= explosionDamage;
                 CheckWhichAnimation(currentEnemyHP);
             }
+
         }
 
     }
@@ -215,6 +218,8 @@ public class EnemyManager : MonoBehaviour
                 rb.velocity = randomDirection * 10; //大きさはenemyShotRateにする
                 currentEnemyHP = enemyHP * enemyHPRate; // 元のHPの倍数に回復
                 this.gameObject.tag = "BeanShot";
+                //Rotation.zを30か-30にする
+                transform.rotation = Quaternion.Euler(0, 0, Random.Range(-30, 30));
             }
             else if (other.gameObject.tag == "BeanShot")
             {
@@ -239,15 +244,20 @@ public class EnemyManager : MonoBehaviour
                 // チャージショットで倒れたらエネミーショットに
                 if (currentEnemyHP <= 0)
                 {
+                    Debug.Log("チャージショットでmame ga 倒れた");
                     rb.isKinematic = false; // 物理演算を受けるようにする
 
                     // 衝突したチャージショットから5フレーム前の速度をもらう
                     ChargeShot chargeShot = other.gameObject.GetComponent<ChargeShot>();
                     rb.velocity = chargeShot.GetChargeShotVelocity();
 
+                    Debug.Log(rb.velocity);
+
                     col.isTrigger = false; // IsTriggerのチェックを外す
                     currentEnemyHP = enemyHP * enemyHPRate; // 元のHPの倍数に回復
                     rb.velocity *= enemyShotRate; // 衝突時に速度を上げる
+
+                    Debug.Log(currentEnemyHP);
 
                     this.gameObject.tag = "EnemyShot";
                     // 弾化のアニメーション

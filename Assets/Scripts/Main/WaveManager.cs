@@ -7,19 +7,37 @@ using UnityEngine;
 public class WaveManager : MonoBehaviour
 {
     [SerializeField] List<GameObject> waves; // ウェーブ一覧
+    [SerializeField] int startWave; // 最初のウェーブ(テストプレイ用) 通常プレイは0
     private int nextWaveIndex = 0; // 次のウェーブ番号
     private GameObject currentWave; // 現在のウェーブ
-    void Update()
+    [SerializeField] private float waveInterval = 15f; // ウェーブ間の間隔
+
+    void Start()
     {
-        // ウェーブが無い、もしくは敵が居なくなった場合
-        if (currentWave == null || currentWave.transform.childCount == 0)
+        StartCoroutine(SpawnWave());
+        nextWaveIndex = startWave;
+    }
+    IEnumerator SpawnWave()
+    {
+        for (; nextWaveIndex < waves.Count; nextWaveIndex++) // waves.Count に達するまで実行
         {
             // ウェーブ作成
             currentWave = Instantiate(waves[nextWaveIndex]);
-            // 次のウェーブ番号に
-            nextWaveIndex++;
-            // ウェーブ総数以上になったら繰り返すように余りを求める
-            nextWaveIndex %= waves.Count;
+
+            // 最初のウェーブなら5秒待機
+            if (nextWaveIndex == 0)
+            {
+                yield return new WaitForSeconds(5f);
+            }
+            else
+            {
+                yield return new WaitForSeconds(waveInterval);
+            }
         }
+        // 全ウェーブが終了したら処理を終える
+        Debug.Log("すべてのウェーブが終了しました。");
+        yield break;
     }
+
+
 }
