@@ -75,10 +75,12 @@ public class EnemyManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        /*
         if (this.gameObject.tag == "BeanShot")
         {
             rb.velocity *= 0.99f;
         }
+        */
 
 
         if (this.gameObject.tag == "EnemyShot") // BeanもBombも上手くいかなかったのでないない
@@ -95,6 +97,14 @@ public class EnemyManager : MonoBehaviour
                 lastAngle = -(angle - 90);
             }
             transform.rotation = Quaternion.Euler(0, 0, lastAngle); // Z軸のみ回転
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (this.gameObject.tag == "BeanShot")
+        {
+            rb.velocity *= 0.90f;
         }
     }
 
