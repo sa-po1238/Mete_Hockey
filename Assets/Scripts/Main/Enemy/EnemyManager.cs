@@ -24,10 +24,8 @@ public class EnemyManager : MonoBehaviour
     private Rigidbody rb;
     private Collider col;
     private Vector3 pastVelocity; // ５秒前の速度
-    [SerializeField] GameObject explosionPrefab; // 爆発のPrefab
     [SerializeField] float explosionDamage = 50f; // 爆発のダメージ
     [SerializeField] GameObject BankerEffectPrefab; // バンカーのエフェクト
-    [SerializeField] private BeanManager beanManager; // BeanManager 参照
 
     private void Awake()
     {
@@ -43,12 +41,6 @@ public class EnemyManager : MonoBehaviour
         currentEnemyHP = enemyHP;
         StartCoroutine(SavePastVelocity()); // 5フレーム前の速度を保存するコルーチン開始
 
-        /*
-        if (this.gameObject.tag == "Bean")
-        {
-            col.isTrigger = true; // IsTriggerのチェックを入れる        
-        }
-        */
     }
 
     // 5フレームごとにpastVelocityを更新
@@ -162,21 +154,13 @@ public class EnemyManager : MonoBehaviour
                     ChargeShot chargeShot = other.gameObject.GetComponent<ChargeShot>();
                     rb.velocity = chargeShot.GetChargeShotVelocity();
 
-                    // 爆発の処理をここに
+                    currentEnemyHP = enemyHP * enemyHPRate; // 元のHPの倍数に回復
                     if (this.gameObject.tag == "Bomb")
                     {
-                        currentEnemyHP = enemyHP * enemyHPRate; // 元のHPの倍数に回復
-                        rb.velocity *= 0.1f;
-                        this.gameObject.tag = "Explosion";
-
-                        Debug.Log("爆発処理");
-                        // 数秒後に処理を実行
-                        StartCoroutine(ExplosionEffect());
-                        rb.isKinematic = true;
+                        GetComponent<BombManager>().Explosion();
                     }
                     else
                     {
-                        currentEnemyHP = enemyHP * enemyHPRate; // 元のHPの倍数に回復
                         rb.velocity *= enemyShotRate; // 衝突時に速度を上げる
                         this.gameObject.tag = "EnemyShot";
 
@@ -259,7 +243,7 @@ public class EnemyManager : MonoBehaviour
         return enemyDamage;
     }
 
-    // 敵のHPを更新（BeanManagerを通じて操作）
+    // 敵のHPを更新
     public void UpdateEnemyHP(float hp)
     {
         currentEnemyHP = hp;
@@ -274,15 +258,4 @@ public class EnemyManager : MonoBehaviour
         }
 
     }
-
-    // 爆発処理
-    private IEnumerator ExplosionEffect()
-    {
-        yield return new WaitForSeconds(1f); // 1秒待つ
-        Debug.Log("1秒後の処理");
-        // 爆発のインスタンスを作成
-        Instantiate(explosionPrefab, transform.position, transform.rotation);
-        Destroy(gameObject);
-    }
-
 }

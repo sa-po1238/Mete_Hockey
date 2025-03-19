@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class BeanManager : MonoBehaviour
 {
-    //[SerializeField] private EnemyManager enemyManager;
     [SerializeField] EnemyData enemyData; // 敵データ
     private float enemySpeed; //敵のスピード
     private float enemyHP; //敵のHP
@@ -15,15 +14,11 @@ public class BeanManager : MonoBehaviour
     [SerializeField] float chargeDamage = 30f; //チャージショットのダメージ
     [SerializeField] float enemyShotRate = 1.2f; // エネミーショットで加速する倍率
     [SerializeField] float enemyBounceRate = 1.05f; // 敵と当たったときにちょっと加速する
-    [SerializeField] private float speedThreshold = 0.1f; // 速度の閾値
     [SerializeField] private int hitThreshold = 20; //　衝突回数の閾値
     private int currentHit = 0; // 現在の衝突回数
     private Rigidbody rb;
     private Collider col;
-    private Vector3 pastVelocity; // ５秒前の速度
-    [SerializeField] GameObject explosionPrefab; // 爆発のPrefab
     [SerializeField] float explosionDamage = 50f; // 爆発のダメージ
-    [SerializeField] GameObject BankerEffectPrefab; // バンカーのエフェクト
 
     private void Awake()
     {
@@ -37,8 +32,6 @@ public class BeanManager : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         col = GetComponent<Collider>();
         col.isTrigger = true; // IsTriggerのチェックを入れる        
-
-
     }
 
     private void Start()
@@ -49,7 +42,6 @@ public class BeanManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"currentEnemyHP={currentEnemyHP}");
         // エネミーショットと豆がぶつかるときもこっちが呼び出される
         if (this.gameObject.tag == "EnemyShot")
         {
@@ -139,6 +131,7 @@ public class BeanManager : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+        // EnemyManagerに現在のHPを渡す
         GetComponent<EnemyManager>().UpdateEnemyHP(currentEnemyHP);
     }
 
