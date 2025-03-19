@@ -42,95 +42,81 @@ public class BeanManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // エネミーショットと豆がぶつかるときもこっちが呼び出される
-        if (this.gameObject.tag == "EnemyShot")
+
+        // 衝突した対象の種類に応じてダメージが変化
+        if (other.gameObject.tag == "EnemyShot")
         {
-            currentHit += 1;
-            if (currentHit >= hitThreshold)
+            // ランダムな方向に飛び出す
+            rb.isKinematic = false; // 物理演算を受けるようにする
+            Vector3 randomDirection = Random.insideUnitSphere.normalized; // ランダムな方向を取得
+            rb.velocity = randomDirection * 10; //大きさはenemyShotRateにする
+            currentEnemyHP = enemyHP * enemyHPRate; // 元のHPの倍数に回復
+            this.gameObject.tag = "BeanShot";
+            //Rotation.zを30か-30にする
+            transform.rotation = Quaternion.Euler(0, 0, Random.Range(-30, 30));
+        }
+        else if (other.gameObject.tag == "BeanShot")
+        {
+            if (this.gameObject.tag == "bean")
             {
                 Destroy(gameObject);
             }
-            else if (other.gameObject.tag == "enemy")
+            else
             {
-                rb.velocity *= enemyBounceRate; // 衝突時に少し速度を上げる
+                currentEnemyHP -= enemyDamage; // 豆のエネミーショットと同じダメージ
+                CheckWhichAnimation(currentEnemyHP);
             }
         }
-        else
+        else if (other.gameObject.tag == "SingleShot")
         {
-            // 衝突した対象の種類に応じてダメージが変化
-            if (other.gameObject.tag == "EnemyShot")
+            currentEnemyHP -= singleDamage;
+            CheckWhichAnimation(currentEnemyHP);
+        }
+        else if (other.gameObject.tag == "ChargeShot")
+        {
+            currentEnemyHP -= chargeDamage;
+            // チャージショットで倒れたらエネミーショットに
+            if (currentEnemyHP <= 0)
             {
-                // ランダムな方向に飛び出す
+                Debug.Log("チャージショットでmame ga 倒れた");
                 rb.isKinematic = false; // 物理演算を受けるようにする
-                Vector3 randomDirection = Random.insideUnitSphere.normalized; // ランダムな方向を取得
-                rb.velocity = randomDirection * 10; //大きさはenemyShotRateにする
+
+                // 衝突したチャージショットから5フレーム前の速度をもらう
+                ChargeShot chargeShot = other.gameObject.GetComponent<ChargeShot>();
+                rb.velocity = chargeShot.GetChargeShotVelocity();
+
+                Debug.Log(rb.velocity);
+
+                col.isTrigger = false; // IsTriggerのチェックを外す
                 currentEnemyHP = enemyHP * enemyHPRate; // 元のHPの倍数に回復
-                this.gameObject.tag = "BeanShot";
-                //Rotation.zを30か-30にする
-                transform.rotation = Quaternion.Euler(0, 0, Random.Range(-30, 30));
-            }
-            else if (other.gameObject.tag == "BeanShot")
-            {
-                if (this.gameObject.tag == "bean")
-                {
-                    Destroy(gameObject);
-                }
-                else
-                {
-                    currentEnemyHP -= enemyDamage; // 豆のエネミーショットと同じダメージ
-                    CheckWhichAnimation(currentEnemyHP);
-                }
-            }
-            else if (other.gameObject.tag == "SingleShot")
-            {
-                currentEnemyHP -= singleDamage;
-                CheckWhichAnimation(currentEnemyHP);
-            }
-            else if (other.gameObject.tag == "ChargeShot")
-            {
-                currentEnemyHP -= chargeDamage;
-                // チャージショットで倒れたらエネミーショットに
-                if (currentEnemyHP <= 0)
-                {
-                    Debug.Log("チャージショットでmame ga 倒れた");
-                    rb.isKinematic = false; // 物理演算を受けるようにする
+                rb.velocity *= enemyShotRate; // 衝突時に速度を上げる
 
-                    // 衝突したチャージショットから5フレーム前の速度をもらう
-                    ChargeShot chargeShot = other.gameObject.GetComponent<ChargeShot>();
-                    rb.velocity = chargeShot.GetChargeShotVelocity();
+                Debug.Log(currentEnemyHP);
 
-                    Debug.Log(rb.velocity);
-
-                    col.isTrigger = false; // IsTriggerのチェックを外す
-                    currentEnemyHP = enemyHP * enemyHPRate; // 元のHPの倍数に回復
-                    rb.velocity *= enemyShotRate; // 衝突時に速度を上げる
-
-                    Debug.Log(currentEnemyHP);
-
-                    this.gameObject.tag = "EnemyShot";
-                    // 弾化のアニメーション
-                    GetComponent<EnemyAnimation>().DieForStrong();
-                }
-                else
-                {
-                    GetComponent<EnemyAnimation>().TakeWeakDamage();
-                }
+                this.gameObject.tag = "EnemyShot";
+                // 弾化のアニメーション
+                GetComponent<EnemyAnimation>().DieForStrong();
             }
-            else if (other.gameObject.tag == "EnemyShot")
+            else
             {
-                currentEnemyHP -= enemyDamage;
-                CheckWhichAnimation(currentEnemyHP);
-            }
-            else if (other.gameObject.tag == "Explosion")
-            {
-                currentEnemyHP -= explosionDamage;
-                CheckWhichAnimation(currentEnemyHP);
-            }
-            else if ((other.gameObject.tag == "Turret") || (other.gameObject.tag == "Bunker_a") || (other.gameObject.tag == "Bunker_b"))
-            {
-                Destroy(gameObject);
+                GetComponent<EnemyAnimation>().TakeWeakDamage();
             }
         }
+        else if (other.gameObject.tag == "EnemyShot")
+        {
+            currentEnemyHP -= enemyDamage;
+            CheckWhichAnimation(currentEnemyHP);
+        }
+        else if (other.gameObject.tag == "Explosion")
+        {
+            currentEnemyHP -= explosionDamage;
+            CheckWhichAnimation(currentEnemyHP);
+        }
+        else if ((other.gameObject.tag == "Turret") || (other.gameObject.tag == "Bunker_a") || (other.gameObject.tag == "Bunker_b"))
+        {
+            Destroy(gameObject);
+        }
+
         // EnemyManagerに現在のHPを渡す
         GetComponent<EnemyManager>().UpdateEnemyHP(currentEnemyHP);
     }
