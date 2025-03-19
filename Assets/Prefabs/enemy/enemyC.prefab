@@ -303,6 +303,7 @@ GameObject:
   - component: {fileID: 7593776743239827903}
   - component: {fileID: 8539902091586455855}
   - component: {fileID: 9139282416397621636}
+  - component: {fileID: -5786558945747908405}
   m_Layer: 0
   m_Name: enemyC
   m_TagString: Bean
@@ -484,6 +485,31 @@ MonoBehaviour:
   hitThreshold: 3
   explosionPrefab: {fileID: 8468915807261927749, guid: 71109715f5f0d1145b14f57a04e20683, type: 3}
   explosionDamage: 50
+  BankerEffectPrefab: {fileID: 7211277576137982440, guid: b966f74a16b160041838858e1a292029, type: 3}
+  beanManager: {fileID: -5786558945747908405}
+--- !u!114 &-5786558945747908405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7626055421000167125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29388818196c8f243b45ebbbfab8da5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyManager: {fileID: 9139282416397621636}
+  enemyData: {fileID: 11400000, guid: f52c9ec0fb2322e498ebc819b37da97b, type: 2}
+  singleDamage: 5
+  chargeDamage: 30
+  enemyShotRate: 1.2
+  enemyBounceRate: 1.05
+  speedThreshold: 0.1
+  hitThreshold: 20
+  explosionPrefab: {fileID: 8468915807261927749, guid: 71109715f5f0d1145b14f57a04e20683, type: 3}
+  explosionDamage: 50
+  BankerEffectPrefab: {fileID: 7211277576137982440, guid: b966f74a16b160041838858e1a292029, type: 3}
 --- !u!1 &8981462182874348207
 GameObject:
   m_ObjectHideFlags: 0

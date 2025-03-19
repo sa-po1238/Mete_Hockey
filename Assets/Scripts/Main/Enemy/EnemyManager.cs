@@ -11,6 +11,7 @@ public class EnemyManager : MonoBehaviour
     private float enemyHPRate; // エネミーショットで回復する倍率
     private int enemyScore; // 敵のスコア
     private float currentEnemyHP; // 敵の現在のHP
+
     [SerializeField] private float destroyLeftLimit = -12f; // 左側の限界値
     [SerializeField] private float destroyRightLimit = 24f; // 右側の限界値
     [SerializeField] float singleDamage = 5f; //シングルショットのダメージ
@@ -26,6 +27,7 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] GameObject explosionPrefab; // 爆発のPrefab
     [SerializeField] float explosionDamage = 50f; // 爆発のダメージ
     [SerializeField] GameObject BankerEffectPrefab; // バンカーのエフェクト
+    [SerializeField] private BeanManager beanManager; // BeanManager 参照
 
     private void Awake()
     {
@@ -41,10 +43,12 @@ public class EnemyManager : MonoBehaviour
         currentEnemyHP = enemyHP;
         StartCoroutine(SavePastVelocity()); // 5フレーム前の速度を保存するコルーチン開始
 
+        /*
         if (this.gameObject.tag == "Bean")
         {
             col.isTrigger = true; // IsTriggerのチェックを入れる        
         }
+        */
     }
 
     // 5フレームごとにpastVelocityを更新
@@ -200,6 +204,7 @@ public class EnemyManager : MonoBehaviour
 
     }
 
+
     // どのアニメーションを再生するかを決める関数
     private void CheckWhichAnimation(float currentEnemyHP)
     {
@@ -213,9 +218,10 @@ public class EnemyManager : MonoBehaviour
         GetComponent<EnemyAnimation>().TakeWeakDamage();
     }
 
+
+    // エネミーショットで豆に当たったとき・BeanShotが他の何かに当たったとき
     private void OnTriggerEnter(Collider other)
     {
-        // エネミーショットと豆がぶつかるときもこっちが呼び出される
         if (this.gameObject.tag == "EnemyShot")
         {
             currentHit += 1;
@@ -228,83 +234,15 @@ public class EnemyManager : MonoBehaviour
                 rb.velocity *= enemyBounceRate; // 衝突時に少し速度を上げる
             }
         }
-        else
+        if (other.gameObject.tag == "BeanShot")
         {
-            // 衝突した対象の種類に応じてダメージが変化
-            if (other.gameObject.tag == "EnemyShot")
-            {
-                // ランダムな方向に飛び出す
-                rb.isKinematic = false; // 物理演算を受けるようにする
-                Vector3 randomDirection = Random.insideUnitSphere.normalized; // ランダムな方向を取得
-                rb.velocity = randomDirection * 10; //大きさはenemyShotRateにする
-                currentEnemyHP = enemyHP * enemyHPRate; // 元のHPの倍数に回復
-                this.gameObject.tag = "BeanShot";
-                //Rotation.zを30か-30にする
-                transform.rotation = Quaternion.Euler(0, 0, Random.Range(-30, 30));
-            }
-            else if (other.gameObject.tag == "BeanShot")
-            {
-                if (this.gameObject.tag == "bean")
-                {
-                    Destroy(gameObject);
-                }
-                else
-                {
-                    currentEnemyHP -= enemyDamage; // 豆のエネミーショットと同じダメージ
-                    CheckWhichAnimation(currentEnemyHP);
-                }
-            }
-            else if (other.gameObject.tag == "SingleShot")
-            {
-                currentEnemyHP -= singleDamage;
-                CheckWhichAnimation(currentEnemyHP);
-            }
-            else if (other.gameObject.tag == "ChargeShot")
-            {
-                currentEnemyHP -= chargeDamage;
-                // チャージショットで倒れたらエネミーショットに
-                if (currentEnemyHP <= 0)
-                {
-                    Debug.Log("チャージショットでmame ga 倒れた");
-                    rb.isKinematic = false; // 物理演算を受けるようにする
 
-                    // 衝突したチャージショットから5フレーム前の速度をもらう
-                    ChargeShot chargeShot = other.gameObject.GetComponent<ChargeShot>();
-                    rb.velocity = chargeShot.GetChargeShotVelocity();
+            currentEnemyHP -= enemyDamage; // 豆のエネミーショットと同じダメージ
+            CheckWhichAnimation(currentEnemyHP);
 
-                    Debug.Log(rb.velocity);
-
-                    col.isTrigger = false; // IsTriggerのチェックを外す
-                    currentEnemyHP = enemyHP * enemyHPRate; // 元のHPの倍数に回復
-                    rb.velocity *= enemyShotRate; // 衝突時に速度を上げる
-
-                    Debug.Log(currentEnemyHP);
-
-                    this.gameObject.tag = "EnemyShot";
-                    // 弾化のアニメーション
-                    GetComponent<EnemyAnimation>().DieForStrong();
-                }
-                else
-                {
-                    GetComponent<EnemyAnimation>().TakeWeakDamage();
-                }
-            }
-            else if (other.gameObject.tag == "EnemyShot")
-            {
-                currentEnemyHP -= enemyDamage;
-                CheckWhichAnimation(currentEnemyHP);
-            }
-            else if (other.gameObject.tag == "Explosion")
-            {
-                currentEnemyHP -= explosionDamage;
-                CheckWhichAnimation(currentEnemyHP);
-            }
-            else if ((other.gameObject.tag == "Turret") || (other.gameObject.tag == "Bunker_a") || (other.gameObject.tag == "Bunker_b"))
-            {
-                Destroy(gameObject);
-            }
         }
     }
+
 
     // 外から最大HPや現在HPを取るための関数
     public float GetMaxEnemyHP()
@@ -319,6 +257,12 @@ public class EnemyManager : MonoBehaviour
     public float GetEnemyDamage()
     {
         return enemyDamage;
+    }
+
+    // 敵のHPを更新（BeanManagerを通じて操作）
+    public void UpdateEnemyHP(float hp)
+    {
+        currentEnemyHP = hp;
     }
 
     // スコア参照のために使うやつ
