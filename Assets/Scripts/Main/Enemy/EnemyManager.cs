@@ -71,11 +71,6 @@ public class EnemyManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (this.gameObject.tag == "BeanShot")
-        {
-            rb.velocity *= 0.99f;
-        }
-
 
         if (this.gameObject.tag == "EnemyShot") // BeanもBombも上手くいかなかったのでないない
         {
@@ -155,6 +150,7 @@ public class EnemyManager : MonoBehaviour
                     rb.velocity = chargeShot.GetChargeShotVelocity();
 
                     currentEnemyHP = enemyHP * enemyHPRate; // 元のHPの倍数に回復
+                    // Bombなら爆発処理（タイミング調整のためこっちに書いてる）
                     if (this.gameObject.tag == "Bomb")
                     {
                         GetComponent<BombManager>().Explosion();

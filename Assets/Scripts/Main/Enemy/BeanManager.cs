@@ -3,11 +3,9 @@ using UnityEngine;
 public class BeanManager : MonoBehaviour
 {
     [SerializeField] EnemyData enemyData; // 敵データ
-    private float enemySpeed; //敵のスピード
     private float enemyHP; //敵のHP
     private float enemyDamage; //敵の攻撃力、エネミーショットのダメージ
     private float enemyHPRate; // エネミーショットで回復する倍率
-    private int enemyScore; // 敵のスコア
     private float currentEnemyHP; // 敵の現在のHP
 
     [SerializeField] float singleDamage = 5f; //シングルショットのダメージ
@@ -23,11 +21,9 @@ public class BeanManager : MonoBehaviour
     private void Awake()
     {
         // EnemyData から値を取得
-        enemySpeed = enemyData.enemySpeed;
         enemyHP = enemyData.enemyHP;
         enemyDamage = enemyData.enemyDamage;
         enemyHPRate = enemyData.enemyHPRate;
-        enemyScore = enemyData.enemyScore;
 
         rb = GetComponent<Rigidbody>();
         col = GetComponent<Collider>();
@@ -37,6 +33,14 @@ public class BeanManager : MonoBehaviour
     private void Start()
     {
         currentEnemyHP = GetComponent<EnemyManager>().GetCurrentEnemyHP();
+    }
+    private void Update()
+    {
+        // BeanShotになったら減衰
+        if (this.gameObject.tag == "BeanShot")
+        {
+            rb.velocity *= 0.99f;
+        }
     }
 
 
