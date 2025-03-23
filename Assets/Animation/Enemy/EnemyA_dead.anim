@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: EnemyA_damage
+  m_Name: EnemyA_dead
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,9 +21,9 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 21300000, guid: 6628fdfb30bc2d440b7f6d1ca95f60b5, type: 3}
+      value: {fileID: 21300000, guid: 47920129dbc134c41a24995877e8809b, type: 3}
     - time: 0.5833333
-      value: {fileID: 21300000, guid: 6628fdfb30bc2d440b7f6d1ca95f60b5, type: 3}
+      value: {fileID: 21300000, guid: 47920129dbc134c41a24995877e8809b, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -46,8 +46,8 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 6628fdfb30bc2d440b7f6d1ca95f60b5, type: 3}
-    - {fileID: 21300000, guid: 6628fdfb30bc2d440b7f6d1ca95f60b5, type: 3}
+    - {fileID: 21300000, guid: 47920129dbc134c41a24995877e8809b, type: 3}
+    - {fileID: 21300000, guid: 47920129dbc134c41a24995877e8809b, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
