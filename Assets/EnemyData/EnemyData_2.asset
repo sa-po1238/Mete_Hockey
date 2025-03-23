@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EnemyData_2
   m_EditorClassIdentifier: 
   enemySpeed: 0.3
-  enemyHP: 300
+  enemyHP: 450
   enemyDamage: 60
   enemyHPRate: 10
   enemyScore: 500

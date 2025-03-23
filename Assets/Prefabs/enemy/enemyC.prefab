@@ -484,6 +484,7 @@ MonoBehaviour:
   hitThreshold: 3
   explosionPrefab: {fileID: 8468915807261927749, guid: 71109715f5f0d1145b14f57a04e20683, type: 3}
   explosionDamage: 50
+  BankerEffectPrefab: {fileID: 7211277576137982440, guid: b966f74a16b160041838858e1a292029, type: 3}
 --- !u!1 &8981462182874348207
 GameObject:
   m_ObjectHideFlags: 0

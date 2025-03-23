@@ -24,6 +24,7 @@ public class EnemyAnimation : MonoBehaviour
     public void DieForWeak()
     {
         AudioManager.instance_AudioManager.PlaySE(4);
+        animator.SetTrigger("isDead");
         Destroy(gameObject);
     }
 

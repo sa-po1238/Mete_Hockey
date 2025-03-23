@@ -313,7 +313,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.17, y: 0.17, z: 0.17}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7825311146588639998}
@@ -477,6 +477,7 @@ MonoBehaviour:
   hitThreshold: 20
   explosionPrefab: {fileID: 8468915807261927749, guid: 71109715f5f0d1145b14f57a04e20683, type: 3}
   explosionDamage: 50
+  BankerEffectPrefab: {fileID: 7211277576137982440, guid: b966f74a16b160041838858e1a292029, type: 3}
 --- !u!1 &5558385074861604006
 GameObject:
   m_ObjectHideFlags: 0
