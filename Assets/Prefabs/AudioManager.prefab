@@ -47,8 +47,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioData: {fileID: 11400000, guid: c834b636cc810954994d42333374b7a1, type: 2}
-  SESource: {fileID: 4107975395310857928}
   BGMSource: {fileID: 8064581433965025426}
+  maxSE: 10
+  SESlider: {fileID: 0}
+  BGMSlider: {fileID: 0}
 --- !u!82 &4107975395310857928
 AudioSource:
   m_ObjectHideFlags: 0
