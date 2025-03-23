@@ -296,6 +296,7 @@ GameObject:
   - component: {fileID: 2225052028162123127}
   - component: {fileID: 9163212986697917637}
   - component: {fileID: 4603363115237188814}
+  - component: {fileID: -8558252706323327169}
   m_Layer: 0
   m_Name: enemyB
   m_TagString: Bomb
@@ -475,9 +476,27 @@ MonoBehaviour:
   enemyBounceRate: 1.05
   speedThreshold: 0.1
   hitThreshold: 20
-  explosionPrefab: {fileID: 8468915807261927749, guid: 71109715f5f0d1145b14f57a04e20683, type: 3}
   explosionDamage: 50
   BankerEffectPrefab: {fileID: 7211277576137982440, guid: b966f74a16b160041838858e1a292029, type: 3}
+--- !u!114 &-8558252706323327169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4514075228799236171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48c549a2151da354c941b9caa1a5cb39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyData: {fileID: 11400000, guid: 3a257b71e94eaa14db6cc89e1fa7c306, type: 2}
+  singleDamage: 5
+  chargeDamage: 30
+  enemyShotRate: 1.2
+  enemyBounceRate: 1.05
+  hitThreshold: 20
+  explosionPrefab: {fileID: 8468915807261927749, guid: 71109715f5f0d1145b14f57a04e20683, type: 3}
 --- !u!1 &5558385074861604006
 GameObject:
   m_ObjectHideFlags: 0
