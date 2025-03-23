@@ -34,12 +34,12 @@ public class BeanManager : MonoBehaviour
     {
         currentEnemyHP = GetComponent<EnemyManager>().GetCurrentEnemyHP();
     }
-    private void Update()
+    private void FixedUpdate()
     {
         // BeanShotになったら減衰
         if (this.gameObject.tag == "BeanShot")
         {
-            rb.velocity *= 0.99f;
+            rb.velocity *= 0.92f;
         }
     }
 

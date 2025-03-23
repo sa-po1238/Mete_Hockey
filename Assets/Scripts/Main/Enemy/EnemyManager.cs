@@ -88,13 +88,6 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        if (this.gameObject.tag == "BeanShot")
-        {
-            rb.velocity *= 0.90f;
-        }
-    }
 
     private void OnCollisionEnter(Collision other)
     {
