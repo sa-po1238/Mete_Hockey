@@ -43,8 +43,16 @@ public class AudioManager : MonoBehaviour
         CheckOverlap(this.audioData.SE_Data, "SE_Data");
         CheckOverlap(this.audioData.BGM_Data, "BGM_Data");
 
-        SetSESlider();
-        SetBGMSlider();
+        //田口がif文を追加してやりました
+        if (SESlider != null)
+        {
+            SetSESlider();
+        }
+        if (BGMSlider != null)
+        {
+            SetBGMSlider();
+        }
+
 
         // SESliderのonValueChangedイベントにリスナーを追加
         if (SESlider != null)
@@ -66,7 +74,8 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("SESlider が設定されていません。");
+            //田口がないないしました
+            //Debug.LogError("SESlider が設定されていません。");
         }
 
         // BGMSliderのonValueChangedイベントにリスナーを追加
@@ -84,7 +93,8 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("BGMSlider が設定されていません。");
+            //田口がないないしました
+            //Debug.LogError("BGMSlider が設定されていません。");
         }
     }
 
@@ -128,7 +138,7 @@ public class AudioManager : MonoBehaviour
         if (source != null)
         {
             source.clip = audioData.SE_Data[index].clip;
-             // SEの音量をSliderから取得
+            // SEの音量をSliderから取得
             source.volume = SESlider != null ? SESlider.value : audioData.SE_Data[index].volume;
             source.volume = audioData.SE_Data[index].volume;
             source.Play();
@@ -213,7 +223,7 @@ public class AudioManager : MonoBehaviour
     }
 
     public void SetBGMVolume()
-    {   
+    {
         if (BGMSource == null || BGMSlider == null) return;
 
         // Sliderの値をBGMの音量に反映
