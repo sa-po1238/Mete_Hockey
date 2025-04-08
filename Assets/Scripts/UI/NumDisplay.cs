@@ -4,12 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class FontTest : MonoBehaviour
+public class NumDisplay : MonoBehaviour
 {
     public int spriteNumber;
     public GameObject textDisplay;
 
-    // Start is called before the first frame update
     void Start()
     {
         if (textDisplay == null)
