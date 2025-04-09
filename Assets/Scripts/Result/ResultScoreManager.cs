@@ -44,7 +44,7 @@ public class ResultScoreManager : MonoBehaviour
             if (displayedScore > targetScore) {
                 displayedScore = targetScore;
             }
-            SpriteFontUtil.SetSpriteNumber(displayedScore, scoreText);
+            SpriteFontUtil.SetSpriteNum(displayedScore, scoreText, 0);
             // SE再生するならここ
             yield return new WaitForSeconds(countUpInterval);
         }
@@ -58,7 +58,7 @@ public class ResultScoreManager : MonoBehaviour
     {
         foreach (BonusData bonus in bonusList)
         {
-            yield return ShowBonusLabel(bonus.label);
+            yield return ShowBonusLabel(bonus.label, bonus.value);
             yield return CountUpBonus(bonus.value);
             yield return new WaitForSeconds(0.4f);
         }
@@ -69,9 +69,9 @@ public class ResultScoreManager : MonoBehaviour
     }
 
     // ボーナスラベル表示
-    private IEnumerator ShowBonusLabel(string label)
+    private IEnumerator ShowBonusLabel(string label, int value)
     {
-        bonusLabelText.text = label;
+        bonusLabelText.text = label + " +" + value;
         // SE再生
         yield return new WaitForSeconds(0.8f);
         bonusLabelText.text = "";
@@ -81,7 +81,7 @@ public class ResultScoreManager : MonoBehaviour
     private IEnumerator CountUpBonus(int bonus)
     {
         displayedScore += bonus;
-        SpriteFontUtil.SetSpriteNumber(displayedScore, scoreText);
+        SpriteFontUtil.SetSpriteNum(displayedScore, scoreText, 0);
         // ド派手SEなど
         yield return new WaitForSeconds(0.3f);
     }
