@@ -19,6 +19,7 @@ public class TutorialWaveManager : MonoBehaviour
 
     void Update()
     {
+        /*
         // フラグONテスト：1, 2, 3キーを押したときに対応するフラグをON
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
@@ -32,11 +33,13 @@ public class TutorialWaveManager : MonoBehaviour
         {
             SetTutorialFlag(2);
         }
-
+        */
         SpawnTutorialWave();
+
     }
 
-    void SetTutorialFlag(int index)
+    // 外部からフラグをセットするメソッド
+    public void SetTutorialFlag(int index)
     {
         if (index >= 0 && index < tutorialFlags.Length)
         {
@@ -49,6 +52,7 @@ public class TutorialWaveManager : MonoBehaviour
     {
         if (nextWaveIndex < waves.Count && tutorialFlags.Length > nextWaveIndex)
         {
+            // tutorialFlagsがTRUEならばnextWaveIndexのウェーブをスポーン
             if (tutorialFlags[nextWaveIndex])
             {
                 currentWave = Instantiate(waves[nextWaveIndex]);
