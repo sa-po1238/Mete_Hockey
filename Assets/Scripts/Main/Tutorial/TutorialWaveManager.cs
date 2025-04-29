@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class TutorialWaveManager : MonoBehaviour
 {
     [SerializeField] List<GameObject> waves; // ウェーブ一覧

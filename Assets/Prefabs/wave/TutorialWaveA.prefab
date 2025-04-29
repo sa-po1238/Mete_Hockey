@@ -50,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tutorialWaveManager: {fileID: 465142307949244763, guid: 81cbeb503258c534baf0ceacf9852be2, type: 3}
   WaveAFlags: 000000000000
+  textWriterPrefab: {fileID: 4539531226097668660, guid: 7e6377a6e5fb8cc4fb5ac2e108f4733e, type: 3}
 --- !u!1001 &1225209865119728312
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -8,11 +8,17 @@ public class TutorialWaveA : MonoBehaviour
 
     private int nextWaveIndex = 1; // ウェーブAなので固定で1
     [SerializeField] bool[] WaveAFlags; // ウェーブA内のフラグたち
+    [SerializeField] GameObject textWriterPrefab;
+    private TextWriter textWriter; // テキストを表示させるためのスクリプト
+    [SerializeField] bool coroutineStarted = false; // コルーチンが開始されたかどうかのフラグ
 
+    private string text; // 表示するテキスト
 
     void Start()
     {
         tutorialWaveManager = FindObjectOfType<TutorialWaveManager>();
+        GameObject textWriterObj = Instantiate(textWriterPrefab);
+        textWriter = textWriterObj.GetComponent<TextWriter>();
         // WaveAFlagsのすべてをfalseに初期化
         for (int i = 0; i < WaveAFlags.Length; i++)
         {
@@ -25,18 +31,31 @@ public class TutorialWaveA : MonoBehaviour
     {
         if (WaveAFlags[0])
         {
-            // テキストを送る
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (!coroutineStarted)
             {
-                WaveChange(0); // フラグを下ろして次のフラグを立てる
+                text = "texttexttext";
+                StartCoroutine(StartTutorialAndSetFlag(text));
+            }
+
+            // 表示が完了していたらスペースキーを受け付ける
+            else if (Input.GetKeyDown(KeyCode.Space) && textWriter.isTextFinished)
+            {
+                WaveChange(0);
+                coroutineStarted = false;
             }
         }
         if (WaveAFlags[1])
         {
+            if (!coroutineStarted)
+            {
+                text = "22222222222222";
+                StartCoroutine(StartTutorialAndSetFlag(text));
+            }
             // 上下移動のチュートリアル
-            if ((Input.GetKeyDown(KeyCode.W)) || (Input.GetKeyDown(KeyCode.S)))
+            else if ((Input.GetKeyDown(KeyCode.W)) || (Input.GetKeyDown(KeyCode.S)))
             {
                 WaveChange(1);
+                coroutineStarted = false;
             }
         }
         if (WaveAFlags[2])
@@ -75,6 +94,14 @@ public class TutorialWaveA : MonoBehaviour
     {
         WaveAFlags[currentWaveIndex] = false; // 現在のウェーブのフラグを下ろす
         WaveAFlags[currentWaveIndex + 1] = true; // 次のウェーブのフラグを立てる
+        StartCoroutine(StartTutorialAndSetFlag(""));
         Debug.Log($"WaveAFlags[{currentWaveIndex}]がfalseになり、WaveAFlags[{currentWaveIndex + 1}]がtrueになりました。");
+    }
+
+    // メッセージが表示しきるまでフラグを立てないための中間コルーチン
+    private IEnumerator StartTutorialAndSetFlag(string message)
+    {
+        yield return StartCoroutine(textWriter.TutorialMessage(message));
+        coroutineStarted = true;
     }
 }
