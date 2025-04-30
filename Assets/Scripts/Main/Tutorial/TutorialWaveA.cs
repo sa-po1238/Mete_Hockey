@@ -62,7 +62,7 @@ public class TutorialWaveA : MonoBehaviour
             // 上下移動のチュートリアル
             else if (((Input.GetKeyDown(KeyCode.W)) || (Input.GetKeyDown(KeyCode.S))) && textWriter.isTextFinished)
             {
-                WaveChange(1);
+                StartCoroutine(ShowOKAndChangeWave(1));
             }
         }
         if (WaveAFlags[2])
@@ -92,7 +92,7 @@ public class TutorialWaveA : MonoBehaviour
             // 回転のチュートリアル
             else if (((Input.GetKeyDown(KeyCode.A)) || (Input.GetKeyDown(KeyCode.D))) && textWriter.isTextFinished)
             {
-                WaveChange(3);
+                StartCoroutine(ShowOKAndChangeWave(3));
             }
         }
         if (WaveAFlags[4])
@@ -132,4 +132,16 @@ public class TutorialWaveA : MonoBehaviour
         yield return StartCoroutine(textWriter.TutorialMessage(message));
         coroutineStarted = false;
     }
+
+    // OKを表示してから次のウェーブに移るためのコルーチン
+    private IEnumerator ShowOKAndChangeWave(int currentWaveIndex)
+    {
+        coroutineStarted = true;
+        yield return StartCoroutine(textWriter.TutorialMessage("OK"));
+        yield return new WaitForSeconds(1f); // 必要に応じて時間調整
+        WaveChange(currentWaveIndex);
+        coroutineStarted = false;
+    }
+
+
 }

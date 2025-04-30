@@ -8,6 +8,7 @@ public class TutorialText : MonoBehaviour
     public bool tutorialTextPlaying = false;
     [SerializeField] float textSpeed = 0.1f;
 
+
     // テキストを生成する関数
     public void DrawText(string text)
     {
