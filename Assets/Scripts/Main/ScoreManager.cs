@@ -15,6 +15,16 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] GameObject comboObject;
     [SerializeField] GameObject comboTextObject;
     private TextMeshProUGUI comboText;
+
+    // 突貫工事
+    [SerializeField] GameObject playerFace;
+    private Animator playerFaceAnimator; //プレイヤーの顔のアニメーター
+
+    private void Awake()
+    {
+        playerFaceAnimator = playerFace.GetComponent<Animator>();
+    }
+
     private void Start()
     {
 
@@ -42,7 +52,9 @@ public class ScoreManager : MonoBehaviour
         Debug.Log("AddScore");
         // コンボとスコアの増加
         currentCombo++;
-        
+
+        if (currentCombo == 4) playerFaceAnimator.SetTrigger("isCombo");
+
         if (currentCombo >= 4)
         {
             AudioManager.instance_AudioManager.PlaySE(12);

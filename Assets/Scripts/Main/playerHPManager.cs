@@ -21,6 +21,8 @@ public class PlayerHPManager : MonoBehaviour
     {
         currentPlayerHP -= damage;
         Debug.Log($"HP:{currentPlayerHP}");
+        // HPが30以下のアニメーション
+        playerFaceAnimator.SetFloat("HP", currentPlayerHP);
 
         // ダメージを受けたときのアニメーション
         playerFaceAnimator.SetTrigger("isPlayerDamaged");
