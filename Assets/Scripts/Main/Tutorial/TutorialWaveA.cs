@@ -41,7 +41,7 @@ public class TutorialWaveA : MonoBehaviour
             if ((!coroutineStarted) && (!waveInitialized[0]))
             {
                 waveInitialized[0] = true; // 一度だけ実行されるように
-                text = "zyougeidou no tyutorial desu";
+                text = "上下移動のチュートリアルです";
                 StartCoroutine(StartTutorialAndSetFlag(text));
             }
 
