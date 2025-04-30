@@ -13,6 +13,7 @@ public class TutorialWaveA : MonoBehaviour
     [SerializeField] bool coroutineStarted = false; // コルーチンが開始されたかどうかのフラグ
 
     private string text; // 表示するテキスト
+    [SerializeField] private bool[] waveInitialized; // ウェーブAの初期化フラグ
 
     void Start()
     {
@@ -25,15 +26,22 @@ public class TutorialWaveA : MonoBehaviour
             WaveAFlags[i] = false;
         }
         WaveAFlags[0] = true; // ウェーブAの最初のフラグを立てる
+
+        // 各Waveの初期化フラグをfalseに
+        waveInitialized = new bool[WaveAFlags.Length];
     }
 
     void Update()
     {
+        // テキストが表示しきっていないなら何も受け付けない
+        if ((coroutineStarted)) return;
+
         if (WaveAFlags[0])
         {
-            if (!coroutineStarted)
+            if ((!coroutineStarted) && (!waveInitialized[0]))
             {
-                text = "texttexttext";
+                waveInitialized[0] = true; // 一度だけ実行されるように
+                text = "zyougeidou no tyutorial desu";
                 StartCoroutine(StartTutorialAndSetFlag(text));
             }
 
@@ -41,43 +49,63 @@ public class TutorialWaveA : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.Space) && textWriter.isTextFinished)
             {
                 WaveChange(0);
-                coroutineStarted = false;
             }
         }
         if (WaveAFlags[1])
         {
-            if (!coroutineStarted)
+            if ((!coroutineStarted) && (!waveInitialized[1]))
             {
-                text = "22222222222222";
+                waveInitialized[1] = true; // 一度だけ実行されるように
+                text = "WS osite miro";
                 StartCoroutine(StartTutorialAndSetFlag(text));
             }
             // 上下移動のチュートリアル
-            else if ((Input.GetKeyDown(KeyCode.W)) || (Input.GetKeyDown(KeyCode.S)))
+            else if (((Input.GetKeyDown(KeyCode.W)) || (Input.GetKeyDown(KeyCode.S))) && textWriter.isTextFinished)
             {
                 WaveChange(1);
-                coroutineStarted = false;
             }
         }
         if (WaveAFlags[2])
         {
-            // テキストを送る
-            if (Input.GetKeyDown(KeyCode.Space))
+
+            if ((!coroutineStarted) && (!waveInitialized[2]))
+            {
+                waveInitialized[2] = true; // 一度だけ実行されるように
+                text = "tyutorialA no tyutorial desu";
+                StartCoroutine(StartTutorialAndSetFlag(text));
+            }
+
+            // 表示が完了していたらスペースキーを受け付ける
+            else if (Input.GetKeyDown(KeyCode.Space) && textWriter.isTextFinished)
             {
                 WaveChange(2);
             }
         }
         if (WaveAFlags[3])
         {
+            if ((!coroutineStarted) && (!waveInitialized[3]))
+            {
+                waveInitialized[3] = true; // 一度だけ実行されるように
+                text = "AD osite miro";
+                StartCoroutine(StartTutorialAndSetFlag(text));
+            }
             // 回転のチュートリアル
-            if ((Input.GetKeyDown(KeyCode.A)) || (Input.GetKeyDown(KeyCode.D)))
+            else if (((Input.GetKeyDown(KeyCode.A)) || (Input.GetKeyDown(KeyCode.D))) && textWriter.isTextFinished)
             {
                 WaveChange(3);
             }
         }
         if (WaveAFlags[4])
         {
-            // テキストを送る
-            if (Input.GetKeyDown(KeyCode.Space))
+            if ((!coroutineStarted) && (!waveInitialized[4]))
+            {
+                waveInitialized[4] = true; // 一度だけ実行されるように
+                text = "tyutorialA owari desu";
+                StartCoroutine(StartTutorialAndSetFlag(text));
+            }
+
+            // 表示が完了していたらスペースキーを受け付ける
+            else if (Input.GetKeyDown(KeyCode.Space) && textWriter.isTextFinished)
             {
                 WaveChange(4);
             }
@@ -94,14 +122,14 @@ public class TutorialWaveA : MonoBehaviour
     {
         WaveAFlags[currentWaveIndex] = false; // 現在のウェーブのフラグを下ろす
         WaveAFlags[currentWaveIndex + 1] = true; // 次のウェーブのフラグを立てる
-        StartCoroutine(StartTutorialAndSetFlag(""));
         Debug.Log($"WaveAFlags[{currentWaveIndex}]がfalseになり、WaveAFlags[{currentWaveIndex + 1}]がtrueになりました。");
     }
 
     // メッセージが表示しきるまでフラグを立てないための中間コルーチン
     private IEnumerator StartTutorialAndSetFlag(string message)
     {
-        yield return StartCoroutine(textWriter.TutorialMessage(message));
         coroutineStarted = true;
+        yield return StartCoroutine(textWriter.TutorialMessage(message));
+        coroutineStarted = false;
     }
 }
