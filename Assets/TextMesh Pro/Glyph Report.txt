@@ -1,15 +1,0 @@
-Font: Corporate Logo ver3  Style: Bold
-Point Size: 87   SP/PD Ratio: 5.7%
-
-Characters included: 2028/2030
-Missing characters: 2
-Excluded characters: 0
-
-Characters missing from font file:
-----------------------------------------
-ID: 13	Hex: D	Char []
-ID: 10	Hex: A	Char [
-]
-
-Characters excluded from packing:
-----------------------------------------
