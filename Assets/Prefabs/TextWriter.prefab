@@ -45,3 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorialTextPrefab: {fileID: 7831799693090693739, guid: 1c397639010d1fe4d8914e77564b664a, type: 3}
+  tutorialTextObj: {fileID: 0}
+  isTextFinished: 0
+  trianglePrefab: {fileID: 6609695448843343361, guid: 760f8ec307ea42a4897298e6c80ae34a, type: 3}

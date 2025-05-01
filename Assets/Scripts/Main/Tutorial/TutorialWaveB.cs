@@ -2,33 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TutorialWaveA : MonoBehaviour
+public class TutorialWaveB : MonoBehaviour
 {
     [SerializeField] TutorialWaveManager tutorialWaveManager;
 
-    private int nextWaveIndex = 1; // ウェーブAなので固定で1
-    [SerializeField] bool[] WaveAFlags; // ウェーブA内のフラグたち
+    private int nextWaveIndex = 2; // ウェーブBなので固定で2
+    [SerializeField] bool[] WaveBFlags; // ウェーブB内のフラグたち
     [SerializeField] GameObject textWriterPrefab;
     private TextWriter textWriter; // テキストを表示させるためのスクリプト
     [SerializeField] bool coroutineStarted = false; // コルーチンが開始されたかどうかのフラグ
 
     private string text; // 表示するテキスト
-    [SerializeField] private bool[] waveInitialized; // ウェーブAの初期化フラグ
+    [SerializeField] private bool[] waveInitialized; // ウェーブBの初期化フラグ
 
     void Start()
     {
         tutorialWaveManager = FindObjectOfType<TutorialWaveManager>();
         GameObject textWriterObj = Instantiate(textWriterPrefab);
         textWriter = textWriterObj.GetComponent<TextWriter>();
-        // WaveAFlagsのすべてをfalseに初期化
-        for (int i = 0; i < WaveAFlags.Length; i++)
+        WaveBFlags = new bool[6]; // ウェーブBのフラグを6つ用意
+        // WaveBFlagsのすべてをfalseに初期化
+        for (int i = 0; i < WaveBFlags.Length; i++)
         {
-            WaveAFlags[i] = false;
+            WaveBFlags[i] = false;
         }
-        WaveAFlags[0] = true; // ウェーブAの最初のフラグを立てる
+        WaveBFlags[0] = true; // ウェーブBの最初のフラグを立てる
 
         // 各Waveの初期化フラグをfalseに
-        waveInitialized = new bool[WaveAFlags.Length];
+        waveInitialized = new bool[WaveBFlags.Length];
     }
 
     void Update()
@@ -36,7 +37,7 @@ public class TutorialWaveA : MonoBehaviour
         // テキストが表示しきっていないなら何も受け付けない
         if ((coroutineStarted)) return;
 
-        if (WaveAFlags[0])
+        if (WaveBFlags[0])
         {
             if (textWriter.isTextFinished)
             {
@@ -45,7 +46,7 @@ public class TutorialWaveA : MonoBehaviour
             if ((!coroutineStarted) && (!waveInitialized[0]))
             {
                 waveInitialized[0] = true; // 一度だけ実行されるように
-                text = "あなたが操縦するのは左のタレットです";
+                text = "あなたの任務は敵をすべて倒すことです";
                 StartCoroutine(StartTutorialAndSetFlag(text));
             }
 
@@ -56,35 +57,38 @@ public class TutorialWaveA : MonoBehaviour
                 WaveChange(0);
             }
         }
-        if (WaveAFlags[1])
+        if (WaveBFlags[1])
         {
             if ((!coroutineStarted) && (!waveInitialized[1]))
             {
                 waveInitialized[1] = true; // 一度だけ実行されるように
-                text = "WSで上下に移動できます";
+                text = "手始めに前方の敵を倒してください";
                 StartCoroutine(StartTutorialAndSetFlag(text));
             }
-            // 上下移動のチュートリアル
-            else if (((Input.GetKeyDown(KeyCode.W)) || (Input.GetKeyDown(KeyCode.S))) && textWriter.isTextFinished)
-            {
-                StartCoroutine(ShowOKAndChangeWave(1));
-            }
+            // 敵を倒すチュートリアル
+            // TutorialEnemyB.csで勝手にWave2へ
         }
-        if (WaveAFlags[2])
+        if (WaveBFlags[2])
         {
+            if (textWriter.isTextFinished)
+            {
+                textWriter.ShowTriangle(); // triangleを表示する
+            }
             if ((!coroutineStarted) && (!waveInitialized[2]))
             {
                 waveInitialized[2] = true; // 一度だけ実行されるように
-                text = "ADでタレットの回転ができます";
+                text = "敵が左端まで進むとダメージを受けてしまいます";
                 StartCoroutine(StartTutorialAndSetFlag(text));
             }
-            // 回転のチュートリアル
-            else if (((Input.GetKeyDown(KeyCode.A)) || (Input.GetKeyDown(KeyCode.D))) && textWriter.isTextFinished)
+
+            // 表示が完了していたらスペースキーを受け付ける
+            else if (Input.GetKeyDown(KeyCode.Space) && textWriter.isTextFinished)
             {
-                StartCoroutine(ShowOKAndChangeWave(2));
+                textWriter.HideTriangle(); // triangleを非表示にする
+                WaveChange(2);
             }
         }
-        if (WaveAFlags[3])
+        if (WaveBFlags[3])
         {
             if (textWriter.isTextFinished)
             {
@@ -93,10 +97,9 @@ public class TutorialWaveA : MonoBehaviour
             if ((!coroutineStarted) && (!waveInitialized[3]))
             {
                 waveInitialized[3] = true; // 一度だけ実行されるように
-                text = "基本操作完了 弾は自動で発射されます";
+                text = "くれぐれもタレットには当たらないように気を付けて";
                 StartCoroutine(StartTutorialAndSetFlag(text));
             }
-
             // 表示が完了していたらスペースキーを受け付ける
             else if (Input.GetKeyDown(KeyCode.Space) && textWriter.isTextFinished)
             {
@@ -104,7 +107,28 @@ public class TutorialWaveA : MonoBehaviour
                 WaveChange(3);
             }
         }
-        if (WaveAFlags[4])
+
+        if (WaveBFlags[4])
+        {
+            if (textWriter.isTextFinished)
+            {
+                textWriter.ShowTriangle(); // triangleを表示する
+            }
+            if ((!coroutineStarted) && (!waveInitialized[4]))
+            {
+                waveInitialized[4] = true; // 一度だけ実行されるように
+                text = "スペースキー長押しでチャージショットが撃てます";
+                StartCoroutine(StartTutorialAndSetFlag(text));
+            }
+            // 表示が完了していたらスペースキーを受け付ける
+            else if (Input.GetKeyDown(KeyCode.Space) && textWriter.isTextFinished)
+            {
+                textWriter.HideTriangle(); // triangleを非表示にする
+                WaveChange(4);
+            }
+        }
+
+        if (WaveBFlags[5])
         {
             // 次のウェーブをスポーンするためのフラグを立てる
             tutorialWaveManager.SetTutorialFlag(nextWaveIndex);
@@ -116,9 +140,9 @@ public class TutorialWaveA : MonoBehaviour
     // 次のフェーズに移すメソッド
     private void WaveChange(int currentWaveIndex)
     {
-        WaveAFlags[currentWaveIndex] = false; // 現在のウェーブのフラグを下ろす
-        WaveAFlags[currentWaveIndex + 1] = true; // 次のウェーブのフラグを立てる
-        Debug.Log($"WaveAFlags[{currentWaveIndex}]がfalseになり、WaveAFlags[{currentWaveIndex + 1}]がtrueになりました。");
+        WaveBFlags[currentWaveIndex] = false; // 現在のウェーブのフラグを下ろす
+        WaveBFlags[currentWaveIndex + 1] = true; // 次のウェーブのフラグを立てる
+        Debug.Log($"WaveBFlags[{currentWaveIndex}]がfalseになり、WaveBFlags[{currentWaveIndex + 1}]がtrueになりました。");
     }
 
     // メッセージが表示しきるまでフラグを立てないための中間コルーチン
@@ -134,8 +158,34 @@ public class TutorialWaveA : MonoBehaviour
     {
         coroutineStarted = true;
         yield return StartCoroutine(textWriter.TutorialMessage("OK"));
-        yield return new WaitForSeconds(1f); // 必要に応じて時間調整
+        yield return new WaitForSeconds(1f);
         WaveChange(currentWaveIndex);
         coroutineStarted = false;
     }
+
+    // 外部からフラグをセットするメソッド IEnumeratorを呼ぶと怒られるのでvoidで
+    public void ChangeFlagB(int index)
+    {
+        StartCoroutine(ChangeFlagBAfterOK(index));
+    }
+
+    private IEnumerator ChangeFlagBAfterOK(int index)
+    {
+        coroutineStarted = true;
+        yield return StartCoroutine(textWriter.TutorialMessage("OK"));
+        yield return new WaitForSeconds(1f);
+        WaveChange(index);
+        coroutineStarted = false;
+    }
+
+    // 外部からフラグの状態をチェックするメソッド
+    public bool GetFlagB(int index)
+    {
+        if (index >= 0 && index < WaveBFlags.Length)
+        {
+            return WaveBFlags[index];
+        }
+        return false;
+    }
+
 }

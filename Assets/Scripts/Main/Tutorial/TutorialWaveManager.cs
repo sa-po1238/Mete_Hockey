@@ -61,7 +61,20 @@ public class TutorialWaveManager : MonoBehaviour
         }
         else if (nextWaveIndex >= waves.Count)
         {
-            Debug.Log("すべてのウェーブが終了しました。");
+            //Debug.Log("すべてのウェーブが終了しました。");
         }
+    }
+
+    // WaveCをデストロイして作りなおすメソッド
+    public void RestartWaveC()
+    {
+        if (currentWave != null)
+        {
+            Destroy(currentWave);
+            Debug.Log("WaveCをデストロイしました。");
+        }
+        // WaveCをもう一度開始
+        nextWaveIndex = 2; // ウェーブ番号をリセット
+        tutorialFlags[2] = true; // ウェーブCのフラグを立てる
     }
 }
