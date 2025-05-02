@@ -765,10 +765,26 @@ PrefabInstance:
       propertyPath: BGMSlider
       value: 
       objectReference: {fileID: 250326822}
+    - target: {fileID: 3474257750920559725, guid: ee759f0357060f04e8e355df50253cb1, type: 3}
+      propertyPath: BGMSource
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3474257750920559725, guid: ee759f0357060f04e8e355df50253cb1, type: 3}
+      propertyPath: SEAudioMixerGroup
+      value: 
+      objectReference: {fileID: 2074115359787038972, guid: a84f14fc31c2ecc45b475cbd21d304e2, type: 2}
+    - target: {fileID: 4107975395310857928, guid: ee759f0357060f04e8e355df50253cb1, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 7123323869064155728, guid: a84f14fc31c2ecc45b475cbd21d304e2, type: 2}
     - target: {fileID: 8021786224289578768, guid: ee759f0357060f04e8e355df50253cb1, type: 3}
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
+    - target: {fileID: 8064581433965025426, guid: ee759f0357060f04e8e355df50253cb1, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 2074115359787038972, guid: a84f14fc31c2ecc45b475cbd21d304e2, type: 2}
     - target: {fileID: 9125225429680202863, guid: ee759f0357060f04e8e355df50253cb1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -809,7 +825,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8064581433965025426, guid: ee759f0357060f04e8e355df50253cb1, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

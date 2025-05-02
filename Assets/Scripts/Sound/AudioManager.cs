@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private int maxSE = 10; // 最大同時再生数
     [SerializeField] private Slider SESlider;
     [SerializeField] private Slider BGMSlider;
+    [SerializeField] private AudioMixerGroup SEAudioMixerGroup; // SE用のAudioMixerGroup
 
     void Start()
     {
@@ -37,6 +39,7 @@ public class AudioManager : MonoBehaviour
         for (int i = 0; i < maxSE; i++)
         {
             AudioSource newSource = gameObject.AddComponent<AudioSource>();
+            newSource.outputAudioMixerGroup = SEAudioMixerGroup; // AudioMixerGroupを設定
             SESources.Add(newSource);
         }
 
