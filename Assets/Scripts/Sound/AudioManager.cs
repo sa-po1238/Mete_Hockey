@@ -31,10 +31,7 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-    }
 
-    void Start()
-    {
         var tmp = this.GetComponents<AudioSource>();
         BGMSource = tmp[0];
 
@@ -46,6 +43,10 @@ public class AudioManager : MonoBehaviour
             SESources.Add(src);
         }
 
+    }
+
+    void Start()
+    {
         // IDの重複チェック
         CheckOverlap(this.audioData.SE_Data, "SE_Data");
         CheckOverlap(this.audioData.BGM_Data, "BGM_Data");
