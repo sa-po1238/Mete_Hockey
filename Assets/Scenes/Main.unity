@@ -1756,6 +1756,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+
 --- !u!1 &2021803273
 GameObject:
   m_ObjectHideFlags: 0
@@ -3822,3 +3823,4 @@ SceneRoots:
   - {fileID: 901676463590354982}
   - {fileID: 6876931803359236096}
   - {fileID: 1941255499}
+  - {fileID: 2056837156}
