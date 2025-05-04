@@ -19,7 +19,8 @@ public class TurretShoot : MonoBehaviour
     [SerializeField] private float thresholdTime = 2.0f; // 長押しの閾値
     private float pushTime = 0f; //スペースキーを押してからの時間 
 
-    [SerializeField] private Animator animator;
+    [SerializeField] private Animator chargeShotAnimator;
+    [SerializeField] private Animator arrowAnimator;
 
 
     void Update()
@@ -30,7 +31,7 @@ public class TurretShoot : MonoBehaviour
         {
             AudioManager.instance_AudioManager.PlaySE(1);
 
-            animator.SetBool("isCharging", true);
+            chargeShotAnimator.SetBool("isCharging", true);
         }
         else if (Input.GetKey(KeyCode.Space))
         {
@@ -41,10 +42,11 @@ public class TurretShoot : MonoBehaviour
             // スペースキーが離されたらChargeShoot
             if ((Input.GetKeyUp(KeyCode.Space)) && (currentTime > coolTime))
             {
-                animator.SetBool("isCharging", false);
+                chargeShotAnimator.SetBool("isCharging", false);
+                arrowAnimator.SetBool("isChargeGuide", false);
+                
                 if (pushTime > thresholdTime)
                 {
-                    AudioManager.instance_AudioManager.PlaySE(2);
                     ChargeShoot();
                 }
                 currentTime = 0f;
@@ -53,7 +55,6 @@ public class TurretShoot : MonoBehaviour
             // 一定の間隔で勝手にSingleShootする
             if (currentTime > coolTime)
             {
-                AudioManager.instance_AudioManager.PlaySE(0);
                 SingleShoot();
                 currentTime = 0f;
             }
@@ -61,14 +62,20 @@ public class TurretShoot : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            animator.SetBool("isCharging", false);
+            chargeShotAnimator.SetBool("isCharging", false);
             AudioManager.instance_AudioManager.StopSE(1);
+        }
+
+        if (pushTime > thresholdTime)
+        {
+            arrowAnimator.SetBool("isChargeGuide", true);
         }
     }
 
     // 弱ショット
     private void SingleShoot()
     {
+        AudioManager.instance_AudioManager.PlaySE(0);
         // 弾のインスタンスを作成
         GameObject shot = Instantiate(singleShotPrefab, firePoint.position, firePoint.rotation);
         // Rigidbodyを取得してタレットのローカルX軸方向に力を加える
@@ -83,6 +90,7 @@ public class TurretShoot : MonoBehaviour
     // チャージショット
     private void ChargeShoot()
     {
+        AudioManager.instance_AudioManager.PlaySE(2);
         GameObject shot = Instantiate(chargeShotPrefab, firePoint.position, firePoint.rotation);
         Rigidbody rb = shot.GetComponent<Rigidbody>();
         if (rb != null)
