@@ -203,7 +203,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1f2b757a17b23ab49b78b14b946fa4e2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 47a537d332b229444a496519d5203f75, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -278,7 +278,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: db328b01ba381e843b39c2a6df464b4f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 61a97a2a6b78393479263081d88a437b, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -475,8 +475,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: f52c9ec0fb2322e498ebc819b37da97b, type: 2}
-  destroyLeftLimit: -12
-  destroyRightLimit: 24
   singleDamage: 5
   chargeDamage: 30
   enemyShotRate: 1.2
@@ -504,7 +502,6 @@ MonoBehaviour:
   enemyBounceRate: 1.05
   hitThreshold: 20
   explosionDamage: 50
-  BankerEffectPrefab: {fileID: 7211277576137982440, guid: b966f74a16b160041838858e1a292029, type: 3}
 --- !u!1 &8981462182874348207
 GameObject:
   m_ObjectHideFlags: 0
