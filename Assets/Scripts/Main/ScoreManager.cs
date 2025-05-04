@@ -115,6 +115,7 @@ public class ScoreManager : MonoBehaviour
     {
         if (currentCombo == 0)
         {
+            comboText.text = ""; // コンボ数を非表示
             comboTextObject.SetActive(false);
         }
         else
