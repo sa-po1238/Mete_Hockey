@@ -15,6 +15,6 @@ public class StartClearResult : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
 
-        AudioManager.instance_AudioManager.PlayBGM(0);
+        //AudioManager.instance_AudioManager.PlayBGM(0);
     }
 }

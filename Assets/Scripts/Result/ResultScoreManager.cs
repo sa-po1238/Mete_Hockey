@@ -68,6 +68,8 @@ public class ResultScoreManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         ShowRank();
         SaveFinalScore();
+
+        AudioManager.instance_AudioManager.PlayBGM(0);
     }
 
     // ボーナスラベル表示
