@@ -3,12 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance_AudioManager;
+    [SerializeField] private AudioData audioData;
+    [SerializeField] private int maxSE = 10;    // 最大同時再生数
+    [SerializeField] private AudioMixerGroup SEAudioMixerGroup; // SE用 AudioMixerGroup
 
-    private void Awake()
+    private List<AudioSource> SESources = new List<AudioSource>();  // SE用 AudioSource リスト
+    [SerializeField] private AudioSource BGMSource; // BGM用 AudioSource
+
+    [SerializeField] private Slider SESlider;
+    [SerializeField] private Slider BGMSlider;
+
+    void Awake()
     {
         if (instance_AudioManager == null)
         {
@@ -18,95 +28,79 @@ public class AudioManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
     }
 
-    [SerializeField] private AudioData audioData;
-
-    private List<AudioSource> SESources = new List<AudioSource>(); // SE用のAudioSourceリスト
-    [SerializeField] private AudioSource BGMSource;
-    [SerializeField] private int maxSE = 10; // 最大同時再生数
-    [SerializeField] private Slider SESlider;
-    [SerializeField] private Slider BGMSlider;
-    [SerializeField] private AudioMixerGroup SEAudioMixerGroup; // SE用のAudioMixerGroup
-
     void Start()
     {
-        AudioSource[] tmp = this.GetComponents<AudioSource>();
-        this.BGMSource = tmp[0];
+        var tmp = this.GetComponents<AudioSource>();
+        BGMSource = tmp[0];
 
         // SE用のAudioSourceを作成
         for (int i = 0; i < maxSE; i++)
         {
-            AudioSource newSource = gameObject.AddComponent<AudioSource>();
-            newSource.outputAudioMixerGroup = SEAudioMixerGroup; // AudioMixerGroupを設定
-            SESources.Add(newSource);
+            var src = gameObject.AddComponent<AudioSource>();
+            src.outputAudioMixerGroup = SEAudioMixerGroup; // AudioMixerGroupを設定
+            SESources.Add(src);
         }
 
+        // IDの重複チェック
         CheckOverlap(this.audioData.SE_Data, "SE_Data");
         CheckOverlap(this.audioData.BGM_Data, "BGM_Data");
 
-        SetSESlider();
-        SetBGMSlider();
+        if (SESlider != null) InitSESlider();
+        if (BGMSlider != null) InitBGMSlider();
+    }
+    
+    // Menuを開いたときにスライダーを探してイベント登録
+    public void RegisterSESlider(Slider slider)
+    {
+        SESlider = slider;
+        InitSESlider();
+    }
 
-        // SESliderのonValueChangedイベントにリスナーを追加
-        if (SESlider != null)
+    public void RegisterBGMSlider(Slider slider)
+    {
+        BGMSlider = slider;
+        InitBGMSlider();
+    }
+
+    private void InitSESlider()
+    {
+        SESlider.onValueChanged.RemoveAllListeners();   // 以前登録されてたリスナーを消す
+        SESlider.onValueChanged.AddListener(_ => SetSEVolume());    // スライダーの値が変更されたときに呼ぶリスナーを追加
+
+        float saved = PlayerPrefs.HasKey("SEVolume") ? PlayerPrefs.GetFloat("SEVolume") : (SESources != null ? SESources[0].volume : 1f); // PlayerPrefsから音量を取得、なければ先頭のSEの音量、なければ1
+        SESlider.value = saved; // スライダーの表示値としてセット
+        // SEの全AudioSourceに適用
+        foreach (var src in SESources)
         {
-            SESlider.onValueChanged.AddListener(delegate { SetSEVolume(); });
-
-            // PlayerPrefsから保存された音量を読み込み
-            if (PlayerPrefs.HasKey("SEVolume"))
-            {
-                float savedVolume = PlayerPrefs.GetFloat("SEVolume");
-                SESlider.value = savedVolume;
-
-                // SEリストの各AudioSourceに音量を適用
-                foreach (var source in SESources)
-                {
-                    source.volume = savedVolume;
-                }
-            }
+            src.volume = saved;
         }
-        else
-        {
-            Debug.LogError("SESlider が設定されていません。");
-        }
+    }
 
-        // BGMSliderのonValueChangedイベントにリスナーを追加
-        if (BGMSlider != null)
-        {
-            BGMSlider.onValueChanged.AddListener(delegate { SetBGMVolume(); });
+    private void InitBGMSlider()
+    {
+        BGMSlider.onValueChanged.RemoveAllListeners();
+        BGMSlider.onValueChanged.AddListener(_ => SetBGMVolume());
 
-            // PlayerPrefsから保存された音量を読み込み
-            if (PlayerPrefs.HasKey("BGMVolume"))
-            {
-                float savedVolume = PlayerPrefs.GetFloat("BGMVolume");
-                BGMSlider.value = savedVolume;
-                BGMSource.volume = savedVolume;
-            }
-        }
-        else
-        {
-            Debug.LogError("BGMSlider が設定されていません。");
-        }
+        float saved = PlayerPrefs.HasKey("BGMVolume") ? PlayerPrefs.GetFloat("BGMVolume") : (BGMSource != null ? BGMSource.volume : 1f); // PlayerPrefsから音量を取得、なければBGMの音量、なければ1
+        BGMSlider.value = saved;
+        BGMSource.volume = saved;
     }
 
     private void CheckOverlap(List<Datum> data, string variable_name)
     {
-        List<int> vs = new List<int>();
-        for (int i = 0; i < data.Count; i++)
+        var ids = new HashSet<int>();
+        foreach (var datum in data)
         {
-            if (vs.Contains(data[i].id))
+            if (!ids.Add(datum.id))
             {
-                Debug.LogError(string.Format("{0} のID {1} が重複しています。", variable_name, data[i].id));
-            }
-            else
-            {
-                vs.Add(data[i].id);
+                Debug.LogError($"{variable_name} のID {datum.id} が重複しています。");
             }
         }
     }
-
     public int ConvertIdIntoIndex(List<Datum> data, int id)
     {
         for (int index = 0; index < data.Count; index++)
@@ -123,26 +117,21 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySE(int id)
     {
-        int index = ConvertIdIntoIndex(audioData.SE_Data, id);
-        if (index == -1) return;
+        int index = ConvertIdIntoIndex(audioData.SE_Data, id);  // SEのIDからインデックスを取得
+        if (index < 0) return;  // インデックスが無効な場合は終了
 
         // 空いているAudioSourceを探す
-        AudioSource source = GetAvailableSESource();
-        if (source != null)
-        {
-            source.clip = audioData.SE_Data[index].clip;
-             // SEの音量をSliderから取得
-            source.volume = SESlider != null ? SESlider.value : audioData.SE_Data[index].volume;
-            source.volume = audioData.SE_Data[index].volume;
-            source.Play();
-        }
+        var src = GetAvailableSESource();
+        src.clip   = audioData.SE_Data[index].clip;   // AudioSourceにクリップをセット
+        src.volume = (SESlider != null) ? SESlider.value : audioData.SE_Data[index].volume;   // 音量をセット
+        src.Play();
     }
 
     private AudioSource GetAvailableSESource()
     {
-        foreach (AudioSource source in SESources)
+        foreach (var src in SESources)
         {
-            if (source != null && !source.isPlaying) return source;
+            if (!src.isPlaying) return src;
         }
 
         // すべてのAudioSourceが使用中なら、一番古いものを使う
@@ -151,54 +140,46 @@ public class AudioManager : MonoBehaviour
 
     public void StopSE(int id)
     {
-        foreach (AudioSource source in SESources)
+        int index = ConvertIdIntoIndex(audioData.SE_Data, id);
+        if (index < 0) return;
+        var clip = audioData.SE_Data[index].clip;   // 停止するSEのクリップを取得
+        
+        foreach (var src in SESources)
         {
-            if (source.isPlaying && source.clip == audioData.SE_Data[ConvertIdIntoIndex(audioData.SE_Data, id)].clip)
+            if (src.isPlaying && src.clip == clip)  // クリップが一致するAudioSourceを探す
             {
-                source.Stop();
+                src.Stop();
             }
         }
     }
-
     public void StopAllSE()
     {
-        foreach (AudioSource source in SESources)
+        foreach (var src in SESources)
         {
-            source.Stop();
-        }
-    }
-
-    public void SetSESlider()
-    {
-        // 先頭のSESourceの音量をSliderに適用
-        if (SESources.Count > 0)
-        {
-            SESlider.value = SESources[0].volume;
+            src.Stop();
         }
     }
 
     public void SetSEVolume()
     {
-        if (SESources == null || SESlider == null) return;
+        if (SESlider == null) return;
+        float vol = SESlider.value;   // スライダーの値を取得
 
-        // Sliderの値をSEの音量に反映
-        foreach (AudioSource source in SESources)
+        // Sliderの値をSEのAudioSourceに反映
+        foreach (var src in SESources)
         {
-            if (source != null)
-            {
-                source.volume = SESlider.value;
-            }
+            src.volume = vol;
         }
 
         // PlayerPrefsに音量を保存
-        PlayerPrefs.SetFloat("SEVolume", SESlider.value);
+        PlayerPrefs.SetFloat("SEVolume", vol);
         PlayerPrefs.Save();
     }
 
     public void PlayBGM(int id)
     {
         int index = ConvertIdIntoIndex(audioData.BGM_Data, id);
-        if (index == -1) return;
+        if (index < 0) return;
 
         BGMSource.clip = audioData.BGM_Data[index].clip;
         BGMSource.volume = audioData.BGM_Data[index].volume;
@@ -210,20 +191,15 @@ public class AudioManager : MonoBehaviour
         BGMSource.Stop();
     }
 
-    public void SetBGMSlider()
-    {
-        BGMSlider.value = this.BGMSource.volume;
-    }
-
     public void SetBGMVolume()
     {   
-        if (BGMSource == null || BGMSlider == null) return;
+        if (BGMSlider == null) return;
+        float vol = BGMSlider.value;
 
-        // Sliderの値をBGMの音量に反映
-        this.BGMSource.volume = BGMSlider.value;
+        BGMSource.volume = vol;
 
         // PlayerPrefsに音量を保存
-        PlayerPrefs.SetFloat("BGMVolume", BGMSlider.value);
+        PlayerPrefs.SetFloat("BGMVolume", vol);
         PlayerPrefs.Save();
     }
 }
