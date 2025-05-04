@@ -2394,7 +2394,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4accea51fa1bdbc4090ba2f1d3a4f14b, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2402,7 +2402,7 @@ SpriteRenderer:
   m_Size: {x: 2.37, y: 2.58}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &1579188770
@@ -2954,6 +2954,18 @@ PrefabInstance:
       propertyPath: playerHPManager
       value: 
       objectReference: {fileID: 1099250742}
+    - target: {fileID: 4893276484224112577, guid: 11563d0733ef7a64ba96f590143b3ee1, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4893276484224112577, guid: 11563d0733ef7a64ba96f590143b3ee1, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5588882918716773463, guid: 11563d0733ef7a64ba96f590143b3ee1, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 1579188770}
     - target: {fileID: 5588882918716773463, guid: 11563d0733ef7a64ba96f590143b3ee1, type: 3}
       propertyPath: coolTime
       value: 0.2
