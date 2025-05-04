@@ -30,7 +30,7 @@ public class ResultScoreManager : MonoBehaviour
 
     private void Start()
     {
-        finalScore = PlayerPrefs.GetInt("LastScore", 9999);
+        finalScore = PlayerPrefs.GetInt("Score", 9999);
         SpriteFontUtil.SetSpriteNum(0, scoreText, 0);
         rankText.text = "";
         bonusLabelText.text = "";
