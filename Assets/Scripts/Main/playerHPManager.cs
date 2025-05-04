@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHPManager : MonoBehaviour
 {
@@ -30,6 +32,7 @@ public class PlayerHPManager : MonoBehaviour
         if (currentPlayerHP <= 0)
         {
             Debug.Log("GameOver");
+            SceneManager.LoadScene("GameOverResult");
         }
     }
 

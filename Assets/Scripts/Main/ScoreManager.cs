@@ -3,17 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager instance; // シングルトンインスタンス
+
     private int currentScore = 0; // 現在のスコア
     private int currentCombo = 0; // 現在のコンボ
     private Coroutine comboResetCoroutine; // コンボリセット用コルーチン
+
     [SerializeField] float comboCoolTime = 1.0f; //コンボを続かせるためのクールタイム
+
     [SerializeField] GameObject scoreObject;
-    private TextMeshProUGUI scoreText;
     [SerializeField] GameObject comboObject;
-    [SerializeField] GameObject comboTextObject;
+    [SerializeField] GameObject comboTextObject;    // ”Combo”の表示オブジェクト
+
+    private TextMeshProUGUI scoreText;
     private TextMeshProUGUI comboText;
 
     // 突貫工事
@@ -43,18 +48,16 @@ public class ScoreManager : MonoBehaviour
         comboText = comboObject.GetComponent<TextMeshProUGUI>();
 
         // スコア数, コンボ数を表示
-        SetSpriteNumberScore(currentScore);
-        SetSpriteNumberCombo(currentCombo);
+        UpdateScoreDisplay();
+        UpdateComboDisplay();
     }
 
     public void AddScore(int enemyScore)
     {
-        Debug.Log("AddScore");
-        // コンボとスコアの増加
+        // コンボの増加
         currentCombo++;
-
+        // アニメーションとSE
         if (currentCombo == 4) playerFaceAnimator.SetTrigger("isCombo");
-
         if (currentCombo >= 4)
         {
             AudioManager.instance_AudioManager.PlaySE(12);
@@ -62,13 +65,12 @@ public class ScoreManager : MonoBehaviour
         else{
             AudioManager.instance_AudioManager.PlaySE(currentCombo + 8);
         }
+        // コンボ数を表示
+        UpdateComboDisplay();
 
-        SetSpriteNumberCombo(currentCombo);
-        int addScore = enemyScore * currentCombo;
-
-        currentScore += addScore;
-        SetSpriteNumberScore(currentScore);
-        Debug.Log("スコア: " + currentScore);
+        // スコアの増加
+        currentScore += enemyScore * currentCombo;
+        UpdateScoreDisplay();
 
         // 以前のコンボリセット処理をキャンセル
         if (comboResetCoroutine != null)
@@ -89,7 +91,7 @@ public class ScoreManager : MonoBehaviour
         // この間にStopCoroutineが起きたらこの処理がここで止まる
         currentCombo = 0;
 
-        SetSpriteNumberCombo(currentCombo);
+        UpdateComboDisplay();
     }
 
     public int GetCurrentScore()
@@ -97,37 +99,30 @@ public class ScoreManager : MonoBehaviour
         return currentScore;
     }
 
-    private void SetSpriteNumberScore(int spriteNumber)
+    /// <summary>
+    /// スコア用スプライトフォントを更新 (6桁ゼロ埋め)
+    /// </summary>
+    private void UpdateScoreDisplay()
     {
-        string spriteText = spriteNumber.ToString("D6");    // 6桁の数字に変換
-        scoreText.text = "";
-        for (int i = 0; i < spriteText.Length; i++)
-        {
-            int spriteIndex = int.Parse(spriteText[i].ToString());
-            scoreText.text += "<sprite=" + spriteIndex + ">";
-        }
+        // 6桁でゼロ埋め
+        SpriteFontUtil.SetSpriteNum(currentScore, scoreText, 6);
     }
 
-    private void SetSpriteNumberCombo(int spriteNumber)
+    /// <summary>
+    /// コンボ用スプライトフォントを更新 (0のとき非表示)
+    /// </summary>
+    private void UpdateComboDisplay()
     {
-        if (spriteNumber == 0)
+        if (currentCombo == 0)
         {
-            comboText.text = ""; // 0のときは何も表示しない
+            comboText.text = ""; // コンボ数を非表示
             comboTextObject.SetActive(false);
-            return;
         }
-
-        string spriteText = spriteNumber.ToString();
-        comboText.text = "";
-        for (int i = 0; i < spriteText.Length; i++)
-        {
-            int spriteIndex = int.Parse(spriteText[i].ToString());
-            comboText.text += "<sprite=" + spriteIndex + ">";
-        }
-        // comboTextObjectがfalseのときtrueにする
-        if (!comboTextObject.activeSelf)
+        else
         {
             comboTextObject.SetActive(true);
+            // 桁指定なし
+            SpriteFontUtil.SetSpriteNum(currentCombo, comboText, 0);
         }
     }
 }

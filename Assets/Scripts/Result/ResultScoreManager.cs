@@ -19,17 +19,19 @@ public class ResultScoreManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI bonusLabelText;   // ボーナス名表示用
     
     [Header("スコア設定")]
-    [SerializeField] private int finalScore = 123456;
     [SerializeField] private float countUpInterval = 0.02f;    // スコアカウントアップの間隔
     [SerializeField] private int incrementStep = 100;   // カウントアップの増分
 
     [Header("ボーナスリスト")]
     [SerializeField] private List<BonusData> bonusList = new List<BonusData>();
 
-    private int displayedScore = 0;
+    private int finalScore;   // 最終スコア
+    private int displayedScore; // 表示中のスコア
 
     private void Start()
     {
+        finalScore = PlayerPrefs.GetInt("Score", 9999);
+        SpriteFontUtil.SetSpriteNum(0, scoreText, 0);
         rankText.text = "";
         bonusLabelText.text = "";
         StartCoroutine(CountUpScore(finalScore));
@@ -66,6 +68,8 @@ public class ResultScoreManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         ShowRank();
         SaveFinalScore();
+
+        AudioManager.instance_AudioManager.PlayBGM(0);
     }
 
     // ボーナスラベル表示
