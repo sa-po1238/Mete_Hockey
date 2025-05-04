@@ -24,6 +24,7 @@ public class AudioManager : MonoBehaviour
         {
             instance_AudioManager = this;
             DontDestroyOnLoad(gameObject);
+            SceneManager.sceneLoaded += OnSceneLoaded; // シーンが読み込まれたときに呼び出される
         }
         else
         {
@@ -53,6 +54,43 @@ public class AudioManager : MonoBehaviour
         if (BGMSlider != null) InitBGMSlider();
     }
     
+
+    // シーンロード時にスライダーを探してイベント登録＆値を復元
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        var seObj = GameObject.Find("SESlider");
+        var bgmObj = GameObject.Find("BGMSlider");
+
+        // SESliderがあればSliderコンポーネントを取得
+        SESlider = seObj != null ? seObj.GetComponent<Slider>() : null;
+        BGMSlider = bgmObj != null ? bgmObj.GetComponent<Slider>() : null;
+
+        if (SESlider != null)
+        {
+            InitSESlider();
+        }
+        else
+        {
+            // Slider がないシーンでも、保存された音量を必ず反映
+            float saved = PlayerPrefs.GetFloat("SEVolume", SESources[0].volume); // PlayerPrefsから音量を取得、なければ先頭のSEの音量
+            foreach (var src in SESources)
+            {
+                src.volume = saved;
+            }
+        }
+
+        if (BGMSlider != null)
+        {
+            InitBGMSlider();
+        }
+        else
+        {
+            // Slider がないシーンでも、保存された音量を必ず反映
+            float saved = PlayerPrefs.GetFloat("BGMVolume", BGMSource.volume); // PlayerPrefsから音量を取得、なければ先頭のBGMの音量
+            BGMSource.volume = saved;
+        }
+    }
+
     // Menuを開いたときにスライダーを探してイベント登録
     public void RegisterSESlider(Slider slider)
     {
@@ -71,7 +109,7 @@ public class AudioManager : MonoBehaviour
         SESlider.onValueChanged.RemoveAllListeners();   // 以前登録されてたリスナーを消す
         SESlider.onValueChanged.AddListener(_ => SetSEVolume());    // スライダーの値が変更されたときに呼ぶリスナーを追加
 
-        float saved = PlayerPrefs.HasKey("SEVolume") ? PlayerPrefs.GetFloat("SEVolume") : (SESources != null ? SESources[0].volume : 1f); // PlayerPrefsから音量を取得、なければ先頭のSEの音量、なければ1
+        float saved = PlayerPrefs.HasKey("SEVolume") ? PlayerPrefs.GetFloat("SEVolume") : (SESources != null ? SESources[0].volume : 1f); // PlayerPrefsから音量を取得、なければ先頭のSEの音量
         SESlider.value = saved; // スライダーの表示値としてセット
         // SEの全AudioSourceに適用
         foreach (var src in SESources)
@@ -123,7 +161,7 @@ public class AudioManager : MonoBehaviour
         // 空いているAudioSourceを探す
         var src = GetAvailableSESource();
         src.clip   = audioData.SE_Data[index].clip;   // AudioSourceにクリップをセット
-        src.volume = (SESlider != null) ? SESlider.value : audioData.SE_Data[index].volume;   // 音量をセット
+        src.volume = PlayerPrefs.GetFloat("SEVolume", src.volume);
         src.Play();
     }
 
@@ -182,7 +220,7 @@ public class AudioManager : MonoBehaviour
         if (index < 0) return;
 
         BGMSource.clip = audioData.BGM_Data[index].clip;
-        BGMSource.volume = audioData.BGM_Data[index].volume;
+        BGMSource.volume = PlayerPrefs.GetFloat("BGMVolume", BGMSource.volume);
         BGMSource.Play();
     }
 
