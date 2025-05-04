@@ -6,10 +6,8 @@ using UnityEngine.EventSystems;
 
 public class OptionButton : MonoBehaviour
 {
-    [SerializeField] GameObject optionWindow;
-    [SerializeField] GameObject optionButton;
-    //[SerializeField] Sprite optionButtonSprite;
-    //[SerializeField] Sprite backButtonSprite;
+    [SerializeField] private GameObject optionWindow;
+    [SerializeField] private Selecter selecter;
 
     private bool isOptionWindowActive = false;
 
@@ -18,13 +16,12 @@ public class OptionButton : MonoBehaviour
         get { return isOptionWindowActive; }
     }
 
-    void Start()
-    {
-
-    }
-
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            OpenOption();
+        }
         // メニューが開いているときはスペースキーの入力を無視する
         if (isOptionWindowActive && Input.GetKeyDown(KeyCode.Space))
         {
@@ -35,21 +32,34 @@ public class OptionButton : MonoBehaviour
 
     public void OnClickOptionButton()
     {
-        AudioManager.instance_AudioManager.PlaySE(0);
-        if (isOptionWindowActive)
-        {
-            //GetComponent<Image>().sprite = optionButtonSprite;
-            optionWindow.SetActive(false);
-            isOptionWindowActive = false;
-        }
-        else
-        {
-            optionWindow.SetActive(true);
-            //GetComponent<Image>().sprite = backButtonSprite;
-            isOptionWindowActive = true;
-        }
-
         // ボタンからフォーカスを外す
         EventSystem.current.SetSelectedGameObject(null);
+        OpenOption();
+    }
+
+    private void OpenOption()
+    {
+        isOptionWindowActive = !isOptionWindowActive;   // トグル状態を反転
+        optionWindow.SetActive(isOptionWindowActive);   // オプションウィンドウを表示/非表示にする
+
+        selecter.enabled = !isOptionWindowActive;
+
+        if (isOptionWindowActive)
+        {
+            var seSliderObj = optionWindow.transform.Find("SESlider");
+            var bgmSliderObj = optionWindow.transform.Find("BGMSlider");
+
+            if (seSliderObj != null)
+            {
+                AudioManager.instance_AudioManager.RegisterSESlider(seSliderObj.GetComponent<Slider>());
+            }
+
+            if (bgmSliderObj != null)
+            {
+                AudioManager.instance_AudioManager.RegisterBGMSlider(bgmSliderObj.GetComponent<Slider>());
+            }
+        }
+
+        AudioManager.instance_AudioManager.PlaySE(0);
     }
 }
