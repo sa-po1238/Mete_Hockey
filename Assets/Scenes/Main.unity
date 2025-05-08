@@ -1676,6 +1676,7 @@ GameObject:
   - component: {fileID: 1756302424}
   - component: {fileID: 1756302425}
   - component: {fileID: 1756302426}
+  - component: {fileID: 1756302427}
   m_Layer: 0
   m_Name: bossCore
   m_TagString: BossCore
@@ -1735,6 +1736,21 @@ MonoBehaviour:
   coreCover: {fileID: 1787039733}
   totalBarriers: 3
   isCoreActive: 0
+--- !u!114 &1756302427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756302423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bbad733e128ad347a02f7f3d280897f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coreActivator: {fileID: 1756302426}
+  currentBossHP: 0
+  bossHP: 200
 --- !u!1 &1787039733
 GameObject:
   m_ObjectHideFlags: 0
