@@ -16,7 +16,7 @@ public class BossBarrierManager : MonoBehaviour
     private bool isBarrierBroken = false;
     [SerializeField] CoreActivator coreActivator; // コアのアクティブ化を管理するスクリプト
     [SerializeField] float currentCoolTime = 0f;
-    private float coolTime = 10f; // バリアのクールタイム
+    private float coolTime = 20f; // バリアのクールタイム
 
 
 
@@ -29,7 +29,6 @@ public class BossBarrierManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(coreActivator.isCoreActive);
         // コアがアクティブになったら10秒数える
         if (coreActivator.isCoreActive)
         {
@@ -43,7 +42,9 @@ public class BossBarrierManager : MonoBehaviour
                 currentBarrierHP = barrierHP; // バリアのHPをリセット
                 isBarrierBroken = false; // バリアが壊れていない状態に戻す
                 barrierEffect.SetActive(true); // バリアのエフェクトを表示     
-                currentCoolTime = 0f; // コアがアクティブでない場合、クールタイムをリセット       
+                currentCoolTime = 0f; // コアがアクティブでない場合、クールタイムをリセット   
+                GetComponent<SphereCollider>().enabled = true;
+
             }
         }
         if (currentCoolTime >= coolTime)
@@ -77,7 +78,11 @@ public class BossBarrierManager : MonoBehaviour
             Debug.Log("Barrier Destroyed"); // バリアが破壊されたときの処理
             // バリアのエフェクトを非表示に
             barrierEffect.SetActive(false);
-
+            if (this.gameObject.CompareTag("BossBarrierB"))
+            {
+                // バリアBのコライダーを非表示に
+                GetComponent<SphereCollider>().enabled = false;
+            }
             OnBarrierDestroyed?.Invoke(this); // コア管理側に通知
         }
     }

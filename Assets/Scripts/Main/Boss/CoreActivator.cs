@@ -33,6 +33,7 @@ public class CoreActivator : MonoBehaviour
             {
                 coreCover.SetActive(false); // ふたを非表示にして、コアが見えるようにする
                 isCoreActive = true; // コアが露出している状態にする
+                GetComponent<SphereCollider>().enabled = true;
             }
         }
     }
@@ -40,6 +41,7 @@ public class CoreActivator : MonoBehaviour
     {
         destroyedBarrierCount = 0; // バリアのカウントをリセット
         isCoreActive = false; // コアが露出していない状態にする
+        GetComponent<SphereCollider>().enabled = false;
         if (coreCover != null)
         {
             coreCover.SetActive(true); // ふたを表示して、コアを覆う

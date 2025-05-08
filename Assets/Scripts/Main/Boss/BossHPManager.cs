@@ -6,10 +6,10 @@ public class BossHPManager : MonoBehaviour
 {
     [SerializeField] CoreActivator coreActivator; // コアのアクティブ化を管理するスクリプト
     [SerializeField] private float currentBossHP; // 現在のボスHP
-    [SerializeField] private float bossHP = 200f; // ボスのHP
+    [SerializeField] private float bossHP = 1000f; // ボスのHP
     private float singleDamage = 5f; // シングルショットのダメージ
     private float chargeDamage = 30f; // チャージショットのダメージ
-    private float enemyDamage = 50f; // エネミーショットのダメージ
+    private float enemyDamage = 100f; // エネミーショットのダメージ
 
     void Awake()
     {
