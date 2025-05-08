@@ -1159,7 +1159,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: -0.1, y: -0.1, z: 0}
 --- !u!114 &1090505830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1176,6 +1176,8 @@ MonoBehaviour:
   singleDamage: 5
   chargeDamage: 30
   barrierEffect: {fileID: 2126477640}
+  coreActivator: {fileID: 1756302426}
+  currentCoolTime: 0
 --- !u!1 &1145897246
 GameObject:
   m_ObjectHideFlags: 0
@@ -1399,6 +1401,8 @@ MonoBehaviour:
   singleDamage: 5
   chargeDamage: 30
   barrierEffect: {fileID: 1890278010}
+  coreActivator: {fileID: 1756302426}
+  currentCoolTime: 0
 --- !u!1 &1342148595
 GameObject:
   m_ObjectHideFlags: 0
@@ -1537,7 +1541,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.2, z: 0}
 --- !u!114 &1424851240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1554,6 +1558,8 @@ MonoBehaviour:
   singleDamage: 5
   chargeDamage: 30
   barrierEffect: {fileID: 1342148595}
+  coreActivator: {fileID: 1756302426}
+  currentCoolTime: 0
 --- !u!1 &1665942349
 GameObject:
   m_ObjectHideFlags: 0
