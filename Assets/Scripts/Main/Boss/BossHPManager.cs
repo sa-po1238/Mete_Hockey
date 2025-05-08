@@ -42,5 +42,13 @@ public class BossHPManager : MonoBehaviour
             Debug.Log("ボスが倒されました");
         }
     }
+    public float GetCurrentBossHP()
+    {
+        return currentBossHP; // 現在のボスHPを取得
+    }
+    public float GetMaxBossHP()
+    {
+        return bossHP; // ボスの最大HPを取得
+    }
 
 }
