@@ -1922,6 +1922,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
+    - target: {fileID: 8021786224289578768, guid: ee759f0357060f04e8e355df50253cb1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9125225429680202863, guid: ee759f0357060f04e8e355df50253cb1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2360,7 +2364,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5088182043426230062, guid: 6455f115e70d1c342b5b750c9a337a31, type: 3}
       propertyPath: startWave
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5088182043426230062, guid: 6455f115e70d1c342b5b750c9a337a31, type: 3}
       propertyPath: waves.Array.size
@@ -3249,7 +3253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2d38b5c8abe2d448221ea1233218f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHP: 500
+  playerHP: 1000
   playerHPManager: {fileID: 5959049371634887163}
   playerHPGauge: {fileID: 1807166225}
   playerFace: {fileID: 1872687041}
