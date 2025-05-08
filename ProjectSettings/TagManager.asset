@@ -19,6 +19,11 @@ TagManager:
   - Bomb
   - Bunker_a
   - Bunker_b
+  - Boss
+  - BossBarrierA
+  - BossBarrierB
+  - BossBarrierC
+  - BossCore
   layers:
   - Default
   - TransparentFX
