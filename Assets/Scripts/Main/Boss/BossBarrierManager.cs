@@ -14,6 +14,10 @@ public class BossBarrierManager : MonoBehaviour
     public static event BarrierDestroyedHandler OnBarrierDestroyed; // 全体共有のイベント
 
     private bool isBarrierBroken = false;
+    [SerializeField] CoreActivator coreActivator; // コアのアクティブ化を管理するスクリプト
+    [SerializeField] float currentCoolTime = 0f;
+    private float coolTime = 10f; // バリアのクールタイム
+
 
 
 
@@ -21,6 +25,31 @@ public class BossBarrierManager : MonoBehaviour
     {
         currentBarrierHP = barrierHP; // バリアのHPを初期化
         barrierEffect.SetActive(true); // バリアのエフェクトを表示
+    }
+
+    private void Update()
+    {
+        Debug.Log(coreActivator.isCoreActive);
+        // コアがアクティブになったら10秒数える
+        if (coreActivator.isCoreActive)
+        {
+            currentCoolTime += Time.deltaTime; // クールタイムを加算
+        }
+        else
+        {
+            // ここでやらないとcurrentCoolTimeが最初に10に達せたひとつのバリアしか回復しない
+            if (currentCoolTime > 0f)
+            {
+                currentBarrierHP = barrierHP; // バリアのHPをリセット
+                isBarrierBroken = false; // バリアが壊れていない状態に戻す
+                barrierEffect.SetActive(true); // バリアのエフェクトを表示     
+                currentCoolTime = 0f; // コアがアクティブでない場合、クールタイムをリセット       
+            }
+        }
+        if (currentCoolTime >= coolTime)
+        {
+            coreActivator.ResetCoreActivation(); // コアのアクティブ化をリセット
+        }
     }
 
     private void OnCollisionEnter(Collision other)

@@ -36,4 +36,13 @@ public class CoreActivator : MonoBehaviour
             }
         }
     }
+    public void ResetCoreActivation()
+    {
+        destroyedBarrierCount = 0; // バリアのカウントをリセット
+        isCoreActive = false; // コアが露出していない状態にする
+        if (coreCover != null)
+        {
+            coreCover.SetActive(true); // ふたを表示して、コアを覆う
+        }
+    }
 }
