@@ -169,6 +169,7 @@ public class TutorialWaveC : MonoBehaviour
     // OKを表示してから次のウェーブに移るためのコルーチン
     private IEnumerator ShowOKAndChangeWave(int currentWaveIndex)
     {
+        AudioManager.instance_AudioManager.PlaySE(15);
         coroutineStarted = true;
         yield return StartCoroutine(textWriter.TutorialMessage("OK"));
         yield return new WaitForSeconds(1f);
@@ -184,6 +185,7 @@ public class TutorialWaveC : MonoBehaviour
 
     private IEnumerator ChangeFlagCAfterOK(int index)
     {
+        AudioManager.instance_AudioManager.PlaySE(15);
         coroutineStarted = true;
         yield return StartCoroutine(textWriter.TutorialMessage("OK"));
         yield return new WaitForSeconds(1f);

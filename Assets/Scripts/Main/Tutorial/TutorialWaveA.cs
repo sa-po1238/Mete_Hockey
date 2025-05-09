@@ -132,6 +132,7 @@ public class TutorialWaveA : MonoBehaviour
     // OKを表示してから次のウェーブに移るためのコルーチン
     private IEnumerator ShowOKAndChangeWave(int currentWaveIndex)
     {
+        AudioManager.instance_AudioManager.PlaySE(15); // SEを鳴らす
         coroutineStarted = true;
         yield return StartCoroutine(textWriter.TutorialMessage("OK"));
         yield return new WaitForSeconds(1f); // 必要に応じて時間調整
