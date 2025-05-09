@@ -85,7 +85,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coreActivator: {fileID: 3006061461140017580}
   currentBossHP: 0
-  bossHP: 1000
+  bossHP: 500
 --- !u!1 &1019176347312394815
 GameObject:
   m_ObjectHideFlags: 0
