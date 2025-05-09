@@ -2876,29 +2876,9 @@ PrefabInstance:
       propertyPath: playerHPManager
       value: 
       objectReference: {fileID: 1099250742}
-    - target: {fileID: 5588882918716773463, guid: 11563d0733ef7a64ba96f590143b3ee1, type: 3}
-      propertyPath: coolTime
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5588882918716773463, guid: 11563d0733ef7a64ba96f590143b3ee1, type: 3}
-      propertyPath: thresholdTime
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5588882918716773463, guid: 11563d0733ef7a64ba96f590143b3ee1, type: 3}
-      propertyPath: chargeParticle3
-      value: 
-      objectReference: {fileID: 3484074869933891942, guid: 0b91a6e8c9b473040933eb8ba8290ce3, type: 3}
     - target: {fileID: 6547818632747840368, guid: 11563d0733ef7a64ba96f590143b3ee1, type: 3}
       propertyPath: m_Name
       value: Turret
-      objectReference: {fileID: 0}
-    - target: {fileID: 7226895173500271828, guid: 11563d0733ef7a64ba96f590143b3ee1, type: 3}
-      propertyPath: m_SortingLayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7226895173500271828, guid: 11563d0733ef7a64ba96f590143b3ee1, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 1490129685
       objectReference: {fileID: 0}
     - target: {fileID: 7744142680254952835, guid: 11563d0733ef7a64ba96f590143b3ee1, type: 3}
       propertyPath: m_LocalPosition.x
