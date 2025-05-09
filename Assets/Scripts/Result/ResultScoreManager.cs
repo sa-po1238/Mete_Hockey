@@ -100,9 +100,9 @@ public class ResultScoreManager : MonoBehaviour
     // スコアランク取得
     private string GetScoreRank(int score)
     {
-        if (score >= 150000) return "S";
-        if (score >= 100000) return "A";
-        if (score >= 50000) return "B";
+        if (score >= 30000) return "S";
+        if (score >= 20000) return "A";
+        if (score >= 10000) return "B";
         return "C";
     }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TutorialWaveC : MonoBehaviour
 {
@@ -128,6 +129,9 @@ public class TutorialWaveC : MonoBehaviour
                 waveInitialized[4] = true; // 一度だけ実行されるように
                 text = "以上で研修は終了です";
                 StartCoroutine(StartTutorialAndSetFlag(text));
+
+                // シーンをロードする
+                UnityEngine.SceneManagement.SceneManager.LoadScene("Title");
             }
             // 表示が完了していたらスペースキーを受け付ける
             else if (Input.GetKeyDown(KeyCode.Space) && textWriter.isTextFinished)

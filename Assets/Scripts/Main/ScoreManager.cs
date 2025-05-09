@@ -8,7 +8,7 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager instance; // シングルトンインスタンス
 
-    private int currentScore = 0; // 現在のスコア
+    public int currentScore = 0; // 現在のスコア
     private int currentCombo = 0; // 現在のコンボ
     private Coroutine comboResetCoroutine; // コンボリセット用コルーチン
 

@@ -22,6 +22,8 @@ public class BossStart : MonoBehaviour
         if (isStarted && !hasSpawned)
         {
             Debug.Log("ボスが出現しました！");
+            AudioManager.instance_AudioManager.StopBGM();
+            AudioManager.instance_AudioManager.PlayBGM(2); // ボス戦BGMに変更
             hasSpawned = true;
 
             Vector3 spawnPosition = spawnPoint != null ? spawnPoint.position : transform.position;

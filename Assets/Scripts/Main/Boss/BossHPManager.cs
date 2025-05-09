@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BossHPManager : MonoBehaviour
 {
@@ -39,6 +40,17 @@ public class BossHPManager : MonoBehaviour
     {
         if (currentBossHP <= 0)
         {
+            ScoreManager scoreManager = GameObject
+                .Find("ScoreManager")
+                .GetComponent<ScoreManager>();
+            int finalScore = scoreManager.GetCurrentScore();
+
+            PlayerPrefs.SetInt("Score", finalScore);          // ← ここで数値を保存
+            PlayerPrefs.Save();   
+
+            AudioManager.instance_AudioManager.StopBGM();
+            UnityEngine.SceneManagement.SceneManager.LoadScene("GameClearResult"); // ゲームクリアシーンに遷移
+
             Debug.Log("ボスが倒されました");
         }
     }
